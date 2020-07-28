@@ -1,0 +1,188 @@
+#ifndef TURBO_INPUTCONTEXT_H
+#define TURBO_INPUTCONTEXT_H
+
+#include <array>
+#include <memory>
+#include <utility>
+#include <vector>
+#include <iostream>
+#include "Turbo/Core/Callable.h"
+#include "Turbo/Core/Input/Keyboard.h"
+#include "Turbo/Core/Log.h"
+
+namespace Turbo
+{
+    class InputContext
+    {
+    private:
+        friend class InputManager;
+
+        InputContext()=default;
+
+    public:
+
+        enum class Direction : std::uint8_t
+        {
+            Positive = 0,
+            Negative
+        };
+
+        void setIsEnabled(bool isEnabled) { m_isEnabled = isEnabled; }
+        bool isEnabled() const { return m_isEnabled; }
+
+        // -- Keyboard --
+        template<typename F>
+        void bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
+        template<typename O, typename F>
+        void bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
+
+        template<typename F>
+        void bindKeyToState(F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
+        template<typename O, typename F>
+        void bindKeyToState(O* object, F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
+
+        template<typename F>
+        void bindKeyToRange(F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
+        template<typename O, typename F>
+        void bindKeyToRange(O* object, F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
+
+        template<typename F>
+        void bindKeysToRange(F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers = Keyboard::Modifier::None);
+        template<typename O, typename F>
+        void bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers = Keyboard::Modifier::None);
+        // -- ~Keyboard --
+
+    private:
+        bool m_isEnabled = true;
+
+        // -- Keyboard --
+        void onKeyboardEvent(const Keyboard::Event& event) const;
+
+        // Action
+        struct KeyboardActionEvent
+        {
+            std::unique_ptr<Turbo::Callable<>> callable;
+            Keyboard::Action action;
+            std::uint8_t modifiers;
+            mutable bool isDown = false;
+
+            KeyboardActionEvent(Turbo::Callable<>* callable, Keyboard::Action action, std::uint8_t modifiers)
+                : callable(callable)
+                , action(action)
+                , modifiers(modifiers)
+            {
+            }
+
+            KeyboardActionEvent(const KeyboardActionEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardActionEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardActionEvent& other)=delete;
+
+            KeyboardActionEvent(const KeyboardActionEvent& other)
+                : callable(other.callable->clone())
+                , action(other.action)
+                , modifiers(other.modifiers)
+            {
+            }
+        };
+        std::array<std::vector<KeyboardActionEvent>, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardActionCallbacks{};
+
+        // State
+        struct KeyboardStateEvent
+        {
+            std::unique_ptr<Turbo::Callable<bool>> callable;
+            std::uint8_t modifiers;
+            mutable bool isDown = false;
+
+            KeyboardStateEvent(Turbo::Callable<bool>* callable, std::uint8_t modifiers)
+                : callable(callable)
+                , modifiers(modifiers)
+            {
+            }
+
+            KeyboardStateEvent(const KeyboardStateEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other)=delete;
+
+            KeyboardStateEvent(const KeyboardStateEvent& other)
+                : callable(other.callable->clone())
+                , modifiers(other.modifiers)
+            {
+            }
+        };
+        std::array<std::vector<KeyboardStateEvent>, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardStateCallbacks{};
+
+        // Unidirectional range
+        struct KeyboardUnidirectionalRangeEvent
+        {
+            std::unique_ptr<Turbo::Callable<float>> callable;
+            Direction direction;
+            std::uint8_t modifiers;
+            mutable bool isDown = false;
+
+            KeyboardUnidirectionalRangeEvent(Turbo::Callable<float>* callable, Direction direction, std::uint8_t modifiers)
+                : callable(callable)
+                , direction(direction)
+                , modifiers(modifiers)
+            {
+            }
+
+            KeyboardUnidirectionalRangeEvent(const KeyboardUnidirectionalRangeEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other)=delete;
+
+            KeyboardUnidirectionalRangeEvent(const KeyboardUnidirectionalRangeEvent& other)
+                : callable(other.callable->clone())
+                , direction(other.direction)
+                , modifiers(other.modifiers)
+            {
+            }
+        };
+        std::array<std::vector<KeyboardUnidirectionalRangeEvent>, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardUnidirectionalRangeCallbacks{};
+
+        // Bidirectional range
+        struct KeyboardBidirectionalRangeEvent
+        {
+            std::unique_ptr<Turbo::Callable<float>> callable;
+            bool positiveKeyState = false;
+            bool negativeKeyState = false;
+
+            KeyboardBidirectionalRangeEvent(Turbo::Callable<float>* callable)
+                : callable(callable)
+            {
+            }
+
+            KeyboardBidirectionalRangeEvent(const KeyboardBidirectionalRangeEvent&& other)=delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other)=delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other)=delete;
+
+            KeyboardBidirectionalRangeEvent(const KeyboardBidirectionalRangeEvent& other)
+                : callable(other.callable->clone())
+            {
+            }
+
+            void onPositiveKeyStateChange(bool state)
+            {
+                positiveKeyState = state;
+                onKeyStateChange();
+            }
+
+            void onNegativeKeyStateChange(bool state)
+            {
+                negativeKeyState = state;
+                onKeyStateChange();
+            }
+
+            void onKeyStateChange()
+            {
+                float direction = positiveKeyState == negativeKeyState ? 0 : (positiveKeyState ? 1 : -1);
+                (*callable)(direction);
+            }
+        };
+        std::vector<KeyboardBidirectionalRangeEvent> m_keyboardBidirectionalRangeCallbacks{};
+        // -- ~Keyboard --
+    };
+} // namespace Turbo
+
+#include "Turbo/Core/Input/InputContext.inl"
+
+#endif // TURBO_INPUTCONTEXT_H
