@@ -12,6 +12,16 @@ namespace Turbo
         m_mouseMovedEvent = false;
     }
 
+    bool InputManager::detectedKeyPressedEvent() const
+    {
+        return m_detectedKeyPressedEvent;
+    }
+
+    bool InputManager::detectedKeyReleasedEvent() const
+    {
+        return m_detectedKeyReleasedEvent;
+    }
+
     bool InputManager::isKeyDown(Keyboard::Key key) const
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
@@ -37,6 +47,11 @@ namespace Turbo
             return false;
         }
         return m_keyboardReleasedKeys[static_cast<uint16_t>(key)];
+    }
+
+    const glm::dvec2& InputManager::getMousePosition() const
+    {
+        return m_mousePosition;
     }
 
     void InputManager::onKeyboardEvent(const Keyboard::Event& event)

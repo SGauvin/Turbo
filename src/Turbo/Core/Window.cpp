@@ -175,5 +175,8 @@ namespace Turbo
         m_inputManager.onKeyboardEvent({key, action, mods});
     }
 
-    void Window::onMouseMove(glm::dvec2 mousePosition) {}
+    void Window::onMouseMove(glm::dvec2 mousePosition)
+    {
+        m_inputManager.onMouseMove(mousePosition);
+    }
 } // namespace Turbo

@@ -44,5 +44,10 @@ int main()
     while (window.isOpen())
     {
         window.processEvents();
+        if (inputManager.detectedKeyReleasedEvent())
+        {
+            TURBO_INFO("Event detected.");
+            TURBO_INFO("Mouse position: {}, {}.", inputManager.getMousePosition().x, inputManager.getMousePosition().y);
+        }
     }
 }

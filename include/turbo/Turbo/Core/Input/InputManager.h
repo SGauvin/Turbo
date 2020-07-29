@@ -23,10 +23,17 @@ namespace Turbo
             return m_inputContexts.back();
         }
 
+        // -- Keyboard --
         bool detectedKeyPressedEvent() const;
+        bool detectedKeyReleasedEvent() const;
         bool isKeyDown(Keyboard::Key key) const;
         bool isKeyPressedEvent(Keyboard::Key key) const;
         bool isKeyReleasedEvent(Keyboard::Key key) const;
+        // -- ~Keyboard --
+
+        // -- Mouse --
+        const glm::dvec2& getMousePosition() const;
+        // -- ~Mouse --
 
     private:
         void resetTemporaryState();
