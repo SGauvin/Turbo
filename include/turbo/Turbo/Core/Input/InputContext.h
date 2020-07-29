@@ -2,10 +2,10 @@
 #define TURBO_INPUTCONTEXT_H
 
 #include <array>
+#include <iostream>
 #include <memory>
 #include <utility>
 #include <vector>
-#include <iostream>
 #include "Turbo/Core/Callable.h"
 #include "Turbo/Core/Input/Keyboard.h"
 #include "Turbo/Core/Log.h"
@@ -17,10 +17,9 @@ namespace Turbo
     private:
         friend class InputManager;
 
-        InputContext()=default;
+        InputContext() = default;
 
     public:
-
         enum class Direction : std::uint8_t
         {
             Positive = 0,
@@ -34,7 +33,8 @@ namespace Turbo
         template<typename F>
         void bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
         template<typename O, typename F>
-        void bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
+        void bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action,
+                             std::uint8_t modifiers = Keyboard::Modifier::None);
 
         template<typename F>
         void bindKeyToState(F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
@@ -44,12 +44,15 @@ namespace Turbo
         template<typename F>
         void bindKeyToRange(F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
         template<typename O, typename F>
-        void bindKeyToRange(O* object, F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
+        void bindKeyToRange(O* object, F callback, Keyboard::Key key, Direction direction,
+                            std::uint8_t modifiers = Keyboard::Modifier::None);
 
         template<typename F>
-        void bindKeysToRange(F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers = Keyboard::Modifier::None);
+        void bindKeysToRange(F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey,
+                             std::uint8_t modifiers = Keyboard::Modifier::None);
         template<typename O, typename F>
-        void bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers = Keyboard::Modifier::None);
+        void bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey,
+                             std::uint8_t modifiers = Keyboard::Modifier::None);
         // -- ~Keyboard --
 
     private:
@@ -75,7 +78,7 @@ namespace Turbo
 
             KeyboardActionEvent(const KeyboardActionEvent&& other) = delete;
             const KeyboardActionEvent& operator=(const KeyboardActionEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardActionEvent& other)=delete;
+            const KeyboardActionEvent& operator=(const KeyboardActionEvent& other) = delete;
 
             KeyboardActionEvent(const KeyboardActionEvent& other)
                 : callable(other.callable->clone())
@@ -101,7 +104,7 @@ namespace Turbo
 
             KeyboardStateEvent(const KeyboardStateEvent&& other) = delete;
             const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other)=delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other) = delete;
 
             KeyboardStateEvent(const KeyboardStateEvent& other)
                 : callable(other.callable->clone())
@@ -128,7 +131,7 @@ namespace Turbo
 
             KeyboardUnidirectionalRangeEvent(const KeyboardUnidirectionalRangeEvent&& other) = delete;
             const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other)=delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other) = delete;
 
             KeyboardUnidirectionalRangeEvent(const KeyboardUnidirectionalRangeEvent& other)
                 : callable(other.callable->clone())
@@ -137,7 +140,8 @@ namespace Turbo
             {
             }
         };
-        std::array<std::vector<KeyboardUnidirectionalRangeEvent>, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardUnidirectionalRangeCallbacks{};
+        std::array<std::vector<KeyboardUnidirectionalRangeEvent>, static_cast<int>(Keyboard::Key::LastKey) + 1>
+            m_keyboardUnidirectionalRangeCallbacks{};
 
         // Bidirectional range
         struct KeyboardBidirectionalRangeEvent
@@ -151,9 +155,9 @@ namespace Turbo
             {
             }
 
-            KeyboardBidirectionalRangeEvent(const KeyboardBidirectionalRangeEvent&& other)=delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other)=delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other)=delete;
+            KeyboardBidirectionalRangeEvent(const KeyboardBidirectionalRangeEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other) = delete;
 
             KeyboardBidirectionalRangeEvent(const KeyboardBidirectionalRangeEvent& other)
                 : callable(other.callable->clone())

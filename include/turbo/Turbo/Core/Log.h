@@ -1,76 +1,57 @@
 #ifndef TURBO_LOG_H
 #define TURBO_LOG_H
 
-#include <memory>
+#include <fmt/color.h>
+#include <fmt/core.h>
 
-#define TURBO_ENABLE_ENGINE_LOGS
-#define TURBO_ENABLE_CLIENT_LOGS
+// Temp:
+#define TURBO_CLIENT_LOG
+#define TURBO_ENGINE_LOG
 
-#if defined TURBO_ENABLE_ENGINE_LOGS
-#include "spdlog/spdlog.h"
-#endif // TURBO_ENABLE_ENGINE_LOGS
+// Client logs
+#if defined TURBO_CLIENT_LOG
+#define TURBO_INFO(...) \
+    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::green), "Client info: "); \
+    ::fmt::print(fg(fmt::color::light_green), __VA_ARGS__); \
+    ::fmt::print("\n")
+#define TURBO_WARNING(...) \
+    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::yellow), "Client warning: "); \
+    ::fmt::print(fg(static_cast<fmt::color>(0XFFFF73)), __VA_ARGS__); \
+    ::fmt::print("\n")
+#define TURBO_ERROR(...) \
+    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::red), "Client error: "); \
+    ::fmt::print(fg(fmt::color::indian_red), __VA_ARGS__); \
+    ::fmt::print("\n")
+#else
+#define TURBO_INFO(...) ((void)(0))
+#define TURBO_WARNING(...) ((void)(0))
+#define TURBO_ERROR(...) ((void)(0))
+#endif // TURBO_CLIENT_LOG
 
-namespace Turbo
-{
-    class Log
-    {
-    public:
-        static void init();
+// Engine logs
+#if defined TURBO_ENGINE_LOG
+#define TURBO_ENGINE_INFO(...) \
+    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::green), "Turbo info: "); \
+    ::fmt::print(fg(fmt::color::light_green), __VA_ARGS__); \
+    ::fmt::print("\n")
+#define TURBO_ENGINE_WARNING(...) \
+    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::yellow), "Turbo warning: "); \
+    ::fmt::print(fg(static_cast<fmt::color>(0XFFFF73)), __VA_ARGS__); \
+    ::fmt::print("\n")
+#define TURBO_ENGINE_ERROR(...) \
+    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::red), "Turbo error: "); \
+    ::fmt::print(fg(fmt::color::indian_red), __VA_ARGS__); \
+    ::fmt::print("\n")
+#else
+#define TURBO_ENGINE_INFO(...) ((void)(0))
+#define TURBO_ENGINE_WARNING(...) ((void)(0))
+#define TURBO_ENGINE_ERROR(...) ((void)(0))
+#endif // TURBO_ENGINE_LOG
 
-        template<typename FormatString, typename... Args>
-        inline static void engineInfo(const FormatString& fmt, const Args&... args)
-        {
-#if defined TURBO_ENABLE_ENGINE_LOGS
-            s_engineLogger->info(fmt, args...);
-#endif // TURBO_ENABLE_ENGINE_LOGS
-        }
-
-        template<typename FormatString, typename... Args>
-        inline static void engineWarning(const FormatString& fmt, const Args&... args)
-        {
-#if defined TURBO_ENABLE_ENGINE_LOGS
-            s_engineLogger->warn(fmt, args...);
-#endif // TURBO_ENABLE_ENGINE_LOGS
-        }
-
-        template<typename FormatString, typename... Args>
-        inline static void engineError(const FormatString& fmt, const Args&... args)
-        {
-#if defined TURBO_ENABLE_ENGINE_LOGS
-            s_engineLogger->error(fmt, args...);
-#endif // TURBO_ENABLE_ENGINE_LOGS
-        }
-
-        template<typename FormatString, typename... Args>
-        inline static void info(const FormatString& fmt, const Args&... args)
-        {
-#if defined TURBO_ENABLE_CLIENT_LOGS
-            s_clientLogger->info(fmt, args...);
-#endif // TURBO_ENABLE_CLIENT_LOGS
-        }
-
-        template<typename FormatString, typename... Args>
-        inline static void warning(const FormatString& fmt, const Args&... args)
-        {
-#if defined TURBO_ENABLE_CLIENT_LOGS
-            s_clientLogger->warn(fmt, args...);
-#endif // TURBO_ENABLE_CLIENT_LOGS
-        }
-
-        template<typename FormatString, typename... Args>
-        inline static void error(const FormatString& fmt, const Args&... args)
-        {
-#if defined TURBO_ENABLE_CLIENT_LOGS
-            s_clientLogger->error(fmt, args...);
-#endif // TURBO_ENABLE_CLIENT_LOGS
-        }
-
-    private:
-#if defined TURBO_ENABLE_CLIENT_LOGS
-        static std::shared_ptr<spdlog::logger> s_engineLogger;
-        static std::shared_ptr<spdlog::logger> s_clientLogger;
-#endif // TURBO_ENABLE_CLIENT_LOGS
-    };
-} // namespace Turbo
-
-#endif // TURBO_LOG_H:)
+#endif // TURBO_LOG_H

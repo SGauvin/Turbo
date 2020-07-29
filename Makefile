@@ -17,6 +17,7 @@ GLFW_PATH=libs/GLFW
 GLAD_PATH=libs/glad
 SPDLOG_PATH=libs/spdlog
 GLM_PATH=libs/glm
+FMT_PATH=libs/fmt
 
 # Sources (searches recursively inside the source directory)
 SRC_DIR = src
@@ -24,7 +25,7 @@ SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 
 # Includes
 INCLUDE_DIR = include
-INCLUDES := -I$(INCLUDE_DIR)/Game -I$(INCLUDE_DIR)/Turbo -idirafter $(GLFW_PATH)/include -idirafter$(GLAD_PATH)/include -idirafter$(SPDLOG_PATH)/include -idirafter$(GLM_PATH)/include
+INCLUDES := -I$(INCLUDE_DIR)/Game -I$(INCLUDE_DIR)/Turbo -idirafter $(GLFW_PATH)/include -idirafter$(GLAD_PATH)/include -idirafter$(FMT_PATH)/include -idirafter$(GLM_PATH)/include
 
 # C preprocessor settings
 CPPFLAGS := -MMD -MP $(INCLUDES)
@@ -32,15 +33,16 @@ CPPFLAGS := -MMD -MP $(INCLUDES)
 # C++ compiler settings
 CXX = g++
 CXXFLAGS = -std=c++17
-WARNINGS = -Wall -Wpedantic -Wextra -Wconversion
+WARNINGS = -Wall -Wpedantic -Wextra -Wconversion -Wno-unused-parameter -Wno-unused-value
 
 # Linker flags
 LDFLAGS =
 LDFLAGS += -L$(GLFW_PATH)/lib
 LDFLAGS += -L$(GLAD_PATH)/lib
+LDFLAGS += -L$(FMT_PATH)/lib
 
 # Libraries to link
-LDLIBS = -lglfw3 -lglad -lgdi32
+LDLIBS = -lglfw3 -lglad -lgdi32 -lpthread -lfmt
 
 # Target OS detection
 ifeq ($(OS),Windows_NT) # OS is a preexisting environment variable on Windows

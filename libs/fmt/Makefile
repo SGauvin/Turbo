@@ -14,7 +14,7 @@ INSTALL_DIR := ~/Desktop/$(EXEC)
 
 # Sources (searches recursively inside the source directory)
 SRC_DIR = src
-SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
+SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cc'))
 
 # Includes
 INCLUDE_DIR = include
@@ -120,7 +120,7 @@ else
 endif
 
 # Objects and dependencies
-OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+OBJS := $(SRCS:$(SRC_DIR)/%.cc=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 ################################################################################
@@ -137,7 +137,7 @@ lib/$(EXEC): $(OBJS)
 	@ ar rcs $@ $^
 
 # Compile C++ source files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
 	@echo "Compiling: $<"
 	@mkdir -p $(@D)
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
@@ -180,7 +180,7 @@ cleanassets:
 .PHONY: format
 format:
 	@echo "Running clang-format"
-	@clang-format -i $$(find $(SRC_DIR) $(INCLUDE_DIR) -name '*.cpp' -o -name '*.h' -o -name '*.inl')
+	@clang-format -i $$(find $(SRC_DIR) $(INCLUDE_DIR) -name '.cc' -o -name '*.h' -o -name '*.inl')
 
 # Generate documentation with Doxygen
 .PHONY: doc

@@ -4,6 +4,7 @@
 #include <array>
 #include <memory>
 #include <vector>
+#include <glm/glm.hpp>
 #include "Turbo/Core/Callable.h"
 #include "Turbo/Core/Input/InputContext.h"
 #include "Turbo/Core/Input/Keyboard.h"
@@ -22,6 +23,7 @@ namespace Turbo
             return m_inputContexts.back();
         }
 
+        bool detectedKeyPressedEvent() const;
         bool isKeyDown(Keyboard::Key key) const;
         bool isKeyPressedEvent(Keyboard::Key key) const;
         bool isKeyReleasedEvent(Keyboard::Key key) const;
@@ -29,6 +31,7 @@ namespace Turbo
     private:
         void resetTemporaryState();
         void onKeyboardEvent(const Keyboard::Event& event);
+        void onMouseMove(const glm::dvec2& mousePosition);
 
         std::vector<InputContext> m_inputContexts{};
 
@@ -36,7 +39,14 @@ namespace Turbo
         std::array<bool, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardHeldKeys{};
         std::array<bool, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardPressedKeys{};
         std::array<bool, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardReleasedKeys{};
+        bool m_detectedKeyPressedEvent = false;
+        bool m_detectedKeyReleasedEvent = false;
         // -- ~Keyboard --
+
+        // -- Mouse --
+        glm::dvec2 m_mousePosition = {0, 0};
+        bool m_mouseMovedEvent = false;
+        // -- ~Mouse --
     };
 } // namespace Turbo
 

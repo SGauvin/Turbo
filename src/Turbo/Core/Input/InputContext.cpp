@@ -18,7 +18,8 @@ namespace Turbo
                 }
             }
             // Don't need modifiers for the release event : design choice
-            else if (event.action == Keyboard::Action::Release && actionEvent.action == Keyboard::Action::Release && actionEvent.isDown == true)
+            else if (event.action == Keyboard::Action::Release && actionEvent.action == Keyboard::Action::Release &&
+                     actionEvent.isDown == true)
             {
                 actionEvent.isDown = false;
                 (*actionEvent.callable)();
@@ -45,7 +46,6 @@ namespace Turbo
                     (*stateEvent.callable)(false);
                 }
             }
-            
         }
 
         // Unidirectional Ranges
@@ -68,7 +68,6 @@ namespace Turbo
                     (*rangeEvent.callable)(0);
                 }
             }
-            
         }
     }
-}
+} // namespace Turbo

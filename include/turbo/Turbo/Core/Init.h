@@ -6,11 +6,7 @@
 
 namespace Turbo
 {
-    void init()
-    {
-        Log::init();
-        Window::init();
-    }
+    void init() { Window::init(); }
 } // namespace Turbo
 
 #endif // TURBO_INIT_H

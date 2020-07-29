@@ -49,7 +49,9 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<F, float>(callback), direction, modifiers);
+        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<F, float>(callback),
+                                                                                             direction,
+                                                                                             modifiers);
     }
 
     template<typename O, typename F>
@@ -59,30 +61,46 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<O, F, float>(object, callback), direction, modifiers);
+        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<O, F, float>(object, callback),
+                                                                                             direction,
+                                                                                             modifiers);
     }
 
     template<typename F>
     void InputContext::bindKeysToRange(F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers)
     {
-        if (static_cast<std::int16_t>(positiveKey) < 0 || positiveKey > Keyboard::Key::LastKey || static_cast<std::int16_t>(negativeKey) < 0 || negativeKey > Keyboard::Key::LastKey)
+        if (static_cast<std::int16_t>(positiveKey) < 0 || positiveKey > Keyboard::Key::LastKey ||
+            static_cast<std::int16_t>(negativeKey) < 0 || negativeKey > Keyboard::Key::LastKey)
         {
             return;
         }
         m_keyboardBidirectionalRangeCallbacks.emplace_back(new Functor<F, float>(callback));
-        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(), &KeyboardBidirectionalRangeEvent::onPositiveKeyStateChange, positiveKey, modifiers);
-        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(), &KeyboardBidirectionalRangeEvent::onNegativeKeyStateChange, negativeKey, modifiers);
+        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
+                       &KeyboardBidirectionalRangeEvent::onPositiveKeyStateChange,
+                       positiveKey,
+                       modifiers);
+        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
+                       &KeyboardBidirectionalRangeEvent::onNegativeKeyStateChange,
+                       negativeKey,
+                       modifiers);
     }
 
     template<typename O, typename F>
     void InputContext::bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers)
     {
-        if (static_cast<std::int16_t>(positiveKey) < 0 || positiveKey > Keyboard::Key::LastKey || static_cast<std::int16_t>(negativeKey) < 0 || negativeKey > Keyboard::Key::LastKey)
+        if (static_cast<std::int16_t>(positiveKey) < 0 || positiveKey > Keyboard::Key::LastKey ||
+            static_cast<std::int16_t>(negativeKey) < 0 || negativeKey > Keyboard::Key::LastKey)
         {
             return;
         }
         m_keyboardBidirectionalRangeCallbacks.emplace_back(new Method<O, F, float>(object, callback));
-        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(), &KeyboardBidirectionalRangeEvent::onPositiveKeyStateChange, positiveKey, modifiers);
-        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(), &KeyboardBidirectionalRangeEvent::onNegativeKeyStateChange, negativeKey, modifiers);
+        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
+                       &KeyboardBidirectionalRangeEvent::onPositiveKeyStateChange,
+                       positiveKey,
+                       modifiers);
+        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
+                       &KeyboardBidirectionalRangeEvent::onNegativeKeyStateChange,
+                       negativeKey,
+                       modifiers);
     }
-}
+} // namespace Turbo
