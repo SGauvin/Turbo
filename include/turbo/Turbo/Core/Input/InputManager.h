@@ -6,9 +6,7 @@
 #include <unordered_map>
 #include <vector>
 #include <glm/glm.hpp>
-#include "Turbo/Core/Callable.h"
 #include "Turbo/Core/Input/InputContext.h"
-#include "Turbo/Core/Input/Keyboard.h"
 
 namespace Turbo
 {
@@ -46,6 +44,7 @@ namespace Turbo
         void resetTemporaryState();
         void onKeyboardEvent(const Keyboard::Event& event);
         void onMouseMove(const glm::dvec2& mousePosition);
+        void onMouseButtonEvent(const Mouse::Event& event);
 
         void onStateChange(const State* state);
 

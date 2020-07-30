@@ -59,6 +59,11 @@ private:
     Turbo::InputContext* m_inputContext;
 };
 
+bool test(const glm::dvec2& ye)
+{
+    return true;
+}
+
 class TestState : public Turbo::State
 {
 public:
@@ -74,17 +79,17 @@ private:
 
     void onAttach() override
     {
-        m_inputManager.createInputContext()->bindKeyToAction([this](){
-            if (m_window.getMode() == Turbo::Window::Mode::Bordered)
-            {
-                m_window.create({"Test", glm::vec2(1000, 1000), Turbo::Window::Mode::FullScreen});
-            }
-            else
-            {
-                m_window.create({"Test", glm::vec2(1000, 1000), Turbo::Window::Mode::Bordered});
-            }
-            return true;
-        }, Turbo::Keyboard::Key::F, Turbo::Keyboard::Action::Press);
+        auto* inputContext = m_inputManager.createInputContext();
+        inputContext->bindKeyToAction(
+            [this]() {
+                m_window.close();
+                return true;
+            },
+            Turbo::Keyboard::Key::Escape,
+            Turbo::Keyboard::Action::Press);
+
+        inputContext->bindMouseMoveEvent(test);
+
         pushLayer(new Turbo::ImGuiLayer(m_application));
     }
 };
@@ -94,7 +99,7 @@ int main()
     Turbo::init();
 
     Turbo::InputManager inputManager;
-    Turbo::Window window({"Test", glm::vec2(1440 * 16 / 9, 1440), Turbo::Window::Mode::Bordered}, inputManager);
+    Turbo::Window window({"Test", glm::vec2(1920, 1080), Turbo::Window::Mode::Bordered}, inputManager);
 
     Turbo::Application app(window, inputManager);
     app.push(new TestState(app));

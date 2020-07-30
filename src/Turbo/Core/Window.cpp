@@ -99,6 +99,8 @@ namespace Turbo
 
     void Window::close() { m_shouldClose = true; }
 
+    void Window::clear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); }
+
     void Window::swapBuffers() { glfwSwapBuffers(m_window); }
 
     void Window::processEvents()
@@ -170,24 +172,37 @@ namespace Turbo
         glfwSetKeyCallback(m_window,
                            [](GLFWwindow* window, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
                                static_cast<Window*>(glfwGetWindowUserPointer(window))
-                                   ->onKeyAction(static_cast<Keyboard::Key>(key),
-                                                 scancode,
-                                                 static_cast<Keyboard::Action>(action),
-                                                 static_cast<std::uint8_t>(mods));
+                                   ->onKeyEvent(static_cast<Keyboard::Key>(key),
+                                                scancode,
+                                                static_cast<Keyboard::Action>(action),
+                                                static_cast<std::uint8_t>(mods));
                            });
 
         // Cursor position
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
             static_cast<Window*>(glfwGetWindowUserPointer(window))->onMouseMove({xpos, ypos});
         });
+
+        // Mouse buttons
+        glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, std::int32_t button, std::int32_t action, std::int32_t mods) {
+            static_cast<Window*>(glfwGetWindowUserPointer(window))
+                ->onMouseButtonEvent(static_cast<Mouse::Button>(button),
+                                     static_cast<Mouse::Action>(action),
+                                     static_cast<std::uint8_t>(mods));
+        });
     }
 
     void Window::onWindowResize(glm::uvec2 windowSize) { m_size = windowSize; }
 
-    void Window::onKeyAction(Keyboard::Key key, std::int32_t /*scancode*/, Keyboard::Action action, std::uint8_t mods)
+    void Window::onKeyEvent(Keyboard::Key key, std::int32_t /*scancode*/, Keyboard::Action action, std::uint8_t mods)
     {
         m_inputManager.onKeyboardEvent({key, action, mods});
     }
 
     void Window::onMouseMove(glm::dvec2 mousePosition) { m_inputManager.onMouseMove(mousePosition); }
+
+    void Window::onMouseButtonEvent(Mouse::Button button, Mouse::Action action, std::uint8_t mods)
+    {
+        m_inputManager.onMouseButtonEvent({button, action, m_inputManager.getMousePosition(), mods});
+    }
 } // namespace Turbo

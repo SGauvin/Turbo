@@ -39,6 +39,38 @@ namespace Turbo
         io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
         ImGui_ImplOpenGL3_Init("#version 410");
+
+        m_inputContext = m_inputManager.createInputContext();
+
+        m_inputContext->bindKeyPressEvents([](const Keyboard::Event& event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.KeysDown[static_cast<std::uint16_t>(event.key)] = true;
+            return false;
+        });
+
+        m_inputContext->bindKeyReleaseEvents([](const Keyboard::Event& event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.KeysDown[static_cast<std::uint16_t>(event.key)] = false;
+            return false;
+        });
+
+        // m_inputContext->bindMouseMoveEvent([](const glm::dvec2& mousePos) {
+        //     return false;
+        // });
+
+        m_inputContext->bindMousePressEvents([](const Mouse::Event& event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.MousePos = {event.position.x, event.position.y};
+            io.MouseDown[static_cast<std::uint8_t>(event.button)] = true;
+            return false;
+        });
+
+        m_inputContext->bindMouseReleaseEvents([](const Mouse::Event& event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.MousePos = {event.position.x, event.position.y};
+            io.MouseDown[static_cast<std::uint8_t>(event.button)] = false;
+            return false;
+        });
     }
 
     ImGuiLayer::~ImGuiLayer() {}

@@ -1,8 +1,8 @@
 #include "Turbo/Core/Application.h"
 #include <cmath>
+#include <glad/glad.h>
 #include "Turbo/Core/Log.h"
 #include "Turbo/Core/States/State.h"
-#include <glad/glad.h>
 
 namespace Turbo
 {
@@ -115,12 +115,7 @@ namespace Turbo
             // Draw
             if (m_drawLag >= m_timePerDraw)
             {
-                static auto point = std::chrono::high_resolution_clock::now();
-                auto diff = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - point);
-                TURBO_ENGINE_INFO("Delay: {}, drawLag: {}, timePerDraw: {}", diff.count() * 1000, m_drawLag.count() * 1000, m_timePerDraw.count() * 1000);
-                point = std::chrono::high_resolution_clock::now();
-                
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                m_window.clear();
                 float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
                 m_states.back()->draw(lag);
                 for (const auto& layer : m_states.back()->m_layers)
@@ -139,4 +134,3 @@ namespace Turbo
         m_window.destroy();
     }
 } // namespace Turbo
-

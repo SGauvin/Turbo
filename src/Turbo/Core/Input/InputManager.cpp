@@ -115,7 +115,7 @@ namespace Turbo
         {
             for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
             {
-                if ((*m_currentInputContextList)[i]->isEnabled())
+                if ((*m_currentInputContextList)[i]->isEnabled)
                 {
                     bool isEventHandled = (*m_currentInputContextList)[i]->onKeyboardEvent(event);
                     if (isEventHandled)
@@ -131,6 +131,24 @@ namespace Turbo
     {
         m_mousePosition = mousePosition;
         m_mouseMovedEvent = true;
+    }
+
+    void InputManager::onMouseButtonEvent(const Mouse::Event& event)
+    {
+        if (m_currentInputContextList != nullptr)
+        {
+            for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+            {
+                if ((*m_currentInputContextList)[i]->isEnabled)
+                {
+                    bool isEventHandled = (*m_currentInputContextList)[i]->onMouseButtonEvent(event);
+                    if (isEventHandled)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     void InputManager::onStateChange(const State* state)

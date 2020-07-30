@@ -7,9 +7,19 @@ namespace Turbo
         bool isEventHandled = false;
 
         // Call every function bound to this event
-        for (const auto& callback : m_keyboardEventsCallbacks)
+        if (event.action == Keyboard::Action::Press)
         {
-            isEventHandled = isEventHandled || (*callback)(event);
+            for (const auto& callback : m_keyPressCallbacks)
+            {
+                isEventHandled = isEventHandled || (*callback)(event);
+            }
+        }
+        else if (event.action == Keyboard::Action::Release)
+        {
+            for (const auto& callback : m_keyReleaseCallbacks)
+            {
+                isEventHandled = isEventHandled || (*callback)(event);
+            }
         }
 
         // Actions
@@ -78,4 +88,37 @@ namespace Turbo
 
         return isEventHandled;
     }
+
+    bool InputContext::onMouseMoveEvent(const glm::dvec2& mousePosition)
+    {
+        bool isEventHandled = false;
+        for (const auto& callback : m_mouseMoveCallbacks)
+        {
+            isEventHandled = isEventHandled || (*callback)(mousePosition);
+        }
+
+        return isEventHandled;
+    }
+
+    bool InputContext::onMouseButtonEvent(const Mouse::Event& event)
+    {
+        bool isEventHandled = false;
+        if (event.action == Mouse::Action::Press)
+        {
+            for (const auto& callback : m_mousePressCallbacks)
+            {
+                isEventHandled = isEventHandled || (*callback)(event);
+            }
+        }
+        else if (event.action == Mouse::Action::Press)
+        {
+            for (const auto& callback : m_mouseReleaseCallbacks)
+            {
+                isEventHandled = isEventHandled || (*callback)(event);
+            }
+        }
+
+        return isEventHandled;
+    }
+
 } // namespace Turbo

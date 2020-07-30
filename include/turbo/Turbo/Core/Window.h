@@ -36,6 +36,7 @@ namespace Turbo
         void create(const Attributes& windowAttributes);
         void destroy();
         void close();
+        void clear();
         void swapBuffers();
 
         void processEvents();
@@ -58,8 +59,9 @@ namespace Turbo
         void setCallbacks();
 
         void onWindowResize(glm::uvec2 windowSize);
-        void onKeyAction(Keyboard::Key key, std::int32_t scancode, Keyboard::Action action, std::uint8_t mods);
+        void onKeyEvent(Keyboard::Key key, std::int32_t scancode, Keyboard::Action action, std::uint8_t mods);
         void onMouseMove(glm::dvec2 mousePosition);
+        void onMouseButtonEvent(Mouse::Button button, Mouse::Action action, std::uint8_t mods);
 
         GLFWwindow* m_window = nullptr;
         InputManager& m_inputManager;

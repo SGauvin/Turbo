@@ -8,6 +8,7 @@
 #include <vector>
 #include "Turbo/Core/Callable.h"
 #include "Turbo/Core/Input/Keyboard.h"
+#include "Turbo/Core/Input/Mouse.h"
 #include "Turbo/Core/Log.h"
 
 namespace Turbo
@@ -28,14 +29,19 @@ namespace Turbo
             Negative
         };
 
-        void setIsEnabled(bool isEnabled) { m_isEnabled = isEnabled; }
-        bool isEnabled() const { return m_isEnabled; }
+        bool isEnabled = true;
 
         // -- Keyboard --
+
         template<typename F>
-        void bindKeyboardEvents(F callback);
+        void bindKeyPressEvents(F callback);
         template<typename O, typename F>
-        void bindKeyboardEvents(O* object, F callback);
+        void bindKeyPressEvents(O* object, F callback);
+
+        template<typename F>
+        void bindKeyReleaseEvents(F callback);
+        template<typename O, typename F>
+        void bindKeyReleaseEvents(O* object, F callback);
 
         template<typename F>
         void bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
@@ -63,19 +69,37 @@ namespace Turbo
 
         // -- ~Keyboard --
 
+        // -- Mouse --
+
         // template<typename F>
         // void bindMouseMovementToRange(F callback);
         // template<typename O, typename F>
         // void bindMouseMovementToRange(O* object, F callback);
 
-    private:
-        bool m_isEnabled = true;
+        template<typename F>
+        void bindMouseMoveEvent(F callback);
+        template<typename O, typename F>
+        void bindMouseMoveEvent(O* object, F callback);
 
+        template<typename F>
+        void bindMousePressEvents(F callback);
+        template<typename O, typename F>
+        void bindMousePressEvents(O* object, F callback);
+
+        template<typename F>
+        void bindMouseReleaseEvents(F callback);
+        template<typename O, typename F>
+        void bindMouseReleaseEvents(O* object, F callback);
+
+        // --~Mouse --
+
+    private:
         // -- Keyboard --
         bool onKeyboardEvent(const Keyboard::Event& event) const;
 
         // All events
-        std::vector<std::unique_ptr<Callable<bool, const Keyboard::Event&>>> m_keyboardEventsCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Keyboard::Event&>>> m_keyPressCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Keyboard::Event&>>> m_keyReleaseCallbacks{};
 
         // Action
         struct KeyboardActionEvent
@@ -199,7 +223,18 @@ namespace Turbo
             }
         };
         std::vector<KeyboardBidirectionalRangeEvent> m_keyboardBidirectionalRangeCallbacks{};
+
         // -- ~Keyboard --
+
+        // -- Mouse --
+
+        bool onMouseMoveEvent(const glm::dvec2& mousePosition);
+        bool onMouseButtonEvent(const Mouse::Event& event);
+
+        // All events
+        std::vector<std::unique_ptr<Callable<bool, const Mouse::Event&>>> m_mousePressCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Mouse::Event&>>> m_mouseReleaseCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, float>>> m_mouseMoveCallbacks{};
     };
 } // namespace Turbo
 
