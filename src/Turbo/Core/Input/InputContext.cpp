@@ -7,6 +7,10 @@ namespace Turbo
         bool isEventHandled = false;
 
         // Call every function bound to this event
+        for (const auto& callback : m_keyboardEventsCallbacks)
+        {
+            isEventHandled = isEventHandled || (*callback)(event);
+        }
 
         // Actions
         for (const auto& actionEvent : m_keyboardActionCallbacks[static_cast<std::uint16_t>(event.key)])

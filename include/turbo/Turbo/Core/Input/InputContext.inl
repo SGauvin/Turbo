@@ -3,6 +3,18 @@
 namespace Turbo
 {
     template<typename F>
+    void InputContext::bindKeyboardEvents(F callback)
+    {
+        m_keyboardEventsCallbacks.emplace_back(new Functor<bool, F>(callback));
+    }
+
+    template<typename O, typename F>
+    void InputContext::bindKeyboardEvents(O* object, F callback)
+    {
+        m_keyboardEventsCallbacks.emplace_back(new Method<bool, O, F>(object, callback));
+    }
+
+    template<typename F>
     void InputContext::bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers)
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)

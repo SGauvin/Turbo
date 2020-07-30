@@ -3,21 +3,11 @@
 ################################################################################
 
 # Project name
-EXEC = turbo
+EXEC = libimgui.a
 
 # Build, bin and install directories (conserve root directories for clean)
 BUILD_DIR_ROOT = build
-BUILD_DIR := $(BUILD_DIR_ROOT)
-BIN_DIR_ROOT = bin
-BIN_DIR := $(BIN_DIR_ROOT)
-INSTALL_DIR := ~/Desktop/$(EXEC)
-
-#libs
-GLFW_PATH=libs/GLFW
-GLAD_PATH=libs/glad
-GLM_PATH=libs/glm
-FMT_PATH=libs/fmt
-IMGUI_PATH=libs/imgui
+BUILD_DIR := build
 
 # Sources (searches recursively inside the source directory)
 SRC_DIR = src
@@ -25,25 +15,21 @@ SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 
 # Includes
 INCLUDE_DIR = include
-INCLUDES := -I$(INCLUDE_DIR)/Game -I$(INCLUDE_DIR)/Turbo -idirafter $(GLFW_PATH)/include -idirafter$(GLAD_PATH)/include -idirafter$(FMT_PATH)/include -idirafter$(GLM_PATH)/include -idirafter$(IMGUI_PATH)/include
+INCLUDES := -I$(INCLUDE_DIR)
 
 # C preprocessor settings
-CPPFLAGS := -MMD -MP -DGLFW_INCLUDE_NONE $(INCLUDES)
+CPPFLAGS := -MMD -MP $(INCLUDES)
 
 # C++ compiler settings
 CXX = g++
 CXXFLAGS = -std=c++17
-WARNINGS = -Wall -Wpedantic -Wextra -Wconversion -Wno-unused-parameter -Wno-unused-value
+WARNINGS =
 
 # Linker flags
 LDFLAGS =
-LDFLAGS += -L$(GLFW_PATH)/lib
-LDFLAGS += -L$(GLAD_PATH)/lib
-LDFLAGS += -L$(FMT_PATH)/lib
-LDFLAGS += -L$(IMGUI_PATH)/lib
 
 # Libraries to link
-LDLIBS = -lglfw3 -lglad -lgdi32 -lpthread -lfmt -limgui
+LDLIBS =
 
 # Target OS detection
 ifeq ($(OS),Windows_NT) # OS is a preexisting environment variable on Windows
@@ -59,28 +45,13 @@ else
 	endif
 endif
 
-# OS-specific build and bin directories
-BUILD_DIR := $(BUILD_DIR)/make_$(OS)
-BIN_DIR := $(BIN_DIR)/$(OS)
-ifeq ($(OS),windows)
-	# Windows 32-bit
-	ifeq ($(win32),1)
-		BUILD_DIR := $(BUILD_DIR)32
-		BIN_DIR := $(BIN_DIR)32
-	# Windows 64-bit
-	else
-		BUILD_DIR := $(BUILD_DIR)64
-		BIN_DIR := $(BIN_DIR)64
-	endif
-endif
-
 # OS-specific compilation and linking settings
 ifeq ($(OS),windows)
 	# Add .exe extension to executable
-	EXEC := $(EXEC).exe
+	EXEC := $(EXEC)
 
 	# Link everything statically on Windows (including libgcc and libstdc++)
-	# LDFLAGS += -static
+	LDFLAGS += -static
 
 	# Disable console output on release builds
 	ifeq ($(release),1)
@@ -96,46 +67,8 @@ ifeq ($(OS),windows)
 	endif
 endif
 
-# OS-specific assets-copying script selection
-ifeq ($(OS),windows)
-	ifeq ($(win32),1)
-		ifeq ($(release),1)
-			COPY_ASSETS_SCRIPT = copy_assets_windows32_r.sh
-		else
-			COPY_ASSETS_SCRIPT = copy_assets_windows32_d.sh
-		endif
-	else
-		ifeq ($(release),1)
-			COPY_ASSETS_SCRIPT = copy_assets_windows64_r.sh
-		else
-			COPY_ASSETS_SCRIPT = copy_assets_windows64_d.sh
-		endif
-	endif
-else ifeq ($(OS),macos)
-	ifeq ($(release),1)
-		COPY_ASSETS_SCRIPT = copy_assets_macos_r.sh
-	else
-		COPY_ASSETS_SCRIPT = copy_assets_macos_d.sh
-	endif
-else ifeq ($(OS),linux)
-	ifeq ($(release),1)
-		COPY_ASSETS_SCRIPT = copy_assets_linux_r.sh
-	else
-		COPY_ASSETS_SCRIPT = copy_assets_linux_d.sh
-	endif
-endif
-
-# Debug (default) and release modes settings
-ifeq ($(release),1)
-	BUILD_DIR := $(BUILD_DIR)/release
-	BIN_DIR := $(BIN_DIR)/release
-	CXXFLAGS += -O3
-	CPPFLAGS += -DNDEBUG
-else
-	BUILD_DIR := $(BUILD_DIR)/debug
-	BIN_DIR := $(BIN_DIR)/debug
-	CXXFLAGS += -O0 -g
-endif
+CXXFLAGS += -O3
+CPPFLAGS += -DNDEBUG
 
 # Objects and dependencies
 OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
@@ -146,13 +79,13 @@ DEPS := $(OBJS:.o=.d)
 ################################################################################
 
 .PHONY: all
-all: $(BIN_DIR)/$(EXEC)
+all: lib/$(EXEC)
 
 # Build executable
-$(BIN_DIR)/$(EXEC): $(OBJS)
+lib/$(EXEC): $(OBJS)
 	@echo "Building executable: $@"
 	@mkdir -p $(@D)
-	@$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
+	@ar rcs $@ $^
 
 # Compile C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -186,7 +119,7 @@ copyassets:
 clean:
 	@echo "Cleaning $(BUILD_DIR_ROOT) and $(BIN_DIR_ROOT) directories"
 	@$(RM) -r $(BUILD_DIR_ROOT)
-	@$(RM) -r $(BIN_DIR_ROOT)
+	@$(RM) -r lib
 
 # Clean all assets from bin directories for all platforms
 .PHONY: cleanassets
@@ -246,7 +179,6 @@ printvars:
 	CXX: $(CXX)\n\
 	CPPFLAGS: $(CPPFLAGS)\n\
 	CXXFLAGS: $(CXXFLAGS)\n\
-	WARNINGS: $(WARNINGS)\n\
 	LDFLAGS: $(LDFLAGS)\n\
 	LDLIBS: $(LDLIBS)\n\
 	COPY_ASSETS_SCRIPT: $(COPY_ASSETS_SCRIPT)\n"

@@ -1,4 +1,4 @@
-#include "Turbo/Core/State/State.h"
+#include "Turbo/Core/States/State.h"
 #include <algorithm>
 
 namespace Turbo
@@ -18,10 +18,7 @@ namespace Turbo
         }
     }
 
-    void State::pushLayer(Layer* layer)
-    {
-        m_layers.push_back(layer);
-    }
+    void State::pushLayer(Layer* layer) { m_layers.push_back(layer); }
 
     void State::removeLayer(Layer* layer)
     {

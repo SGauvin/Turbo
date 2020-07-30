@@ -28,8 +28,8 @@ namespace Turbo
         Window(const Attributes& windowAttributes, InputManager& inputManager);
         Window(const Window& other) = delete;
         Window(const Window&& other) = delete;
-        operator=(const Window& other) = delete;
-        operator=(const Window&& other) = delete;
+        Window& operator=(const Window& other) = delete;
+        Window& operator=(const Window&& other) = delete;
         ~Window();
 
         // Functions
@@ -41,6 +41,8 @@ namespace Turbo
         void processEvents();
 
         // Getters
+        glm::uvec2 getSize() const { return m_size; }
+        Mode getMode() const { return m_mode; }
         bool isOpen() const;
         bool isRawMouseAvailable() const;
 
@@ -54,12 +56,19 @@ namespace Turbo
 
     private:
         void setCallbacks();
+
+        void onWindowResize(glm::uvec2 windowSize);
         void onKeyAction(Keyboard::Key key, std::int32_t scancode, Keyboard::Action action, std::uint8_t mods);
         void onMouseMove(glm::dvec2 mousePosition);
 
         GLFWwindow* m_window = nullptr;
         InputManager& m_inputManager;
 
+        // Attributes
+        glm::uvec2 m_size = {0, 0};
+        Mode m_mode;
+
+        // Settings
         bool m_isResizable = true;
         bool m_isVsyncEnabled = false;
         bool m_isRawMouseEnabled = false;

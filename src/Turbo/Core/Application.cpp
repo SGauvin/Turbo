@@ -1,9 +1,23 @@
 #include "Turbo/Core/Application.h"
+#include <cmath>
 #include "Turbo/Core/Log.h"
-#include "Turbo/Core/State/State.h"
+#include "Turbo/Core/States/State.h"
+#include <glad/glad.h>
 
 namespace Turbo
 {
+    struct Clock
+    {
+        std::chrono::time_point<std::chrono::high_resolution_clock> timePoint = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> restart()
+        {
+            auto nowTime = std::chrono::high_resolution_clock::now();
+            auto elapsed = nowTime - timePoint;
+            timePoint = nowTime;
+            return elapsed;
+        }
+    };
+
     Application::Application(Window& window, InputManager& inputManager)
         : m_window(window)
         , m_inputManager(inputManager)
@@ -47,10 +61,14 @@ namespace Turbo
 
     void Application::start()
     {
+        Clock clock;
         while (m_window.isOpen() && !m_states.empty())
         {
-            // Restart clock and update lag times
-            auto timePointBeforeUpdate = std::chrono::high_resolution_clock::now();
+            {
+                auto elapsed = clock.restart();
+                m_updateLag += elapsed;
+                m_drawLag += elapsed;
+            }
 
             // HandleInput and Update on a fixed timestep (skip draw until caught up)
             while (m_updateLag >= m_timePerUpdate)
@@ -88,15 +106,21 @@ namespace Turbo
                 continue;
             }
 
-            // Restart clock and update lag times
-            auto timePointBetweenUpdateAndDraw = std::chrono::high_resolution_clock::now();
-            auto elapsedTime = timePointBetweenUpdateAndDraw - timePointBeforeUpdate;
-            m_updateLag += elapsedTime;
-            m_drawLag += elapsedTime;
+            {
+                auto elapsed = clock.restart();
+                m_updateLag += elapsed;
+                m_drawLag += elapsed;
+            }
 
             // Draw
             if (m_drawLag >= m_timePerDraw)
             {
+                static auto point = std::chrono::high_resolution_clock::now();
+                auto diff = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - point);
+                TURBO_ENGINE_INFO("Delay: {}, drawLag: {}, timePerDraw: {}", diff.count() * 1000, m_drawLag.count() * 1000, m_timePerDraw.count() * 1000);
+                point = std::chrono::high_resolution_clock::now();
+                
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
                 m_states.back()->draw(lag);
                 for (const auto& layer : m_states.back()->m_layers)
@@ -107,12 +131,12 @@ namespace Turbo
                     }
                 }
 
-                while (m_drawLag >= m_timePerDraw)
-                {
-                    m_drawLag -= m_timePerDraw;
-                }
+                m_window.swapBuffers();
+
+                m_drawLag -= std::floor(m_drawLag / m_timePerDraw) * m_timePerDraw;
             }
         }
         m_window.destroy();
     }
 } // namespace Turbo
+

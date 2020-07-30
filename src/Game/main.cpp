@@ -6,8 +6,9 @@
 #include <utility>
 #include <Turbo/Core/Application.h>
 #include <Turbo/Core/Init.h>
+#include <Turbo/Core/Layers/ImGuiLayer.h>
 #include <Turbo/Core/Log.h>
-#include <Turbo/Core/State/State.h>
+#include <Turbo/Core/States/State.h>
 #include <Turbo/Core/Window.h>
 
 class Layer1 : public Turbo::Layer
@@ -70,10 +71,21 @@ private:
     void handleInput() override {}
     void update() override {}
     void draw(float lag = 1.0) override {}
+
     void onAttach() override
     {
-        pushLayer(new Layer1(m_application));
-        pushLayer(new Layer2(m_application));
+        m_inputManager.createInputContext()->bindKeyToAction([this](){
+            if (m_window.getMode() == Turbo::Window::Mode::Bordered)
+            {
+                m_window.create({"Test", glm::vec2(1000, 1000), Turbo::Window::Mode::FullScreen});
+            }
+            else
+            {
+                m_window.create({"Test", glm::vec2(1000, 1000), Turbo::Window::Mode::Bordered});
+            }
+            return true;
+        }, Turbo::Keyboard::Key::F, Turbo::Keyboard::Action::Press);
+        pushLayer(new Turbo::ImGuiLayer(m_application));
     }
 };
 
@@ -82,7 +94,7 @@ int main()
     Turbo::init();
 
     Turbo::InputManager inputManager;
-    Turbo::Window window({"Test", glm::vec2(400, 400), Turbo::Window::Mode::Bordered}, inputManager);
+    Turbo::Window window({"Test", glm::vec2(1440 * 16 / 9, 1440), Turbo::Window::Mode::Bordered}, inputManager);
 
     Turbo::Application app(window, inputManager);
     app.push(new TestState(app));

@@ -42,16 +42,21 @@ namespace Turbo
         if (windowAttributes.mode == Mode::Bordered)
         {
             m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), nullptr, nullptr);
+            m_size = {windowAttributes.size.x, windowAttributes.size.y};
         }
         else if (windowAttributes.mode == Mode::FullScreen)
         {
             m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), monitor, nullptr);
+            m_size = {windowAttributes.size.x, windowAttributes.size.y};
         }
         else if (windowAttributes.mode == Mode::Borderless)
         {
             const GLFWvidmode* mode = glfwGetVideoMode(monitor);
             m_window = glfwCreateWindow(mode->width, mode->height, windowAttributes.title.c_str(), monitor, nullptr);
+            m_size = {mode->width, mode->height};
         }
+
+        m_mode = windowAttributes.mode;
 
         if (m_window == nullptr)
         {
@@ -156,6 +161,11 @@ namespace Turbo
     {
         glfwSetWindowUserPointer(m_window, this);
 
+        // Window resize
+        glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, std::int32_t width, std::int32_t height) {
+            static_cast<Window*>(glfwGetWindowUserPointer(window))->onWindowResize({width, height});
+        });
+
         // Keyvboard
         glfwSetKeyCallback(m_window,
                            [](GLFWwindow* window, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
@@ -171,6 +181,8 @@ namespace Turbo
             static_cast<Window*>(glfwGetWindowUserPointer(window))->onMouseMove({xpos, ypos});
         });
     }
+
+    void Window::onWindowResize(glm::uvec2 windowSize) { m_size = windowSize; }
 
     void Window::onKeyAction(Keyboard::Key key, std::int32_t /*scancode*/, Keyboard::Action action, std::uint8_t mods)
     {

@@ -33,6 +33,11 @@ namespace Turbo
 
         // -- Keyboard --
         template<typename F>
+        void bindKeyboardEvents(F callback);
+        template<typename O, typename F>
+        void bindKeyboardEvents(O* object, F callback);
+
+        template<typename F>
         void bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
         template<typename O, typename F>
         void bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action,
@@ -55,6 +60,7 @@ namespace Turbo
         template<typename O, typename F>
         void bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey,
                              std::uint8_t modifiers = Keyboard::Modifier::None);
+
         // -- ~Keyboard --
 
         // template<typename F>
@@ -67,6 +73,9 @@ namespace Turbo
 
         // -- Keyboard --
         bool onKeyboardEvent(const Keyboard::Event& event) const;
+
+        // All events
+        std::vector<std::unique_ptr<Callable<bool, const Keyboard::Event&>>> m_keyboardEventsCallbacks{};
 
         // Action
         struct KeyboardActionEvent
