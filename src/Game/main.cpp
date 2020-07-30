@@ -4,50 +4,87 @@
 #include <iostream>
 #include <thread>
 #include <utility>
+#include <Turbo/Core/Application.h>
 #include <Turbo/Core/Init.h>
 #include <Turbo/Core/Log.h>
+#include <Turbo/Core/State/State.h>
 #include <Turbo/Core/Window.h>
 
-void test()
+class Layer1 : public Turbo::Layer
 {
-    TURBO_INFO("ye!");
-    // Turbo::Log::info("ye!");
-}
+public:
+    Layer1(Turbo::Application& application)
+        : Turbo::Layer(application)
+        , m_inputContext(m_inputManager.createInputContext())
+    {
+        m_inputContext->bindKeyToAction(this, &onKeyEscapePress, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
+    }
 
-void test2(bool test)
+    bool onKeyEscapePress()
+    {
+        TURBO_INFO("Layer1: Esc pressed.");
+        return true;
+    }
+
+    void handleInput() override {}
+    void update() override {}
+    void draw(float lag = 1.0) override {}
+
+private:
+    Turbo::InputContext* m_inputContext;
+};
+
+class Layer2 : public Turbo::Layer
 {
-    TURBO_INFO("State: {}", test);
-    TURBO_WARNING("State: {}", test);
-    TURBO_ERROR("State: {}", test);
-    // Turbo::Log::info("State: {}", test);
-}
+public:
+    Layer2(Turbo::Application& application)
+        : Turbo::Layer(application)
+        , m_inputContext(m_inputManager.createInputContext())
+    {
+        m_inputContext->bindKeyToAction(this, &onKeyEscapePress, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
+    }
+
+    bool onKeyEscapePress()
+    {
+        TURBO_INFO("Layer2: Esc pressed.");
+        return true;
+    }
+
+    void handleInput() override {}
+    void update() override {}
+    void draw(float lag = 1.0) override {}
+
+private:
+    Turbo::InputContext* m_inputContext;
+};
+
+class TestState : public Turbo::State
+{
+public:
+    TestState(Turbo::Application& application)
+        : Turbo::State(application)
+    {
+    }
+
+private:
+    void handleInput() override {}
+    void update() override {}
+    void draw(float lag = 1.0) override {}
+    void onAttach() override
+    {
+        pushLayer(new Layer1(m_application));
+        pushLayer(new Layer2(m_application));
+    }
+};
 
 int main()
 {
     Turbo::init();
 
-    // Turbo::Log::engineInfo("Bonjour!\n");
     Turbo::InputManager inputManager;
-
     Turbo::Window window({"Test", glm::vec2(400, 400), Turbo::Window::Mode::Bordered}, inputManager);
-    Turbo::InputContext& inputContext = inputManager.createInputContext();
 
-    inputContext.bindKeyToState(test2, Turbo::Keyboard::Key::W);
-    inputContext.bindKeyToAction([&window]() { window.close(); }, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
-    inputContext.bindKeyToAction(
-        [&window]() {
-            window.create({"Test2", glm::vec2(500, 500), Turbo::Window::Mode::Bordered});
-        },
-        Turbo::Keyboard::Key::E,
-        Turbo::Keyboard::Action::Press);
-
-    while (window.isOpen())
-    {
-        window.processEvents();
-        if (inputManager.detectedKeyReleasedEvent())
-        {
-            TURBO_INFO("Event detected.");
-            TURBO_INFO("Mouse position: {}, {}.", inputManager.getMousePosition().x, inputManager.getMousePosition().y);
-        }
-    }
+    Turbo::Application app(window, inputManager);
+    app.push(new TestState(app));
+    app.start();
 }

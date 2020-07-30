@@ -2,8 +2,10 @@
 
 namespace Turbo
 {
-    void InputContext::onKeyboardEvent(const Keyboard::Event& event) const
+    bool InputContext::onKeyboardEvent(const Keyboard::Event& event) const
     {
+        bool isEventHandled = false;
+
         // Call every function bound to this event
 
         // Actions
@@ -14,7 +16,7 @@ namespace Turbo
                 actionEvent.isDown = true;
                 if (actionEvent.action == Keyboard::Action::Press)
                 {
-                    (*actionEvent.callable)();
+                    isEventHandled = isEventHandled || (*actionEvent.callable)();
                 }
             }
             // Don't need modifiers for the release event : design choice
@@ -22,7 +24,7 @@ namespace Turbo
                      actionEvent.isDown == true)
             {
                 actionEvent.isDown = false;
-                (*actionEvent.callable)();
+                isEventHandled = isEventHandled || (*actionEvent.callable)();
             }
         }
 
@@ -34,7 +36,7 @@ namespace Turbo
                 if ((stateEvent.modifiers & event.modifiers) == stateEvent.modifiers)
                 {
                     stateEvent.isDown = true;
-                    (*stateEvent.callable)(true);
+                    isEventHandled = isEventHandled || (*stateEvent.callable)(true);
                 }
             }
             // Don't need modifiers for the release event : design choice
@@ -43,7 +45,7 @@ namespace Turbo
                 if (stateEvent.isDown == true)
                 {
                     stateEvent.isDown = false;
-                    (*stateEvent.callable)(false);
+                    isEventHandled = isEventHandled || (*stateEvent.callable)(false);
                 }
             }
         }
@@ -56,7 +58,7 @@ namespace Turbo
                 if ((rangeEvent.modifiers & event.modifiers) == rangeEvent.modifiers)
                 {
                     rangeEvent.isDown = true;
-                    (*rangeEvent.callable)(rangeEvent.direction == Direction::Negative ? -1 : 1);
+                    isEventHandled = isEventHandled || (*rangeEvent.callable)(rangeEvent.direction == Direction::Negative ? -1 : 1);
                 }
             }
             // Don't need modifiers for the release event : design choice
@@ -65,9 +67,11 @@ namespace Turbo
                 if (rangeEvent.isDown == true)
                 {
                     rangeEvent.isDown = false;
-                    (*rangeEvent.callable)(0);
+                    isEventHandled = isEventHandled || (*rangeEvent.callable)(0);
                 }
             }
         }
+
+        return isEventHandled;
     }
 } // namespace Turbo

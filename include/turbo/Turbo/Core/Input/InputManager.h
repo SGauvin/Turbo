@@ -1,8 +1,9 @@
-#ifndef TURBO_INPUTMANAGER_H
-#define TURBO_INPUTMANAGER_H
+#ifndef INCLUDED_TURBO_INPUTMANAGER_H
+#define INCLUDED_TURBO_INPUTMANAGER_H
 
 #include <array>
 #include <memory>
+#include <unordered_map>
 #include <vector>
 #include <glm/glm.hpp>
 #include "Turbo/Core/Callable.h"
@@ -11,17 +12,23 @@
 
 namespace Turbo
 {
+    class State;
+
     class InputManager
     {
     private:
         friend class Window;
+        friend class Application;
 
     public:
-        InputContext& createInputContext()
-        {
-            m_inputContexts.push_back(InputContext{});
-            return m_inputContexts.back();
-        }
+        InputManager() = default;
+        InputManager(const InputManager& other) = delete;
+        InputManager(const InputManager&& other) = delete;
+
+        ~InputManager();
+
+        InputContext* createInputContext();
+        void removeInputContext(const InputContext* inputContext);
 
         // -- Keyboard --
         bool detectedKeyPressedEvent() const;
@@ -40,7 +47,10 @@ namespace Turbo
         void onKeyboardEvent(const Keyboard::Event& event);
         void onMouseMove(const glm::dvec2& mousePosition);
 
-        std::vector<InputContext> m_inputContexts{};
+        void onStateChange(const State* state);
+
+        std::unordered_map<const State*, std::vector<InputContext*>> m_inputContextListMap{};
+        std::vector<InputContext*>* m_currentInputContextList = nullptr;
 
         // -- Keyboard --
         std::array<bool, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardHeldKeys{};
@@ -57,4 +67,4 @@ namespace Turbo
     };
 } // namespace Turbo
 
-#endif // TURBO_INPUTMANAGER_H
+#endif // INCLUDED_TURBO_INPUTMANAGER_H

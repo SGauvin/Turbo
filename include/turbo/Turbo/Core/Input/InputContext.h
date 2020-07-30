@@ -1,5 +1,5 @@
-#ifndef TURBO_INPUTCONTEXT_H
-#define TURBO_INPUTCONTEXT_H
+#ifndef INCLUDED_TURBO_INPUTCONTEXT_H
+#define INCLUDED_TURBO_INPUTCONTEXT_H
 
 #include <array>
 #include <iostream>
@@ -17,9 +17,11 @@ namespace Turbo
     private:
         friend class InputManager;
 
-        InputContext() = default;
-
     public:
+        InputContext() = default;
+        InputContext(const InputContext& other) = delete;
+        InputContext(const InputContext&& other) = delete;
+
         enum class Direction : std::uint8_t
         {
             Positive = 0,
@@ -55,21 +57,26 @@ namespace Turbo
                              std::uint8_t modifiers = Keyboard::Modifier::None);
         // -- ~Keyboard --
 
+        // template<typename F>
+        // void bindMouseMovementToRange(F callback);
+        // template<typename O, typename F>
+        // void bindMouseMovementToRange(O* object, F callback);
+
     private:
         bool m_isEnabled = true;
 
         // -- Keyboard --
-        void onKeyboardEvent(const Keyboard::Event& event) const;
+        bool onKeyboardEvent(const Keyboard::Event& event) const;
 
         // Action
         struct KeyboardActionEvent
         {
-            std::unique_ptr<Turbo::Callable<>> callable;
+            std::unique_ptr<Turbo::Callable<bool>> callable;
             Keyboard::Action action;
             std::uint8_t modifiers;
             mutable bool isDown = false;
 
-            KeyboardActionEvent(Turbo::Callable<>* callable, Keyboard::Action action, std::uint8_t modifiers)
+            KeyboardActionEvent(Turbo::Callable<bool>* callable, Keyboard::Action action, std::uint8_t modifiers)
                 : callable(callable)
                 , action(action)
                 , modifiers(modifiers)
@@ -92,11 +99,11 @@ namespace Turbo
         // State
         struct KeyboardStateEvent
         {
-            std::unique_ptr<Turbo::Callable<bool>> callable;
+            std::unique_ptr<Turbo::Callable<bool, bool>> callable;
             std::uint8_t modifiers;
             mutable bool isDown = false;
 
-            KeyboardStateEvent(Turbo::Callable<bool>* callable, std::uint8_t modifiers)
+            KeyboardStateEvent(Turbo::Callable<bool, bool>* callable, std::uint8_t modifiers)
                 : callable(callable)
                 , modifiers(modifiers)
             {
@@ -117,12 +124,12 @@ namespace Turbo
         // Unidirectional range
         struct KeyboardUnidirectionalRangeEvent
         {
-            std::unique_ptr<Turbo::Callable<float>> callable;
+            std::unique_ptr<Turbo::Callable<bool, float>> callable;
             Direction direction;
             std::uint8_t modifiers;
             mutable bool isDown = false;
 
-            KeyboardUnidirectionalRangeEvent(Turbo::Callable<float>* callable, Direction direction, std::uint8_t modifiers)
+            KeyboardUnidirectionalRangeEvent(Turbo::Callable<bool, float>* callable, Direction direction, std::uint8_t modifiers)
                 : callable(callable)
                 , direction(direction)
                 , modifiers(modifiers)
@@ -146,11 +153,11 @@ namespace Turbo
         // Bidirectional range
         struct KeyboardBidirectionalRangeEvent
         {
-            std::unique_ptr<Turbo::Callable<float>> callable;
+            std::unique_ptr<Turbo::Callable<bool, float>> callable;
             bool positiveKeyState = false;
             bool negativeKeyState = false;
 
-            KeyboardBidirectionalRangeEvent(Turbo::Callable<float>* callable)
+            KeyboardBidirectionalRangeEvent(Turbo::Callable<bool, float>* callable)
                 : callable(callable)
             {
             }
@@ -164,22 +171,22 @@ namespace Turbo
             {
             }
 
-            void onPositiveKeyStateChange(bool state)
+            bool onPositiveKeyStateChange(bool state)
             {
                 positiveKeyState = state;
-                onKeyStateChange();
+                return onKeyStateChange();
             }
 
-            void onNegativeKeyStateChange(bool state)
+            bool onNegativeKeyStateChange(bool state)
             {
                 negativeKeyState = state;
-                onKeyStateChange();
+                return onKeyStateChange();
             }
 
-            void onKeyStateChange()
+            bool onKeyStateChange()
             {
                 float direction = positiveKeyState == negativeKeyState ? 0 : (positiveKeyState ? 1 : -1);
-                (*callable)(direction);
+                return (*callable)(direction);
             }
         };
         std::vector<KeyboardBidirectionalRangeEvent> m_keyboardBidirectionalRangeCallbacks{};
@@ -189,4 +196,4 @@ namespace Turbo
 
 #include "Turbo/Core/Input/InputContext.inl"
 
-#endif // TURBO_INPUTCONTEXT_H
+#endif // INCLUDED_TURBO_INPUTCONTEXT_H

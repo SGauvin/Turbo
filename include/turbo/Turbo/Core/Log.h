@@ -1,5 +1,5 @@
-#ifndef TURBO_LOG_H
-#define TURBO_LOG_H
+#ifndef INCLUDED_TURBO_LOG_H
+#define INCLUDED_TURBO_LOG_H
 
 #include <fmt/color.h>
 #include <fmt/core.h>
@@ -54,4 +54,4 @@
 #define TURBO_ENGINE_ERROR(...) ((void)(0))
 #endif // TURBO_ENGINE_LOG
 
-#endif // TURBO_LOG_H
+#endif // INCLUDED_TURBO_LOG_H

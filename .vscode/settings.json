@@ -70,6 +70,7 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "clocale": "cpp"
+        "clocale": "cpp",
+        "numeric": "cpp"
     }
 }

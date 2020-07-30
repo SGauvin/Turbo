@@ -1,5 +1,5 @@
-#ifndef TURBO_WINDOW_H
-#define TURBO_WINDOW_H
+#ifndef INCLUDED_TURBO_WINDOW_H
+#define INCLUDED_TURBO_WINDOW_H
 
 #include <cstdint>
 #include <GLFW/glfw3.h>
@@ -26,13 +26,19 @@ namespace Turbo
         };
 
         Window(const Attributes& windowAttributes, InputManager& inputManager);
+        Window(const Window& other) = delete;
+        Window(const Window&& other) = delete;
+        operator=(const Window& other) = delete;
+        operator=(const Window&& other) = delete;
         ~Window();
 
         // Functions
         void create(const Attributes& windowAttributes);
         void destroy();
-        void processEvents();
         void close();
+        void swapBuffers();
+
+        void processEvents();
 
         // Getters
         bool isOpen() const;
@@ -61,4 +67,4 @@ namespace Turbo
     };
 } // namespace Turbo
 
-#endif // TURBO_WINDOW_H
+#endif // INCLUDED_TURBO_WINDOW_H

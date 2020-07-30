@@ -1,21 +1,21 @@
-#ifndef TURBO_CALLABLE_H
-#define TURBO_CALLABLE_H
+#ifndef INCLUDED_TURBO_CALLABLE_H
+#define INCLUDED_TURBO_CALLABLE_H
 
 namespace Turbo
 {
-    template<typename... Args>
+    template<typename ReturnType, typename... Args>
     class Callable
     {
     public:
         virtual ~Callable() = default;
 
-        virtual void operator()(const Args&... args) = 0;
+        virtual ReturnType operator()(const Args&... args) = 0;
 
-        virtual Callable<Args...>* clone() = 0;
+        virtual Callable<ReturnType, Args...>* clone() = 0;
     };
 
-    template<typename F, typename... Args>
-    class Functor : public Callable<Args...>
+    template<typename ReturnType, typename F, typename... Args>
+    class Functor : public Callable<ReturnType, Args...>
     {
     public:
         explicit Functor(F function)
@@ -23,16 +23,16 @@ namespace Turbo
         {
         }
 
-        virtual void operator()(const Args&... args) override { m_function(args...); }
+        virtual ReturnType operator()(const Args&... args) override { return m_function(args...); }
 
-        virtual Callable<Args...>* clone() { return new Functor<F, Args...>(m_function); }
+        virtual Callable<ReturnType, Args...>* clone() { return new Functor<ReturnType, F, Args...>(m_function); }
 
     private:
         F m_function;
     };
 
-    template<typename O, typename F, typename... Args>
-    class Method : public Callable<Args...>
+    template<typename ReturnType, typename O, typename F, typename... Args>
+    class Method : public Callable<ReturnType, Args...>
     {
     public:
         Method(O* object, F method)
@@ -41,9 +41,9 @@ namespace Turbo
         {
         }
 
-        virtual void operator()(const Args&... args) override { (m_object->*m_method)(args...); }
+        virtual ReturnType operator()(const Args&... args) override { return (m_object->*m_method)(args...); }
 
-        virtual Callable<Args...>* clone() { return new Method<O, F, Args...>(m_object, m_method); }
+        virtual Callable<ReturnType, Args...>* clone() { return new Method<ReturnType, O, F, Args...>(m_object, m_method); }
 
     private:
         O* m_object;
@@ -51,4 +51,4 @@ namespace Turbo
     };
 } // namespace Turbo
 
-#endif // TURBO_CALLABLE_H
+#endif // INCLUDED_TURBO_CALLABLE_H

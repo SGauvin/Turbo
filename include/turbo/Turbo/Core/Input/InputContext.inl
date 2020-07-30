@@ -9,7 +9,7 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<F>(callback), action, modifiers);
+        m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<bool, F>(callback), action, modifiers);
     }
 
     template<typename O, typename F>
@@ -19,7 +19,9 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<O, F>(object, callback), action, modifiers);
+        m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<bool, O, F>(object, callback),
+                                                                                action,
+                                                                                modifiers);
     }
 
     template<typename F>
@@ -29,7 +31,8 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<F, bool>(callback), modifiers);
+        auto test = new (std::nothrow) Functor<bool, F, bool>(callback);
+        m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)].emplace_back(test, modifiers);
     }
 
     template<typename O, typename F>
@@ -39,7 +42,7 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<O, F, bool>(object, callback), modifiers);
+        m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<bool, O, F, bool>(object, callback), modifiers);
     }
 
     template<typename F>
@@ -49,7 +52,7 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<F, float>(callback),
+        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<bool, F, float>(callback),
                                                                                              direction,
                                                                                              modifiers);
     }
@@ -61,7 +64,8 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<O, F, float>(object, callback),
+        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<bool, O, F, float>(object,
+                                                                                                                           callback),
                                                                                              direction,
                                                                                              modifiers);
     }
@@ -74,7 +78,7 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardBidirectionalRangeCallbacks.emplace_back(new Functor<F, float>(callback));
+        m_keyboardBidirectionalRangeCallbacks.emplace_back(new Functor<bool, F, float>(callback));
         bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
                        &KeyboardBidirectionalRangeEvent::onPositiveKeyStateChange,
                        positiveKey,
@@ -93,7 +97,7 @@ namespace Turbo
         {
             return;
         }
-        m_keyboardBidirectionalRangeCallbacks.emplace_back(new Method<O, F, float>(object, callback));
+        m_keyboardBidirectionalRangeCallbacks.emplace_back(new Method<bool, O, F, float>(object, callback));
         bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
                        &KeyboardBidirectionalRangeEvent::onPositiveKeyStateChange,
                        positiveKey,

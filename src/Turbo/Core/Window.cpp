@@ -92,13 +92,15 @@ namespace Turbo
         TURBO_ENGINE_INFO("Window terminated");
     }
 
+    void Window::close() { m_shouldClose = true; }
+
+    void Window::swapBuffers() { glfwSwapBuffers(m_window); }
+
     void Window::processEvents()
     {
         m_inputManager.resetTemporaryState();
         glfwPollEvents();
     }
-
-    void Window::close() { m_shouldClose = true; }
 
     void Window::init() { glfwInit(); }
 
@@ -175,8 +177,5 @@ namespace Turbo
         m_inputManager.onKeyboardEvent({key, action, mods});
     }
 
-    void Window::onMouseMove(glm::dvec2 mousePosition)
-    {
-        m_inputManager.onMouseMove(mousePosition);
-    }
+    void Window::onMouseMove(glm::dvec2 mousePosition) { m_inputManager.onMouseMove(mousePosition); }
 } // namespace Turbo
