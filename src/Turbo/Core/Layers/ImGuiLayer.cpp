@@ -42,35 +42,42 @@ namespace Turbo
 
         m_inputContext = m_inputManager.createInputContext();
 
-        m_inputContext->bindKeyPressEvents([](const Keyboard::Event& event) {
+        m_inputContext->bindKeyPressEvents([](const Keyboard::KeyEvent& event) {
             ImGuiIO& io = ImGui::GetIO();
             io.KeysDown[static_cast<std::uint16_t>(event.key)] = true;
             return false;
         });
 
-        m_inputContext->bindKeyReleaseEvents([](const Keyboard::Event& event) {
+        m_inputContext->bindKeyReleaseEvents([](const Keyboard::KeyEvent& event) {
             ImGuiIO& io = ImGui::GetIO();
             io.KeysDown[static_cast<std::uint16_t>(event.key)] = false;
             return false;
         });
 
-        // m_inputContext->bindMouseMoveEvent([](const glm::dvec2& mousePos) {
-        //     return false;
-        // });
-
-        m_inputContext->bindMousePressEvents([](const Mouse::Event& event) {
+        m_inputContext->bindMouseMoveEvents([](const Mouse::MoveEvent& event) {
             ImGuiIO& io = ImGui::GetIO();
-            io.MousePos = {event.position.x, event.position.y};
+            io.MousePos = {static_cast<float>(event.mousePosition.x), static_cast<float>(event.mousePosition.y)};
+            return false;
+        });
+
+        m_inputContext->bindMousePressEvents([](const Mouse::ButtonEvent& event) {
+            ImGuiIO& io = ImGui::GetIO();
             io.MouseDown[static_cast<std::uint8_t>(event.button)] = true;
             return false;
         });
 
-        m_inputContext->bindMouseReleaseEvents([](const Mouse::Event& event) {
+        m_inputContext->bindMouseReleaseEvents([](const Mouse::ButtonEvent& event) {
             ImGuiIO& io = ImGui::GetIO();
-            io.MousePos = {event.position.x, event.position.y};
             io.MouseDown[static_cast<std::uint8_t>(event.button)] = false;
             return false;
         });
+
+        m_inputContext->bindMouseScrollEvents([](const Mouse::ScrollEvent& event) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.MouseWheel += static_cast<float>(event.scrollDelta.y);
+            io.MouseWheelH += static_cast<float>(event.scrollDelta.x);
+            return false;
+        }); 
     }
 
     ImGuiLayer::~ImGuiLayer() {}
@@ -94,4 +101,5 @@ namespace Turbo
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
+
 } // namespace Turbo

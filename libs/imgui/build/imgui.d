@@ -1,10 +1,11 @@
-build/imgui.o: src/imgui.cpp include/imgui.h include/imconfig.h \
- include/imgui_internal.h include/imstb_textedit.h
+build/imgui.o: src/imgui.cpp include/imgui/imgui.h \
+ include/imgui/imconfig.h include/imgui/imgui_internal.h \
+ include/imgui/imstb_textedit.h
 
-include/imgui.h:
+include/imgui/imgui.h:
 
-include/imconfig.h:
+include/imgui/imconfig.h:
 
-include/imgui_internal.h:
+include/imgui/imgui_internal.h:
 
-include/imstb_textedit.h:
+include/imgui/imstb_textedit.h:

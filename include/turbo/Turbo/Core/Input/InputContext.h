@@ -22,6 +22,7 @@ namespace Turbo
         InputContext() = default;
         InputContext(const InputContext& other) = delete;
         InputContext(const InputContext&& other) = delete;
+        ~InputContext();
 
         enum class Direction : std::uint8_t
         {
@@ -71,15 +72,15 @@ namespace Turbo
 
         // -- Mouse --
 
-        // template<typename F>
-        // void bindMouseMovementToRange(F callback);
-        // template<typename O, typename F>
-        // void bindMouseMovementToRange(O* object, F callback);
+        template<typename F>
+        void bindMouseMoveEvents(F callback);
+        template<typename O, typename F>
+        void bindMouseMoveEvents(O* object, F callback);
 
         template<typename F>
-        void bindMouseMoveEvent(F callback);
+        void bindMouseScrollEvents(F callback);
         template<typename O, typename F>
-        void bindMouseMoveEvent(O* object, F callback);
+        void bindMouseScrollEvents(O* object, F callback);
 
         template<typename F>
         void bindMousePressEvents(F callback);
@@ -95,11 +96,11 @@ namespace Turbo
 
     private:
         // -- Keyboard --
-        bool onKeyboardEvent(const Keyboard::Event& event) const;
+        bool onKeyboardEvent(const Keyboard::KeyEvent& event) const;
 
         // All events
-        std::vector<std::unique_ptr<Callable<bool, const Keyboard::Event&>>> m_keyPressCallbacks{};
-        std::vector<std::unique_ptr<Callable<bool, const Keyboard::Event&>>> m_keyReleaseCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>> m_keyPressCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>> m_keyReleaseCallbacks{};
 
         // Action
         struct KeyboardActionEvent
@@ -228,13 +229,15 @@ namespace Turbo
 
         // -- Mouse --
 
-        bool onMouseMoveEvent(const glm::dvec2& mousePosition);
-        bool onMouseButtonEvent(const Mouse::Event& event);
+        bool onMouseMoveEvent(const Mouse::MoveEvent& event);
+        bool onMouseScrollEvent(const Mouse::ScrollEvent& event);
+        bool onMouseButtonEvent(const Mouse::ButtonEvent& event);
 
         // All events
-        std::vector<std::unique_ptr<Callable<bool, const Mouse::Event&>>> m_mousePressCallbacks{};
-        std::vector<std::unique_ptr<Callable<bool, const Mouse::Event&>>> m_mouseReleaseCallbacks{};
-        std::vector<std::unique_ptr<Callable<bool, float>>> m_mouseMoveCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Mouse::MoveEvent&>>> m_mouseMoveCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Mouse::ScrollEvent&>>> m_mouseScrollCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>> m_mousePressCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>> m_mouseReleaseCallbacks{};
     };
 } // namespace Turbo
 

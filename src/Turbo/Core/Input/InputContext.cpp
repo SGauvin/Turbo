@@ -2,7 +2,9 @@
 
 namespace Turbo
 {
-    bool InputContext::onKeyboardEvent(const Keyboard::Event& event) const
+    InputContext::~InputContext() {}
+
+    bool InputContext::onKeyboardEvent(const Keyboard::KeyEvent& event) const
     {
         bool isEventHandled = false;
 
@@ -89,18 +91,28 @@ namespace Turbo
         return isEventHandled;
     }
 
-    bool InputContext::onMouseMoveEvent(const glm::dvec2& mousePosition)
+    bool InputContext::onMouseMoveEvent(const Mouse::MoveEvent& event)
     {
         bool isEventHandled = false;
         for (const auto& callback : m_mouseMoveCallbacks)
         {
-            isEventHandled = isEventHandled || (*callback)(mousePosition);
+            isEventHandled = isEventHandled || (*callback)(event);
         }
 
         return isEventHandled;
     }
 
-    bool InputContext::onMouseButtonEvent(const Mouse::Event& event)
+    bool InputContext::onMouseScrollEvent(const Mouse::ScrollEvent& event)
+    {
+        bool isEventHandled = false;
+        for (const auto& callback : m_mouseScrollCallbacks)
+        {
+            isEventHandled = isEventHandled || (*callback)(event);
+        }
+        return isEventHandled;
+    }
+
+    bool InputContext::onMouseButtonEvent(const Mouse::ButtonEvent& event)
     {
         bool isEventHandled = false;
         if (event.action == Mouse::Action::Press)
@@ -110,7 +122,7 @@ namespace Turbo
                 isEventHandled = isEventHandled || (*callback)(event);
             }
         }
-        else if (event.action == Mouse::Action::Press)
+        else if (event.action == Mouse::Action::Release)
         {
             for (const auto& callback : m_mouseReleaseCallbacks)
             {
@@ -120,5 +132,4 @@ namespace Turbo
 
         return isEventHandled;
     }
-
 } // namespace Turbo

@@ -42,9 +42,10 @@ namespace Turbo
 
     private:
         void resetTemporaryState();
-        void onKeyboardEvent(const Keyboard::Event& event);
-        void onMouseMove(const glm::dvec2& mousePosition);
-        void onMouseButtonEvent(const Mouse::Event& event);
+        void onKeyboardEvent(const Keyboard::KeyEvent& event);
+        void onMouseMoveEvent(const Mouse::MoveEvent& event);
+        void onMouseScrollEvent(const Mouse::ScrollEvent& event);
+        void onMouseButtonEvent(const Mouse::ButtonEvent& event);
 
         void onStateChange(const State* state);
 

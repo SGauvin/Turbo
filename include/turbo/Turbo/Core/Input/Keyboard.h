@@ -151,7 +151,7 @@ namespace Turbo
             static constexpr std::uint8_t NumLock = 0x2;
         } // namespace Modifier
 
-        struct Event
+        struct KeyEvent
         {
             Keyboard::Key key;
             Keyboard::Action action;

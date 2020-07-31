@@ -1,0 +1,365 @@
+The system is: Windows - 10.0.18363 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: C:/mingw64_SEH_7.2.0/bin/gcc.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.exe"
+
+The C compiler identification is GNU, found in "C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/3.10.2/CompilerIdC/a.exe"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_00ec3/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_00ec3.dir\build.make CMakeFiles/cmTC_00ec3.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_00ec3.dir/testCCompiler.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe    -o CMakeFiles\cmTC_00ec3.dir\testCCompiler.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\CMakeTmp\testCCompiler.c
+Linking C executable cmTC_00ec3.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_00ec3.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_00ec3.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_00ec3.dir/objects.a @CMakeFiles\cmTC_00ec3.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe      -Wl,--whole-archive CMakeFiles\cmTC_00ec3.dir/objects.a -Wl,--no-whole-archive  -o cmTC_00ec3.exe -Wl,--out-implib,libcmTC_00ec3.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_00ec3.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_1a9c9/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_1a9c9.dir\build.make CMakeFiles/cmTC_1a9c9.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1a9c9.dir/CMakeCCompilerABI.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe    -o CMakeFiles\cmTC_1a9c9.dir\CMakeCCompilerABI.c.obj   -c "C:\Program Files (x86)\CMake\share\cmake-3.10\Modules\CMakeCCompilerABI.c"
+Linking C executable cmTC_1a9c9.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_1a9c9.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_1a9c9.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_1a9c9.dir/objects.a @CMakeFiles\cmTC_1a9c9.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe     -v -Wl,--whole-archive CMakeFiles\cmTC_1a9c9.dir/objects.a -Wl,--no-whole-archive  -o cmTC_1a9c9.exe -Wl,--out-implib,libcmTC_1a9c9.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+Using built-in specs.
+COLLECT_GCC=C:\mingw64_SEH_7.2.0\bin\gcc.exe
+COLLECT_LTO_WRAPPER=C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/lto-wrapper.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-7.2.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --with-sysroot=/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/c/mingw720/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/c/mingw720/prerequisites/x86_64-w64-mingw32-static --with-mpc=/c/mingw720/prerequisites/x86_64-w64-mingw32-static --with-isl=/c/mingw720/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh-rev0, Built by MinGW-W64 project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64/opt/include -I/c/mingw720/prerequisites/x86_64-zlib-static/include -I/c/mingw720/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64/opt/include -I/c/mingw720/prerequisites/x86_64-zlib-static/include -I/c/mingw720/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64/opt/include -I/c/mingw720/prerequisites/x86_64-zlib-static/include -I/c/mingw720/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64/opt/lib -L/c/mingw720/prerequisites/x86_64-zlib-static/lib -L/c/mingw720/prerequisites/x86_64-w64-mingw32-static/lib '
+Thread model: posix
+gcc version 7.2.0 (x86_64-posix-seh-rev0, Built by MinGW-W64 project) 
+COMPILER_PATH=C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/;C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/;C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/;C:/mingw64_SEH_7.2.0/bin/../lib/gcc/;C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../lib/;C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/;C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1a9c9.exe' '-mtune=core2' '-march=nocona'
+ C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/collect2.exe -plugin C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/liblto_plugin-0.dll -plugin-opt=C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Simon\AppData\Local\Temp\cc6HjEcU.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt --sysroot=C:/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64 -m i386pep -Bdynamic -o cmTC_1a9c9.exe C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/crtbegin.o -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0 -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../lib -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../.. --whole-archive CMakeFiles\cmTC_1a9c9.dir/objects.a --no-whole-archive --out-implib libcmTC_1a9c9.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/crtend.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1a9c9.exe' '-mtune=core2' '-march=nocona'
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_1a9c9/fast"]
+  ignore line: [C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_1a9c9.dir\build.make CMakeFiles/cmTC_1a9c9.dir/build]
+  ignore line: [mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_1a9c9.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [C:\mingw64_SEH_7.2.0\bin\gcc.exe    -o CMakeFiles\cmTC_1a9c9.dir\CMakeCCompilerABI.c.obj   -c "C:\Program Files (x86)\CMake\share\cmake-3.10\Modules\CMakeCCompilerABI.c"]
+  ignore line: [Linking C executable cmTC_1a9c9.exe]
+  ignore line: ["C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_1a9c9.dir\link.txt --verbose=1]
+  ignore line: ["C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_1a9c9.dir/objects.a]
+  ignore line: [C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_1a9c9.dir/objects.a @CMakeFiles\cmTC_1a9c9.dir\objects1.rsp]
+  ignore line: [C:\mingw64_SEH_7.2.0\bin\gcc.exe     -v -Wl,--whole-archive CMakeFiles\cmTC_1a9c9.dir/objects.a -Wl,--no-whole-archive  -o cmTC_1a9c9.exe -Wl,--out-implib,libcmTC_1a9c9.dll.a -Wl,--major-image-version,0,--minor-image-version,0 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=C:\mingw64_SEH_7.2.0\bin\gcc.exe]
+  ignore line: [COLLECT_LTO_WRAPPER=C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/lto-wrapper.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-7.2.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --with-sysroot=/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/c/mingw720/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/c/mingw720/prerequisites/x86_64-w64-mingw32-static --with-mpc=/c/mingw720/prerequisites/x86_64-w64-mingw32-static --with-isl=/c/mingw720/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh-rev0, Built by MinGW-W64 project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64/opt/include -I/c/mingw720/prerequisites/x86_64-zlib-static/include -I/c/mingw720/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64/opt/include -I/c/mingw720/prerequisites/x86_64-zlib-static/include -I/c/mingw720/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64/opt/include -I/c/mingw720/prerequisites/x86_64-zlib-static/include -I/c/mingw720/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/c/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64/opt/lib -L/c/mingw720/prerequisites/x86_64-zlib-static/lib -L/c/mingw720/prerequisites/x86_64-w64-mingw32-static/lib ']
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 7.2.0 (x86_64-posix-seh-rev0, Built by MinGW-W64 project) ]
+  ignore line: [COMPILER_PATH=C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/]
+  ignore line: [C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/]
+  ignore line: [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/]
+  ignore line: [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/]
+  ignore line: [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../lib/]
+  ignore line: [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_1a9c9.exe' '-mtune=core2' '-march=nocona']
+  link line: [ C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/collect2.exe -plugin C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/liblto_plugin-0.dll -plugin-opt=C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\Simon\AppData\Local\Temp\cc6HjEcU.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt --sysroot=C:/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64 -m i386pep -Bdynamic -o cmTC_1a9c9.exe C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/crtbegin.o -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0 -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../lib -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib -LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../.. --whole-archive CMakeFiles\cmTC_1a9c9.dir/objects.a --no-whole-archive --out-implib libcmTC_1a9c9.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/crtend.o]
+    arg [C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/collect2.exe] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/liblto_plugin-0.dll] ==> ignore
+    arg [-plugin-opt=C:/mingw64_SEH_7.2.0/bin/../libexec/gcc/x86_64-w64-mingw32/7.2.0/lto-wrapper.exe] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\Simon\AppData\Local\Temp\cc6HjEcU.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_eh] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-ladvapi32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lshell32] ==> ignore
+    arg [-plugin-opt=-pass-through=-luser32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-liconv] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_eh] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [--sysroot=C:/mingw720/x86_64-720-posix-seh-rt_v5-rev0/mingw64] ==> ignore
+    arg [-m] ==> ignore
+    arg [i386pep] ==> ignore
+    arg [-Bdynamic] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_1a9c9.exe] ==> ignore
+    arg [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> ignore
+    arg [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/crtbegin.o] ==> ignore
+    arg [-LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0] ==> dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0]
+    arg [-LC:/mingw64_SEH_7.2.0/bin/../lib/gcc] ==> dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc]
+    arg [-LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib]
+    arg [-LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../lib] ==> dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../lib]
+    arg [-LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib] ==> dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib]
+    arg [-LC:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../..] ==> dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../..]
+    arg [--whole-archive] ==> ignore
+    arg [CMakeFiles\cmTC_1a9c9.dir/objects.a] ==> ignore
+    arg [--no-whole-archive] ==> ignore
+    arg [--out-implib] ==> ignore
+    arg [libcmTC_1a9c9.dll.a] ==> ignore
+    arg [--major-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [--minor-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lgcc_eh] ==> lib [gcc_eh]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-ladvapi32] ==> lib [advapi32]
+    arg [-lshell32] ==> lib [shell32]
+    arg [-luser32] ==> lib [user32]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-liconv] ==> lib [iconv]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lgcc_eh] ==> lib [gcc_eh]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/crtend.o] ==> ignore
+  remove lib [gcc_eh]
+  remove lib [msvcrt]
+  remove lib [gcc_eh]
+  remove lib [msvcrt]
+  collapse library dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0] ==> [C:/mingw64_SEH_7.2.0/lib/gcc/x86_64-w64-mingw32/7.2.0]
+  collapse library dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc] ==> [C:/mingw64_SEH_7.2.0/lib/gcc]
+  collapse library dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> [C:/mingw64_SEH_7.2.0/x86_64-w64-mingw32/lib]
+  collapse library dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../lib] ==> [C:/mingw64_SEH_7.2.0/lib]
+  collapse library dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../../../x86_64-w64-mingw32/lib] ==> [C:/mingw64_SEH_7.2.0/x86_64-w64-mingw32/lib]
+  collapse library dir [C:/mingw64_SEH_7.2.0/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/../../..] ==> [C:/mingw64_SEH_7.2.0/lib]
+  implicit libs: [mingw32;gcc;moldname;mingwex;pthread;advapi32;shell32;user32;kernel32;iconv;mingw32;gcc;moldname;mingwex]
+  implicit dirs: [C:/mingw64_SEH_7.2.0/lib/gcc/x86_64-w64-mingw32/7.2.0;C:/mingw64_SEH_7.2.0/lib/gcc;C:/mingw64_SEH_7.2.0/x86_64-w64-mingw32/lib;C:/mingw64_SEH_7.2.0/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_c11b2/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_c11b2.dir\build.make CMakeFiles/cmTC_c11b2.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c11b2.dir/feature_tests.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe   -std=c11 -o CMakeFiles\cmTC_c11b2.dir\feature_tests.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\feature_tests.c
+Linking C executable cmTC_c11b2.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_c11b2.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_c11b2.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_c11b2.dir/objects.a @CMakeFiles\cmTC_c11b2.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe      -Wl,--whole-archive CMakeFiles\cmTC_c11b2.dir/objects.a -Wl,--no-whole-archive  -o cmTC_c11b2.exe -Wl,--out-implib,libcmTC_c11b2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_c11b2.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_05be0/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_05be0.dir\build.make CMakeFiles/cmTC_05be0.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_05be0.dir/feature_tests.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe   -std=c99 -o CMakeFiles\cmTC_05be0.dir\feature_tests.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\feature_tests.c
+Linking C executable cmTC_05be0.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_05be0.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_05be0.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_05be0.dir/objects.a @CMakeFiles\cmTC_05be0.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe      -Wl,--whole-archive CMakeFiles\cmTC_05be0.dir/objects.a -Wl,--no-whole-archive  -o cmTC_05be0.exe -Wl,--out-implib,libcmTC_05be0.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_05be0.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_2feb4/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_2feb4.dir\build.make CMakeFiles/cmTC_2feb4.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2feb4.dir/feature_tests.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe   -std=c90 -o CMakeFiles\cmTC_2feb4.dir\feature_tests.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\feature_tests.c
+Linking C executable cmTC_2feb4.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_2feb4.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_2feb4.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_2feb4.dir/objects.a @CMakeFiles\cmTC_2feb4.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe      -Wl,--whole-archive CMakeFiles\cmTC_2feb4.dir/objects.a -Wl,--no-whole-archive  -o cmTC_2feb4.exe -Wl,--out-implib,libcmTC_2feb4.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_2feb4.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_2dad1/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_2dad1.dir\build.make CMakeFiles/cmTC_2dad1.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2dad1.dir/CheckIncludeFile.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe    -o CMakeFiles\cmTC_2dad1.dir\CheckIncludeFile.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Linking C executable cmTC_2dad1.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_2dad1.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_2dad1.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_2dad1.dir/objects.a @CMakeFiles\cmTC_2dad1.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe      -Wl,--whole-archive CMakeFiles\cmTC_2dad1.dir/objects.a -Wl,--no-whole-archive  -o cmTC_2dad1.exe -Wl,--out-implib,libcmTC_2dad1.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_2dad1.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the pthread_create exist passed with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_2ba0a/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_2ba0a.dir\build.make CMakeFiles/cmTC_2ba0a.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2ba0a.dir/CheckSymbolExists.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe    -o CMakeFiles\cmTC_2ba0a.dir\CheckSymbolExists.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\CMakeTmp\CheckSymbolExists.c
+Linking C executable cmTC_2ba0a.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_2ba0a.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_2ba0a.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_2ba0a.dir/objects.a @CMakeFiles\cmTC_2ba0a.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe      -Wl,--whole-archive CMakeFiles\cmTC_2ba0a.dir/objects.a -Wl,--no-whole-archive  -o cmTC_2ba0a.exe -Wl,--out-implib,libcmTC_2ba0a.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_2ba0a.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+File C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the include file dinput.h exists passed with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_8e8d7/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_8e8d7.dir\build.make CMakeFiles/cmTC_8e8d7.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8e8d7.dir/CheckIncludeFile.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe    -o CMakeFiles\cmTC_8e8d7.dir\CheckIncludeFile.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Linking C executable cmTC_8e8d7.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_8e8d7.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_8e8d7.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_8e8d7.dir/objects.a @CMakeFiles\cmTC_8e8d7.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe      -Wl,--whole-archive CMakeFiles\cmTC_8e8d7.dir/objects.a -Wl,--no-whole-archive  -o cmTC_8e8d7.exe -Wl,--out-implib,libcmTC_8e8d7.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_8e8d7.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file xinput.h exists passed with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_dba7a/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_dba7a.dir\build.make CMakeFiles/cmTC_dba7a.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_dba7a.dir/CheckIncludeFile.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe    -o CMakeFiles\cmTC_dba7a.dir\CheckIncludeFile.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c
+Linking C executable cmTC_dba7a.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_dba7a.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_dba7a.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_dba7a.dir/objects.a @CMakeFiles\cmTC_dba7a.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe      -Wl,--whole-archive CMakeFiles\cmTC_dba7a.dir/objects.a -Wl,--no-whole-archive  -o cmTC_dba7a.exe -Wl,--out-implib,libcmTC_dba7a.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_dba7a.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+
+Performing C SOURCE FILE Test _GLFW_HAS_DEP succeeded with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_ba8ec/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_ba8ec.dir\build.make CMakeFiles/cmTC_ba8ec.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ba8ec.dir/src.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe   -D_GLFW_HAS_DEP -Wl,--nxcompat   -o CMakeFiles\cmTC_ba8ec.dir\src.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\CMakeTmp\src.c
+Linking C executable cmTC_ba8ec.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_ba8ec.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_ba8ec.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_ba8ec.dir/objects.a @CMakeFiles\cmTC_ba8ec.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe  -D_GLFW_HAS_DEP -Wl,--nxcompat    -Wl,--whole-archive CMakeFiles\cmTC_ba8ec.dir/objects.a -Wl,--no-whole-archive  -o cmTC_ba8ec.exe -Wl,--out-implib,libcmTC_ba8ec.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_ba8ec.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test _GLFW_HAS_ASLR succeeded with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_08003/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_08003.dir\build.make CMakeFiles/cmTC_08003.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_08003.dir/src.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe   -D_GLFW_HAS_ASLR -Wl,--dynamicbase   -o CMakeFiles\cmTC_08003.dir\src.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\CMakeTmp\src.c
+Linking C executable cmTC_08003.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_08003.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_08003.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_08003.dir/objects.a @CMakeFiles\cmTC_08003.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe  -D_GLFW_HAS_ASLR -Wl,--dynamicbase    -Wl,--whole-archive CMakeFiles\cmTC_08003.dir/objects.a -Wl,--no-whole-archive  -o cmTC_08003.exe -Wl,--out-implib,libcmTC_08003.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_08003.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test _GLFW_HAS_64ASLR succeeded with the following output:
+Change Dir: C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe" "cmTC_650bb/fast"
+C:/mingw64_SEH_7.2.0/bin/mingw32-make.exe -f CMakeFiles\cmTC_650bb.dir\build.make CMakeFiles/cmTC_650bb.dir/build
+mingw32-make.exe[1]: Entering directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_650bb.dir/src.c.obj
+C:\mingw64_SEH_7.2.0\bin\gcc.exe   -D_GLFW_HAS_64ASLR -Wl,--high-entropy-va   -o CMakeFiles\cmTC_650bb.dir\src.c.obj   -c C:\Users\Simon\Desktop\glfw-3.3.2\build\CMakeFiles\CMakeTmp\src.c
+Linking C executable cmTC_650bb.exe
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_650bb.dir\link.txt --verbose=1
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -E remove -f CMakeFiles\cmTC_650bb.dir/objects.a
+C:\mingw64_SEH_7.2.0\bin\ar.exe cr CMakeFiles\cmTC_650bb.dir/objects.a @CMakeFiles\cmTC_650bb.dir\objects1.rsp
+C:\mingw64_SEH_7.2.0\bin\gcc.exe  -D_GLFW_HAS_64ASLR -Wl,--high-entropy-va    -Wl,--whole-archive CMakeFiles\cmTC_650bb.dir/objects.a -Wl,--no-whole-archive  -o cmTC_650bb.exe -Wl,--out-implib,libcmTC_650bb.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_650bb.dir\linklibs.rsp
+mingw32-make.exe[1]: Leaving directory 'C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/CMakeTmp'
+
+Source file was:
+int main(void) { return 0; }

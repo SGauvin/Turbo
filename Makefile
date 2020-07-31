@@ -13,7 +13,7 @@ BIN_DIR := $(BIN_DIR_ROOT)
 INSTALL_DIR := ~/Desktop/$(EXEC)
 
 #libs
-GLFW_PATH=libs/GLFW
+GLFW_PATH=libs/GLFW/lib
 GLAD_PATH=libs/glad
 GLM_PATH=libs/glm
 FMT_PATH=libs/fmt

@@ -85,7 +85,7 @@ namespace Turbo
         m_mouseMovedEvent = false;
     }
 
-    void InputManager::onKeyboardEvent(const Keyboard::Event& event)
+    void InputManager::onKeyboardEvent(const Keyboard::KeyEvent& event)
     {
         if (static_cast<std::int16_t>(event.key) < 0 || event.key > Keyboard::Key::LastKey)
         {
@@ -127,13 +127,40 @@ namespace Turbo
         }
     }
 
-    void InputManager::onMouseMove(const glm::dvec2& mousePosition)
+    void InputManager::onMouseMoveEvent(const Mouse::MoveEvent& event)
     {
-        m_mousePosition = mousePosition;
+        m_mousePosition = event.mousePosition;
         m_mouseMovedEvent = true;
+
+        for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+        {
+            if ((*m_currentInputContextList)[i]->isEnabled)
+            {
+                bool isEventHandled = (*m_currentInputContextList)[i]->onMouseMoveEvent(event);
+                if (isEventHandled)
+                {
+                    break;
+                }
+            }
+        }
     }
 
-    void InputManager::onMouseButtonEvent(const Mouse::Event& event)
+    void InputManager::onMouseScrollEvent(const Mouse::ScrollEvent& event)
+    {
+        for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+        {
+            if ((*m_currentInputContextList)[i]->isEnabled)
+            {
+                bool isEventHandled = (*m_currentInputContextList)[i]->onMouseScrollEvent(event);
+                if (isEventHandled)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    void InputManager::onMouseButtonEvent(const Mouse::ButtonEvent& event)
     {
         if (m_currentInputContextList != nullptr)
         {

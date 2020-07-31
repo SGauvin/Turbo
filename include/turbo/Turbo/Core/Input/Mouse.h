@@ -38,12 +38,23 @@ namespace Turbo
             static constexpr std::uint8_t NumLock = 0x2;
         } // namespace Modifier
 
-        struct Event
+        struct ButtonEvent
         {
             Mouse::Button button;
             Mouse::Action action;
-            glm::dvec2 position;
+            glm::dvec2 mousePosition;
             std::uint8_t modifiers;
+        };
+
+        struct MoveEvent
+        {
+            glm::dvec2 mousePosition;
+            glm::dvec2 movement;
+        };
+
+        struct ScrollEvent
+        {
+            glm::dvec2 scrollDelta;
         };
     } // namespace Mouse
 } // namespace Turbo

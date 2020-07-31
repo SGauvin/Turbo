@@ -1,15 +1,16 @@
-build/imgui_draw.o: src/imgui_draw.cpp include/imgui.h include/imconfig.h \
- include/imgui_internal.h include/imstb_textedit.h \
- include/imstb_rectpack.h include/imstb_truetype.h
+build/imgui_draw.o: src/imgui_draw.cpp include/imgui/imgui.h \
+ include/imgui/imconfig.h include/imgui/imgui_internal.h \
+ include/imgui/imstb_textedit.h include/imgui/imstb_rectpack.h \
+ include/imgui/imstb_truetype.h
 
-include/imgui.h:
+include/imgui/imgui.h:
 
-include/imconfig.h:
+include/imgui/imconfig.h:
 
-include/imgui_internal.h:
+include/imgui/imgui_internal.h:
 
-include/imstb_textedit.h:
+include/imgui/imstb_textedit.h:
 
-include/imstb_rectpack.h:
+include/imgui/imstb_rectpack.h:
 
-include/imstb_truetype.h:
+include/imgui/imstb_truetype.h:

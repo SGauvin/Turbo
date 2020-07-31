@@ -190,6 +190,12 @@ namespace Turbo
                                      static_cast<Mouse::Action>(action),
                                      static_cast<std::uint8_t>(mods));
         });
+
+        // Mouse scroll
+        glfwSetScrollCallback(m_window, [](GLFWwindow* window, double offsetX, double offsetY) {
+            static_cast<Window*>(glfwGetWindowUserPointer(window))
+                ->onMouseScrollEvent({offsetX, offsetY});
+        });
     }
 
     void Window::onWindowResize(glm::uvec2 windowSize) { m_size = windowSize; }
@@ -199,7 +205,12 @@ namespace Turbo
         m_inputManager.onKeyboardEvent({key, action, mods});
     }
 
-    void Window::onMouseMove(glm::dvec2 mousePosition) { m_inputManager.onMouseMove(mousePosition); }
+    void Window::onMouseScrollEvent(const glm::dvec2& delta) { m_inputManager.onMouseScrollEvent({delta}); }
+
+    void Window::onMouseMove(const glm::dvec2& mousePosition)
+    {
+        m_inputManager.onMouseMoveEvent(Mouse::MoveEvent{mousePosition, mousePosition - m_inputManager.getMousePosition()});
+    }
 
     void Window::onMouseButtonEvent(Mouse::Button button, Mouse::Action action, std::uint8_t mods)
     {

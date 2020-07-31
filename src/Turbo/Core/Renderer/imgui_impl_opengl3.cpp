@@ -402,7 +402,7 @@ void ImGui_ImplOpenGL3_RenderDrawData(ImDrawData* draw_data)
                 {
                     // Apply scissor/clipping rectangle
                     glScissor((int)clip_rect.x,
-                              (int)(fb_height - static_cast<float>(clip_rect.w)),
+                              (int)(static_cast<float>(fb_height) - clip_rect.w),
                               (int)(clip_rect.z - clip_rect.x),
                               (int)(clip_rect.w - clip_rect.y));
 

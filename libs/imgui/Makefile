@@ -14,7 +14,7 @@ SRC_DIR = src
 SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 
 # Includes
-INCLUDE_DIR = include
+INCLUDE_DIR = include/imgui
 INCLUDES := -I$(INCLUDE_DIR)
 
 # C preprocessor settings

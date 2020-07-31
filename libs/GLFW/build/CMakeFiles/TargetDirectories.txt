@@ -1,0 +1,14 @@
+C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/install/strip.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/uninstall.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/install/local.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/install.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/edit_cache.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/rebuild_cache.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/CMakeFiles/list_install_components.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/src/CMakeFiles/rebuild_cache.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/src/CMakeFiles/glfw.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/src/CMakeFiles/install/local.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/src/CMakeFiles/install.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/src/CMakeFiles/edit_cache.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/src/CMakeFiles/list_install_components.dir
+C:/Users/Simon/Desktop/glfw-3.3.2/build/src/CMakeFiles/install/strip.dir

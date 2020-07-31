@@ -5,25 +5,25 @@ namespace Turbo
     template<typename F>
     void InputContext::bindKeyPressEvents(F callback)
     {
-        m_keyPressCallbacks.emplace_back(new Functor<bool, F, const Keyboard::Event&>(callback));
+        m_keyPressCallbacks.emplace_back(new Functor<bool, F, const Keyboard::KeyEvent&>(callback));
     }
 
     template<typename O, typename F>
     void InputContext::bindKeyPressEvents(O* object, F callback)
     {
-        m_keyPressCallbacks.emplace_back(new Method<bool, O, F, const Keyboard::Event&>(object, callback));
+        m_keyPressCallbacks.emplace_back(new Method<bool, O, F, const Keyboard::KeyEvent&>(object, callback));
     }
 
     template<typename F>
     void InputContext::bindKeyReleaseEvents(F callback)
     {
-        m_keyReleaseCallbacks.emplace_back(new Functor<bool, F, const Keyboard::Event&>(callback));
+        m_keyReleaseCallbacks.emplace_back(new Functor<bool, F, const Keyboard::KeyEvent&>(callback));
     }
 
     template<typename O, typename F>
     void InputContext::bindKeyReleaseEvents(O* object, F callback)
     {
-        m_keyReleaseCallbacks.emplace_back(new Method<bool, O, F, const Keyboard::Event&>(object, callback));
+        m_keyReleaseCallbacks.emplace_back(new Method<bool, O, F, const Keyboard::KeyEvent&>(object, callback));
     }
 
     template<typename F>
@@ -133,38 +133,50 @@ namespace Turbo
     }
 
     template<typename F>
-    void InputContext::bindMouseMoveEvent(F callback)
+    void InputContext::bindMouseMoveEvents(F callback)
     {
-        m_mouseMoveCallbacks.push_back(new Functor<bool, F, const glm::dvec2&>(callback));
+        m_mouseMoveCallbacks.emplace_back(new Functor<bool, F, const Mouse::MoveEvent&>(callback));
     }
 
     template<typename O, typename F>
-    void InputContext::bindMouseMoveEvent(O* object, F callback)
+    void InputContext::bindMouseMoveEvents(O* object, F callback)
     {
-        // m_mouseMoveCallbacks.emplace(new Method<bool, O, F, const glm::dvec2&>(object, callback));
+        m_mouseMoveCallbacks.emplace_back(new Method<bool, O, F, const Mouse::MoveEvent&>(object, callback));
+    }
+
+    template<typename F>
+    void InputContext::bindMouseScrollEvents(F callback)
+    {
+        m_mouseScrollCallbacks.emplace_back(new Functor<bool, F, const Mouse::ScrollEvent&>(callback));
+    }
+
+    template<typename O, typename F>
+    void InputContext::bindMouseScrollEvents(O* object, F callback)
+    {
+        m_mouseScrollCallbacks.emplace_back(new Method<bool, O, F, const Mouse::ScrollEvent&>(object, callback));
     }
 
     template<typename F>
     void InputContext::bindMousePressEvents(F callback)
     {
-        m_mousePressCallbacks.emplace_back(new Functor<bool, F, const Mouse::Event&>(callback));
+        m_mousePressCallbacks.emplace_back(new Functor<bool, F, const Mouse::ButtonEvent&>(callback));
     }
 
     template<typename O, typename F>
     void InputContext::bindMousePressEvents(O* object, F callback)
     {
-        m_mousePressCallbacks.emplace_back(new Method<bool, O, F, const Mouse::Event&>(object, callback));
+        m_mousePressCallbacks.emplace_back(new Method<bool, O, F, const Mouse::ButtonEvent&>(object, callback));
     }
 
     template<typename F>
     void InputContext::bindMouseReleaseEvents(F callback)
     {
-        m_mouseReleaseCallbacks.emplace_back(new Functor<bool, F, const Mouse::Event&>(callback));
+        m_mouseReleaseCallbacks.emplace_back(new Functor<bool, F, const Mouse::ButtonEvent&>(callback));
     }
 
     template<typename O, typename F>
     void InputContext::bindMouseReleaseEvents(O* object, F callback)
     {
-        m_mouseReleaseCallbacks.emplace_back(new Method<bool, O, F, const Mouse::Event&>(object, callback));
+        m_mouseReleaseCallbacks.emplace_back(new Method<bool, O, F, const Mouse::ButtonEvent&>(object, callback));
     }
 } // namespace Turbo

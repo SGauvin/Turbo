@@ -11,58 +11,53 @@
 #include <Turbo/Core/States/State.h>
 #include <Turbo/Core/Window.h>
 
-class Layer1 : public Turbo::Layer
-{
-public:
-    Layer1(Turbo::Application& application)
-        : Turbo::Layer(application)
-        , m_inputContext(m_inputManager.createInputContext())
-    {
-        m_inputContext->bindKeyToAction(this, &onKeyEscapePress, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
-    }
+// class Layer1 : public Turbo::Layer
+// {
+// public:
+//     Layer1(Turbo::Application& application)
+//         : Turbo::Layer(application)
+//         , m_inputContext(m_inputManager.createInputContext())
+//     {
+//         m_inputContext->bindKeyToAction(this, &onKeyEscapePress, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
+//     }
 
-    bool onKeyEscapePress()
-    {
-        TURBO_INFO("Layer1: Esc pressed.");
-        return true;
-    }
+//     bool onKeyEscapePress()
+//     {
+//         TURBO_INFO("Layer1: Esc pressed.");
+//         return true;
+//     }
 
-    void handleInput() override {}
-    void update() override {}
-    void draw(float lag = 1.0) override {}
+//     void handleInput() override {}
+//     void update() override {}
+//     void draw(float lag = 1.0) override {}
 
-private:
-    Turbo::InputContext* m_inputContext;
-};
+// private:
+//     Turbo::InputContext* m_inputContext;
+// };
 
-class Layer2 : public Turbo::Layer
-{
-public:
-    Layer2(Turbo::Application& application)
-        : Turbo::Layer(application)
-        , m_inputContext(m_inputManager.createInputContext())
-    {
-        m_inputContext->bindKeyToAction(this, &onKeyEscapePress, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
-    }
+// class Layer2 : public Turbo::Layer
+// {
+// public:
+//     Layer2(Turbo::Application& application)
+//         : Turbo::Layer(application)
+//         , m_inputContext(m_inputManager.createInputContext())
+//     {
+//         m_inputContext->bindKeyToAction(this, &onKeyEscapePress, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
+//     }
 
-    bool onKeyEscapePress()
-    {
-        TURBO_INFO("Layer2: Esc pressed.");
-        return true;
-    }
+//     bool onKeyEscapePress()
+//     {
+//         TURBO_INFO("Layer2: Esc pressed.");
+//         return true;
+//     }
 
-    void handleInput() override {}
-    void update() override {}
-    void draw(float lag = 1.0) override {}
+//     void handleInput() override {}
+//     void update() override {}
+//     void draw(float lag = 1.0) override {}
 
-private:
-    Turbo::InputContext* m_inputContext;
-};
-
-bool test(const glm::dvec2& ye)
-{
-    return true;
-}
+// private:
+//     Turbo::InputContext* m_inputContext;
+// };
 
 class TestState : public Turbo::State
 {
@@ -87,8 +82,6 @@ private:
             },
             Turbo::Keyboard::Key::Escape,
             Turbo::Keyboard::Action::Press);
-
-        inputContext->bindMouseMoveEvent(test);
 
         pushLayer(new Turbo::ImGuiLayer(m_application));
     }
