@@ -43,11 +43,13 @@ namespace Turbo
     private:
         void resetTemporaryState();
         void onKeyboardEvent(const Keyboard::KeyEvent& event);
+        void onTextEnterEvent(std::uint32_t character);
         void onMouseMoveEvent(const Mouse::MoveEvent& event);
         void onMouseScrollEvent(const Mouse::ScrollEvent& event);
         void onMouseButtonEvent(const Mouse::ButtonEvent& event);
 
         void onStateChange(const State* state);
+        void onStateRemove(const State* state);
 
         std::unordered_map<const State*, std::vector<InputContext*>> m_inputContextListMap{};
         std::vector<InputContext*>* m_currentInputContextList = nullptr;

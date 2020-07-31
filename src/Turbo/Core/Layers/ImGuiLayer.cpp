@@ -45,18 +45,51 @@ namespace Turbo
         m_inputContext->bindKeyPressEvents([](const Keyboard::KeyEvent& event) {
             ImGuiIO& io = ImGui::GetIO();
             io.KeysDown[static_cast<std::uint16_t>(event.key)] = true;
+
+            io.KeyCtrl = event.modifiers & Keyboard::Modifier::Control;
+            io.KeyAlt = event.modifiers & Keyboard::Modifier::Alt;
+            io.KeyShift = event.modifiers & Keyboard::Modifier::Shift;
+            io.KeySuper = event.modifiers & Keyboard::Modifier::Super;
+
             return false;
         });
 
         m_inputContext->bindKeyReleaseEvents([](const Keyboard::KeyEvent& event) {
             ImGuiIO& io = ImGui::GetIO();
             io.KeysDown[static_cast<std::uint16_t>(event.key)] = false;
+
+            io.KeyCtrl = event.modifiers & Keyboard::Modifier::Control;
+            io.KeyAlt = event.modifiers & Keyboard::Modifier::Alt;
+            io.KeyShift = event.modifiers & Keyboard::Modifier::Shift;
+            io.KeySuper = event.modifiers & Keyboard::Modifier::Super;
+
+            return false;
+        });
+
+        m_inputContext->bindTextEnterEvents([](std::uint32_t character) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.AddInputCharacter(character);
+            return false;
+        });
+
+        static std::uint8_t counter = 0;
+        static InputHandle handle = m_inputContext->bindMouseMoveEvents([](const Mouse::MoveEvent& event) {
+            TURBO_ENGINE_INFO("Counter: {}", ++counter);
+
+            static InputHandle handle2 = handle;
+
+            if (counter == 10)
+            {
+                handle.unbind();
+                handle2.unbind();
+            }
+            ImGuiIO& io = ImGui::GetIO();
+            io.MousePos = {static_cast<float>(event.mousePosition.x), static_cast<float>(event.mousePosition.y)};
             return false;
         });
 
         m_inputContext->bindMouseMoveEvents([](const Mouse::MoveEvent& event) {
-            ImGuiIO& io = ImGui::GetIO();
-            io.MousePos = {static_cast<float>(event.mousePosition.x), static_cast<float>(event.mousePosition.y)};
+            TURBO_ENGINE_INFO("x: {}, y: {}", event.mousePosition.x, event.mousePosition.y);
             return false;
         });
 
@@ -77,7 +110,7 @@ namespace Turbo
             io.MouseWheel += static_cast<float>(event.scrollDelta.y);
             io.MouseWheelH += static_cast<float>(event.scrollDelta.x);
             return false;
-        }); 
+        });
     }
 
     ImGuiLayer::~ImGuiLayer() {}
@@ -89,7 +122,7 @@ namespace Turbo
     void ImGuiLayer::draw(float lag)
     {
         ImGuiIO& io = ImGui::GetIO();
-        io.DeltaTime = 1.0f / 60.0f;
+        io.DeltaTime = 1.0f / 144.0f;
         io.DisplaySize = {static_cast<float>(m_window.getSize().x), static_cast<float>(m_window.getSize().y)};
 
         ImGui_ImplOpenGL3_NewFrame();

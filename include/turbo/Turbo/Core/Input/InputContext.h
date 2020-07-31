@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 #include "Turbo/Core/Callable.h"
+#include "Turbo/Core/Input/InputHandle.h"
 #include "Turbo/Core/Input/Keyboard.h"
 #include "Turbo/Core/Input/Mouse.h"
 #include "Turbo/Core/Log.h"
@@ -17,6 +18,7 @@ namespace Turbo
     {
     private:
         friend class InputManager;
+        friend class InputHandle;
 
     public:
         InputContext() = default;
@@ -43,6 +45,11 @@ namespace Turbo
         void bindKeyReleaseEvents(F callback);
         template<typename O, typename F>
         void bindKeyReleaseEvents(O* object, F callback);
+
+        template<typename F>
+        void bindTextEnterEvents(F callback);
+        template<typename O, typename F>
+        void bindTextEnterEvents(O* object, F callback);
 
         template<typename F>
         void bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
@@ -73,9 +80,9 @@ namespace Turbo
         // -- Mouse --
 
         template<typename F>
-        void bindMouseMoveEvents(F callback);
+        InputHandle bindMouseMoveEvents(F callback);
         template<typename O, typename F>
-        void bindMouseMoveEvents(O* object, F callback);
+        InputHandle bindMouseMoveEvents(O* object, F callback);
 
         template<typename F>
         void bindMouseScrollEvents(F callback);
@@ -95,12 +102,21 @@ namespace Turbo
         // --~Mouse --
 
     private:
+        // Current id counter
+        std::uint32_t m_currentId = 0;
+        std::vector<InputHandle> m_handlesToUnbind{};
+
+        void unbindOldHandles();
+        void unbind(InputHandle* handle);
+
         // -- Keyboard --
-        bool onKeyboardEvent(const Keyboard::KeyEvent& event) const;
+        bool onKeyboardEvent(const Keyboard::KeyEvent& event);
+        bool onTextEnterEvent(std::uint32_t character);
 
         // All events
         std::vector<std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>> m_keyPressCallbacks{};
         std::vector<std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>> m_keyReleaseCallbacks{};
+        std::vector<std::unique_ptr<Callable<bool, std::uint32_t>>> m_textEnterCallbacks{};
 
         // Action
         struct KeyboardActionEvent
@@ -234,7 +250,7 @@ namespace Turbo
         bool onMouseButtonEvent(const Mouse::ButtonEvent& event);
 
         // All events
-        std::vector<std::unique_ptr<Callable<bool, const Mouse::MoveEvent&>>> m_mouseMoveCallbacks{};
+        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::MoveEvent&>>>> m_mouseMoveCallbacks{};
         std::vector<std::unique_ptr<Callable<bool, const Mouse::ScrollEvent&>>> m_mouseScrollCallbacks{};
         std::vector<std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>> m_mousePressCallbacks{};
         std::vector<std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>> m_mouseReleaseCallbacks{};

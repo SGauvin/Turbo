@@ -127,6 +127,21 @@ namespace Turbo
         }
     }
 
+    void InputManager::onTextEnterEvent(std::uint32_t character)
+    {
+        for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+        {
+            if ((*m_currentInputContextList)[i]->isEnabled)
+            {
+                bool isEventHandled = (*m_currentInputContextList)[i]->onTextEnterEvent(character);
+                if (isEventHandled)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
     void InputManager::onMouseMoveEvent(const Mouse::MoveEvent& event)
     {
         m_mousePosition = event.mousePosition;
@@ -198,4 +213,24 @@ namespace Turbo
             m_currentInputContextList = &m_inputContextListMap[state];
         }
     }
+
+    void InputManager::onStateRemove(const State* state)
+    {
+        if (state == nullptr)
+        {
+            return;
+        }
+
+        auto it = m_inputContextListMap.find(state);
+        if (it != m_inputContextListMap.cend())
+        {
+            auto vec = it->second;
+            for (auto inputContext : vec)
+            {
+                delete inputContext;
+            }
+            m_inputContextListMap.erase(it);
+        }
+    }
+
 } // namespace Turbo

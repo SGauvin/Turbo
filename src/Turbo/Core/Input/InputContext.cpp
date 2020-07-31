@@ -4,7 +4,24 @@ namespace Turbo
 {
     InputContext::~InputContext() {}
 
-    bool InputContext::onKeyboardEvent(const Keyboard::KeyEvent& event) const
+    void InputContext::unbindOldHandles()
+    {
+        for (auto& handle : m_handlesToUnbind)
+        {
+            handle.removeFromVector();
+        }
+    }
+
+    void InputContext::unbind(InputHandle* handle)
+    {
+        if (handle == nullptr)
+        {
+            return;
+        }
+        m_handlesToUnbind.push_back(*handle);
+    }
+
+    bool InputContext::onKeyboardEvent(const Keyboard::KeyEvent& event)
     {
         bool isEventHandled = false;
 
@@ -75,6 +92,7 @@ namespace Turbo
                 {
                     rangeEvent.isDown = true;
                     isEventHandled = isEventHandled || (*rangeEvent.callable)(rangeEvent.direction == Direction::Negative ? -1 : 1);
+                    unbindOldHandles();
                 }
             }
             // Don't need modifiers for the release event : design choice
@@ -88,6 +106,19 @@ namespace Turbo
             }
         }
 
+        unbindOldHandles();
+        return isEventHandled;
+    }
+
+    bool InputContext::onTextEnterEvent(std::uint32_t character)
+    {
+        bool isEventHandled = false;
+        for (const auto& callback : m_textEnterCallbacks)
+        {
+            isEventHandled = isEventHandled || (*callback)(character);
+        }
+
+        unbindOldHandles();
         return isEventHandled;
     }
 
@@ -96,9 +127,10 @@ namespace Turbo
         bool isEventHandled = false;
         for (const auto& callback : m_mouseMoveCallbacks)
         {
-            isEventHandled = isEventHandled || (*callback)(event);
+            isEventHandled = isEventHandled || (*callback.second)(event);
         }
 
+        unbindOldHandles();
         return isEventHandled;
     }
 
@@ -109,6 +141,8 @@ namespace Turbo
         {
             isEventHandled = isEventHandled || (*callback)(event);
         }
+
+        unbindOldHandles();
         return isEventHandled;
     }
 
@@ -130,6 +164,7 @@ namespace Turbo
             }
         }
 
+        unbindOldHandles();
         return isEventHandled;
     }
 } // namespace Turbo

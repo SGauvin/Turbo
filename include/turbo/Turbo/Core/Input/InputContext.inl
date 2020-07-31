@@ -27,6 +27,18 @@ namespace Turbo
     }
 
     template<typename F>
+    void InputContext::bindTextEnterEvents(F callback)
+    {
+        m_textEnterCallbacks.emplace_back(new Functor<bool, F, std::uint32_t>(callback));
+    }
+
+    template<typename O, typename F>
+    void InputContext::bindTextEnterEvents(O* object, F callback)
+    {
+        m_textEnterCallbacks.emplace_back(new Method<bool, O, F, std::uint32_t>(object, callback));
+    }
+
+    template<typename F>
     void InputContext::bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers)
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
@@ -133,15 +145,17 @@ namespace Turbo
     }
 
     template<typename F>
-    void InputContext::bindMouseMoveEvents(F callback)
+    InputHandle InputContext::bindMouseMoveEvents(F callback)
     {
-        m_mouseMoveCallbacks.emplace_back(new Functor<bool, F, const Mouse::MoveEvent&>(callback));
+        m_mouseMoveCallbacks.emplace_back(std::pair(m_currentId, new Functor<bool, F, const Mouse::MoveEvent&>(callback)));
+        return InputHandle(m_mouseMoveCallbacks, *this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindMouseMoveEvents(O* object, F callback)
+    InputHandle InputContext::bindMouseMoveEvents(O* object, F callback)
     {
-        m_mouseMoveCallbacks.emplace_back(new Method<bool, O, F, const Mouse::MoveEvent&>(object, callback));
+        m_mouseMoveCallbacks.emplace_back(std::pair(m_currentId, new Method<bool, O, F, const Mouse::MoveEvent&>(object, callback)));
+        return InputHandle(m_mouseMoveCallbacks, *this, m_currentId++);
     }
 
     template<typename F>

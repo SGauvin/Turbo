@@ -11,53 +11,7 @@
 #include <Turbo/Core/States/State.h>
 #include <Turbo/Core/Window.h>
 
-// class Layer1 : public Turbo::Layer
-// {
-// public:
-//     Layer1(Turbo::Application& application)
-//         : Turbo::Layer(application)
-//         , m_inputContext(m_inputManager.createInputContext())
-//     {
-//         m_inputContext->bindKeyToAction(this, &onKeyEscapePress, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
-//     }
-
-//     bool onKeyEscapePress()
-//     {
-//         TURBO_INFO("Layer1: Esc pressed.");
-//         return true;
-//     }
-
-//     void handleInput() override {}
-//     void update() override {}
-//     void draw(float lag = 1.0) override {}
-
-// private:
-//     Turbo::InputContext* m_inputContext;
-// };
-
-// class Layer2 : public Turbo::Layer
-// {
-// public:
-//     Layer2(Turbo::Application& application)
-//         : Turbo::Layer(application)
-//         , m_inputContext(m_inputManager.createInputContext())
-//     {
-//         m_inputContext->bindKeyToAction(this, &onKeyEscapePress, Turbo::Keyboard::Key::Escape, Turbo::Keyboard::Action::Press);
-//     }
-
-//     bool onKeyEscapePress()
-//     {
-//         TURBO_INFO("Layer2: Esc pressed.");
-//         return true;
-//     }
-
-//     void handleInput() override {}
-//     void update() override {}
-//     void draw(float lag = 1.0) override {}
-
-// private:
-//     Turbo::InputContext* m_inputContext;
-// };
+// Avoir un handle de base les enfants unbind eux meme les coquins :)
 
 class TestState : public Turbo::State
 {
@@ -92,7 +46,7 @@ int main()
     Turbo::init();
 
     Turbo::InputManager inputManager;
-    Turbo::Window window({"Test", glm::vec2(1920, 1080), Turbo::Window::Mode::Bordered}, inputManager);
+    Turbo::Window window({"Test", glm::vec2(1280, 720), Turbo::Window::Mode::Bordered}, inputManager);
 
     Turbo::Application app(window, inputManager);
     app.push(new TestState(app));

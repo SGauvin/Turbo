@@ -46,6 +46,8 @@ namespace Turbo
             return;
         }
 
+        m_inputManager.onStateRemove(m_states.back());
+
         delete m_states.back();
         m_states.pop_back();
 

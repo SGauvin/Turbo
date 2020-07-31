@@ -43,7 +43,7 @@ LDFLAGS += -L$(FMT_PATH)/lib
 LDFLAGS += -L$(IMGUI_PATH)/lib
 
 # Libraries to link
-LDLIBS = -lglfw3 -lglad -lgdi32 -lpthread -lfmt -limgui
+LDLIBS = -lglfw3 -lglad -lpthread -lfmt -limgui
 
 # Target OS detection
 ifeq ($(OS),Windows_NT) # OS is a preexisting environment variable on Windows
@@ -79,8 +79,7 @@ ifeq ($(OS),windows)
 	# Add .exe extension to executable
 	EXEC := $(EXEC).exe
 
-	# Link everything statically on Windows (including libgcc and libstdc++)
-	# LDFLAGS += -static
+	LDLIBS += -lgdi32
 
 	# Disable console output on release builds
 	ifeq ($(release),1)

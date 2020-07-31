@@ -60,6 +60,7 @@ namespace Turbo
 
         void onWindowResize(glm::uvec2 windowSize);
         void onKeyEvent(Keyboard::Key key, std::int32_t scancode, Keyboard::Action action, std::uint8_t mods);
+        void onTextEnterEvent(std::uint32_t character);
         void onMouseMove(const glm::dvec2& mousePosition);
         void onMouseScrollEvent(const glm::dvec2& delta);
         void onMouseButtonEvent(Mouse::Button button, Mouse::Action action, std::uint8_t mods);

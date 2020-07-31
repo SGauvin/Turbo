@@ -168,7 +168,7 @@ namespace Turbo
             static_cast<Window*>(glfwGetWindowUserPointer(window))->onWindowResize({width, height});
         });
 
-        // Keyvboard
+        // Keyboard
         glfwSetKeyCallback(m_window,
                            [](GLFWwindow* window, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
                                static_cast<Window*>(glfwGetWindowUserPointer(window))
@@ -177,6 +177,10 @@ namespace Turbo
                                                 static_cast<Keyboard::Action>(action),
                                                 static_cast<std::uint8_t>(mods));
                            });
+
+        glfwSetCharCallback(m_window, [](GLFWwindow* window, std::uint32_t character) {
+            static_cast<Window*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character);
+        });
 
         // Cursor position
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
@@ -193,8 +197,7 @@ namespace Turbo
 
         // Mouse scroll
         glfwSetScrollCallback(m_window, [](GLFWwindow* window, double offsetX, double offsetY) {
-            static_cast<Window*>(glfwGetWindowUserPointer(window))
-                ->onMouseScrollEvent({offsetX, offsetY});
+            static_cast<Window*>(glfwGetWindowUserPointer(window))->onMouseScrollEvent({offsetX, offsetY});
         });
     }
 
@@ -204,6 +207,8 @@ namespace Turbo
     {
         m_inputManager.onKeyboardEvent({key, action, mods});
     }
+
+    void Window::onTextEnterEvent(std::uint32_t character) { m_inputManager.onTextEnterEvent(character); }
 
     void Window::onMouseScrollEvent(const glm::dvec2& delta) { m_inputManager.onMouseScrollEvent({delta}); }
 
