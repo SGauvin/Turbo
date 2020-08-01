@@ -46,20 +46,20 @@ private:
         };
 
         static auto bindAction = [](const Turbo::Keyboard::KeyEvent& event) {
-            TURBO_INFO("Bound to {}", event.key, 0);
+            TURBO_INFO("Bound to {}", event.key);
             inputHandleBind.unbind();
-            inputHandleAction = inputContext->bindKeyToAction(action, event.key, Turbo::Keyboard::Action::Press);
+            inputHandleAction = inputContext->bindKeyToAction(action, event.key, Turbo::Keyboard::Action::Press, event.modifiers);
             return true;
         };
 
         static auto unbindAction = []() {
             TURBO_INFO("Press a key to bind it to action!");
             inputHandleAction.unbind();
-            inputHandleBind = inputContext->bindKeyPressEvents(bindAction);
+            inputHandleBind = inputContext->bindKeyReleaseEvents(bindAction);
             return true;
         };
 
-        inputContext->bindKeyToAction(unbindAction, Turbo::Keyboard::Key::Insert, Turbo::Keyboard::Action::Press);
+        inputContext->bindKeyToAction(unbindAction, Turbo::Keyboard::Key::Insert, Turbo::Keyboard::Action::Release);
 
         pushLayer(new Turbo::ImGuiLayer(m_application));
     }
