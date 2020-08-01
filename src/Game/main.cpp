@@ -47,14 +47,14 @@ private:
 
         static auto bindAction = [](const Turbo::Keyboard::KeyEvent& event) {
             TURBO_INFO("Bound to {}", event.key, 0);
-            // inputHandleBind.unbind();
+            inputHandleBind.unbind();
             inputHandleAction = inputContext->bindKeyToAction(action, event.key, Turbo::Keyboard::Action::Press);
             return true;
         };
 
         static auto unbindAction = []() {
             TURBO_INFO("Press a key to bind it to action!");
-            // inputHandleAction.unbind();
+            inputHandleAction.unbind();
             inputHandleBind = inputContext->bindKeyPressEvents(bindAction);
             return true;
         };

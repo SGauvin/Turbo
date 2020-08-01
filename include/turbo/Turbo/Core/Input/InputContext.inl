@@ -52,7 +52,6 @@ namespace Turbo
             return InputHandle();
         }
         auto& vector = m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)];
-        auto a = vector.size();
         vector.emplace_back(std::pair(m_currentId, KeyboardActionEvent(new Functor<bool, F>(callback), action, modifiers)));
         return InputHandle(vector, this, m_currentId++);
     }
