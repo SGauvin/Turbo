@@ -24,7 +24,7 @@ BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: BeforeComma
 BreakInheritanceList: BeforeComma
 BreakStringLiterals: true
-ColumnLimit: 140
+ColumnLimit: 160
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
@@ -54,12 +54,12 @@ MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PenaltyBreakAssignment: 2
-PenaltyBreakBeforeFirstCallParameter: 500
+PenaltyBreakBeforeFirstCallParameter: 0
 PenaltyBreakComment: 100
 PenaltyBreakFirstLessLess: 120
 PenaltyBreakString: 2000
 PenaltyBreakTemplateDeclaration: 0
-PenaltyExcessCharacter: 500
+PenaltyExcessCharacter: 200
 PenaltyReturnTypeOnItsOwnLine: 1000
 PointerAlignment: Left
 ReflowComments: true

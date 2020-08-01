@@ -41,7 +41,7 @@ namespace Turbo
         // -- ~Mouse --
 
     private:
-        void resetTemporaryState();
+        void onPollEvents();
         void onKeyboardEvent(const Keyboard::KeyEvent& event);
         void onTextEnterEvent(std::uint32_t character);
         void onMouseMoveEvent(const Mouse::MoveEvent& event);

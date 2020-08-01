@@ -28,7 +28,7 @@ private:
 
     void onAttach() override
     {
-        auto* inputContext = m_inputManager.createInputContext();
+        static auto* inputContext = m_inputManager.createInputContext();
         inputContext->bindKeyToAction(
             [this]() {
                 m_window.close();
@@ -36,6 +36,30 @@ private:
             },
             Turbo::Keyboard::Key::Escape,
             Turbo::Keyboard::Action::Press);
+
+        static Turbo::InputHandle inputHandleAction;
+        static Turbo::InputHandle inputHandleBind;
+
+        static auto action = []() {
+            TURBO_INFO("Action!");
+            return true;
+        };
+
+        static auto bindAction = [](const Turbo::Keyboard::KeyEvent& event) {
+            TURBO_INFO("Bound to {}", event.key, 0);
+            // inputHandleBind.unbind();
+            inputHandleAction = inputContext->bindKeyToAction(action, event.key, Turbo::Keyboard::Action::Press);
+            return true;
+        };
+
+        static auto unbindAction = []() {
+            TURBO_INFO("Press a key to bind it to action!");
+            // inputHandleAction.unbind();
+            inputHandleBind = inputContext->bindKeyPressEvents(bindAction);
+            return true;
+        };
+
+        inputContext->bindKeyToAction(unbindAction, Turbo::Keyboard::Key::Insert, Turbo::Keyboard::Action::Press);
 
         pushLayer(new Turbo::ImGuiLayer(m_application));
     }

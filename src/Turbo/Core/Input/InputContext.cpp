@@ -30,34 +30,37 @@ namespace Turbo
         {
             for (const auto& callback : m_keyPressCallbacks)
             {
-                isEventHandled = isEventHandled || (*callback)(event);
+                bool callbackHandledEvent = (*callback.second)(event);
+                isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
         else if (event.action == Keyboard::Action::Release)
         {
             for (const auto& callback : m_keyReleaseCallbacks)
             {
-                isEventHandled = isEventHandled || (*callback)(event);
+                bool callbackHandledEvent = (*callback.second)(event);
+                isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
 
         // Actions
         for (const auto& actionEvent : m_keyboardActionCallbacks[static_cast<std::uint16_t>(event.key)])
         {
-            if (event.action == Keyboard::Action::Press && (actionEvent.modifiers & event.modifiers) == actionEvent.modifiers)
+            if (event.action == Keyboard::Action::Press && (actionEvent.second.modifiers & event.modifiers) == actionEvent.second.modifiers)
             {
-                actionEvent.isDown = true;
-                if (actionEvent.action == Keyboard::Action::Press)
+                actionEvent.second.isDown = true;
+                if (actionEvent.second.action == Keyboard::Action::Press)
                 {
-                    isEventHandled = isEventHandled || (*actionEvent.callable)();
+                    bool callbackHandledEvent = (*actionEvent.second.callable)();
+                    isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
             // Don't need modifiers for the release event : design choice
-            else if (event.action == Keyboard::Action::Release && actionEvent.action == Keyboard::Action::Release &&
-                     actionEvent.isDown == true)
+            else if (event.action == Keyboard::Action::Release && actionEvent.second.action == Keyboard::Action::Release && actionEvent.second.isDown == true)
             {
-                actionEvent.isDown = false;
-                isEventHandled = isEventHandled || (*actionEvent.callable)();
+                actionEvent.second.isDown = false;
+                bool callbackHandledEvent = (*actionEvent.second.callable)();
+                isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
 
@@ -66,19 +69,21 @@ namespace Turbo
         {
             if (event.action == Keyboard::Action::Press)
             {
-                if ((stateEvent.modifiers & event.modifiers) == stateEvent.modifiers)
+                if ((stateEvent.second.modifiers & event.modifiers) == stateEvent.second.modifiers)
                 {
-                    stateEvent.isDown = true;
-                    isEventHandled = isEventHandled || (*stateEvent.callable)(true);
+                    stateEvent.second.isDown = true;
+                    bool callbackHandledEvent = (*stateEvent.second.callable)(true);
+                    isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
             // Don't need modifiers for the release event : design choice
             else if (event.action == Keyboard::Action::Release)
             {
-                if (stateEvent.isDown == true)
+                if (stateEvent.second.isDown == true)
                 {
-                    stateEvent.isDown = false;
-                    isEventHandled = isEventHandled || (*stateEvent.callable)(false);
+                    stateEvent.second.isDown = false;
+                    bool callbackHandledEvent = (*stateEvent.second.callable)(false);
+                    isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
         }
@@ -88,25 +93,25 @@ namespace Turbo
         {
             if (event.action == Keyboard::Action::Press)
             {
-                if ((rangeEvent.modifiers & event.modifiers) == rangeEvent.modifiers)
+                if ((rangeEvent.second.modifiers & event.modifiers) == rangeEvent.second.modifiers)
                 {
-                    rangeEvent.isDown = true;
-                    isEventHandled = isEventHandled || (*rangeEvent.callable)(rangeEvent.direction == Direction::Negative ? -1 : 1);
-                    unbindOldHandles();
+                    rangeEvent.second.isDown = true;
+                    bool callbackHandledEvent = (*rangeEvent.second.callable)(rangeEvent.second.direction == Direction::Negative ? -1 : 1);
+                    isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
             // Don't need modifiers for the release event : design choice
             else if (event.action == Keyboard::Action::Release)
             {
-                if (rangeEvent.isDown == true)
+                if (rangeEvent.second.isDown == true)
                 {
-                    rangeEvent.isDown = false;
-                    isEventHandled = isEventHandled || (*rangeEvent.callable)(0);
+                    rangeEvent.second.isDown = false;
+                    bool callbackHandledEvent = (*rangeEvent.second.callable)(0);
+                    isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
         }
 
-        unbindOldHandles();
         return isEventHandled;
     }
 
@@ -115,10 +120,10 @@ namespace Turbo
         bool isEventHandled = false;
         for (const auto& callback : m_textEnterCallbacks)
         {
-            isEventHandled = isEventHandled || (*callback)(character);
+            bool callbackHandledEvent = (*callback.second)(character);
+            isEventHandled = isEventHandled || callbackHandledEvent;
         }
 
-        unbindOldHandles();
         return isEventHandled;
     }
 
@@ -127,10 +132,9 @@ namespace Turbo
         bool isEventHandled = false;
         for (const auto& callback : m_mouseMoveCallbacks)
         {
-            isEventHandled = isEventHandled || (*callback.second)(event);
+            bool callbackHandledEvent = (*callback.second)(event);
+            isEventHandled = isEventHandled || callbackHandledEvent;
         }
-
-        unbindOldHandles();
         return isEventHandled;
     }
 
@@ -139,10 +143,9 @@ namespace Turbo
         bool isEventHandled = false;
         for (const auto& callback : m_mouseScrollCallbacks)
         {
-            isEventHandled = isEventHandled || (*callback)(event);
+            bool callbackHandledEvent = (*callback.second)(event);
+            isEventHandled = isEventHandled || callbackHandledEvent;
         }
-
-        unbindOldHandles();
         return isEventHandled;
     }
 
@@ -153,18 +156,18 @@ namespace Turbo
         {
             for (const auto& callback : m_mousePressCallbacks)
             {
-                isEventHandled = isEventHandled || (*callback)(event);
+                bool callbackHandledEvent = (*callback.second)(event);
+                isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
         else if (event.action == Mouse::Action::Release)
         {
             for (const auto& callback : m_mouseReleaseCallbacks)
             {
-                isEventHandled = isEventHandled || (*callback)(event);
+                bool callbackHandledEvent = (*callback.second)(event);
+                isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
-
-        unbindOldHandles();
         return isEventHandled;
     }
 } // namespace Turbo

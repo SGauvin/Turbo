@@ -40,77 +40,62 @@ namespace Turbo
 
         ImGui_ImplOpenGL3_Init("#version 410");
 
-        m_inputContext = m_inputManager.createInputContext();
+        // m_inputContext = m_inputManager.createInputContext();
 
-        m_inputContext->bindKeyPressEvents([](const Keyboard::KeyEvent& event) {
-            ImGuiIO& io = ImGui::GetIO();
-            io.KeysDown[static_cast<std::uint16_t>(event.key)] = true;
+        // m_inputContext->bindKeyPressEvents([](const Keyboard::KeyEvent& event) {
+        //     ImGuiIO& io = ImGui::GetIO();
+        //     io.KeysDown[static_cast<std::uint16_t>(event.key)] = true;
 
-            io.KeyCtrl = event.modifiers & Keyboard::Modifier::Control;
-            io.KeyAlt = event.modifiers & Keyboard::Modifier::Alt;
-            io.KeyShift = event.modifiers & Keyboard::Modifier::Shift;
-            io.KeySuper = event.modifiers & Keyboard::Modifier::Super;
+        //     io.KeyCtrl = event.modifiers & Keyboard::Modifier::Control;
+        //     io.KeyAlt = event.modifiers & Keyboard::Modifier::Alt;
+        //     io.KeyShift = event.modifiers & Keyboard::Modifier::Shift;
+        //     io.KeySuper = event.modifiers & Keyboard::Modifier::Super;
 
-            return false;
-        });
+        //     return false;
+        // });
 
-        m_inputContext->bindKeyReleaseEvents([](const Keyboard::KeyEvent& event) {
-            ImGuiIO& io = ImGui::GetIO();
-            io.KeysDown[static_cast<std::uint16_t>(event.key)] = false;
+        // m_inputContext->bindKeyReleaseEvents([](const Keyboard::KeyEvent& event) {
+        //     ImGuiIO& io = ImGui::GetIO();
+        //     io.KeysDown[static_cast<std::uint16_t>(event.key)] = false;
 
-            io.KeyCtrl = event.modifiers & Keyboard::Modifier::Control;
-            io.KeyAlt = event.modifiers & Keyboard::Modifier::Alt;
-            io.KeyShift = event.modifiers & Keyboard::Modifier::Shift;
-            io.KeySuper = event.modifiers & Keyboard::Modifier::Super;
+        //     io.KeyCtrl = event.modifiers & Keyboard::Modifier::Control;
+        //     io.KeyAlt = event.modifiers & Keyboard::Modifier::Alt;
+        //     io.KeyShift = event.modifiers & Keyboard::Modifier::Shift;
+        //     io.KeySuper = event.modifiers & Keyboard::Modifier::Super;
 
-            return false;
-        });
+        //     return false;
+        // });
 
-        m_inputContext->bindTextEnterEvents([](std::uint32_t character) {
-            ImGuiIO& io = ImGui::GetIO();
-            io.AddInputCharacter(character);
-            return false;
-        });
+        // m_inputContext->bindTextEnterEvents([](std::uint32_t character) {
+        //     ImGuiIO& io = ImGui::GetIO();
+        //     io.AddInputCharacter(character);
+        //     return false;
+        // });
 
-        static std::uint8_t counter = 0;
-        static InputHandle handle = m_inputContext->bindMouseMoveEvents([](const Mouse::MoveEvent& event) {
-            TURBO_ENGINE_INFO("Counter: {}", ++counter);
+        // m_inputContext->bindMouseMoveEvents([](const Mouse::MoveEvent& event) {
+        //     ImGuiIO& io = ImGui::GetIO();
+        //     io.MousePos = {static_cast<float>(event.mousePosition.x), static_cast<float>(event.mousePosition.y)};
+        //     return false;
+        // });
 
-            static InputHandle handle2 = handle;
+        // m_inputContext->bindMousePressEvents([](const Mouse::ButtonEvent& event) {
+        //     ImGuiIO& io = ImGui::GetIO();
+        //     io.MouseDown[static_cast<std::uint8_t>(event.button)] = true;
+        //     return false;
+        // });
 
-            if (counter == 10)
-            {
-                handle.unbind();
-                handle2.unbind();
-            }
-            ImGuiIO& io = ImGui::GetIO();
-            io.MousePos = {static_cast<float>(event.mousePosition.x), static_cast<float>(event.mousePosition.y)};
-            return false;
-        });
+        // m_inputContext->bindMouseReleaseEvents([](const Mouse::ButtonEvent& event) {
+        //     ImGuiIO& io = ImGui::GetIO();
+        //     io.MouseDown[static_cast<std::uint8_t>(event.button)] = false;
+        //     return false;
+        // });
 
-        m_inputContext->bindMouseMoveEvents([](const Mouse::MoveEvent& event) {
-            TURBO_ENGINE_INFO("x: {}, y: {}", event.mousePosition.x, event.mousePosition.y);
-            return false;
-        });
-
-        m_inputContext->bindMousePressEvents([](const Mouse::ButtonEvent& event) {
-            ImGuiIO& io = ImGui::GetIO();
-            io.MouseDown[static_cast<std::uint8_t>(event.button)] = true;
-            return false;
-        });
-
-        m_inputContext->bindMouseReleaseEvents([](const Mouse::ButtonEvent& event) {
-            ImGuiIO& io = ImGui::GetIO();
-            io.MouseDown[static_cast<std::uint8_t>(event.button)] = false;
-            return false;
-        });
-
-        m_inputContext->bindMouseScrollEvents([](const Mouse::ScrollEvent& event) {
-            ImGuiIO& io = ImGui::GetIO();
-            io.MouseWheel += static_cast<float>(event.scrollDelta.y);
-            io.MouseWheelH += static_cast<float>(event.scrollDelta.x);
-            return false;
-        });
+        // m_inputContext->bindMouseScrollEvents([](const Mouse::ScrollEvent& event) {
+        //     ImGuiIO& io = ImGui::GetIO();
+        //     io.MouseWheel += static_cast<float>(event.scrollDelta.y);
+        //     io.MouseWheelH += static_cast<float>(event.scrollDelta.x);
+        //     return false;
+        // });
     }
 
     ImGuiLayer::~ImGuiLayer() {}

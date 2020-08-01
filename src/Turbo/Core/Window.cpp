@@ -105,7 +105,7 @@ namespace Turbo
 
     void Window::processEvents()
     {
-        m_inputManager.resetTemporaryState();
+        m_inputManager.onPollEvents();
         glfwPollEvents();
     }
 
@@ -169,18 +169,13 @@ namespace Turbo
         });
 
         // Keyboard
-        glfwSetKeyCallback(m_window,
-                           [](GLFWwindow* window, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
-                               static_cast<Window*>(glfwGetWindowUserPointer(window))
-                                   ->onKeyEvent(static_cast<Keyboard::Key>(key),
-                                                scancode,
-                                                static_cast<Keyboard::Action>(action),
-                                                static_cast<std::uint8_t>(mods));
-                           });
-
-        glfwSetCharCallback(m_window, [](GLFWwindow* window, std::uint32_t character) {
-            static_cast<Window*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character);
+        glfwSetKeyCallback(m_window, [](GLFWwindow* window, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
+            static_cast<Window*>(glfwGetWindowUserPointer(window))
+                ->onKeyEvent(static_cast<Keyboard::Key>(key), scancode, static_cast<Keyboard::Action>(action), static_cast<std::uint8_t>(mods));
         });
+
+        glfwSetCharCallback(
+            m_window, [](GLFWwindow* window, std::uint32_t character) { static_cast<Window*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character); });
 
         // Cursor position
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
@@ -190,9 +185,7 @@ namespace Turbo
         // Mouse buttons
         glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, std::int32_t button, std::int32_t action, std::int32_t mods) {
             static_cast<Window*>(glfwGetWindowUserPointer(window))
-                ->onMouseButtonEvent(static_cast<Mouse::Button>(button),
-                                     static_cast<Mouse::Action>(action),
-                                     static_cast<std::uint8_t>(mods));
+                ->onMouseButtonEvent(static_cast<Mouse::Button>(button), static_cast<Mouse::Action>(action), static_cast<std::uint8_t>(mods));
         });
 
         // Mouse scroll

@@ -153,8 +153,7 @@ bool ImGui_ImplOpenGL3_Init(const char* glsl_version)
     io.BackendRendererName = "imgui_impl_opengl3";
 #if IMGUI_IMPL_OPENGL_MAY_HAVE_VTX_OFFSET
     if (g_GlVersion >= 320)
-        io.BackendFlags |=
-            ImGuiBackendFlags_RendererHasVtxOffset; // We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.
+        io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset; // We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.
 #endif
 
         // Store GLSL version string so we can refer to it later in case we recreate shaders.
@@ -283,12 +282,7 @@ static void ImGui_ImplOpenGL3_SetupRenderState(ImDrawData* draw_data, int fb_wid
     glEnableVertexAttribArray(g_AttribLocationVtxColor);
     glVertexAttribPointer(g_AttribLocationVtxPos, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, pos));
     glVertexAttribPointer(g_AttribLocationVtxUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, uv));
-    glVertexAttribPointer(g_AttribLocationVtxColor,
-                          4,
-                          GL_UNSIGNED_BYTE,
-                          GL_TRUE,
-                          sizeof(ImDrawVert),
-                          (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
+    glVertexAttribPointer(g_AttribLocationVtxColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
 }
 
 // OpenGL3 Render function.
@@ -366,14 +360,9 @@ void ImGui_ImplOpenGL3_RenderDrawData(ImDrawData* draw_data)
         const ImDrawList* cmd_list = draw_data->CmdLists[n];
 
         // Upload vertex/index buffers
-        glBufferData(GL_ARRAY_BUFFER,
-                     (GLsizeiptr)cmd_list->VtxBuffer.Size * (int)sizeof(ImDrawVert),
-                     (const GLvoid*)cmd_list->VtxBuffer.Data,
-                     GL_STREAM_DRAW);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                     (GLsizeiptr)cmd_list->IdxBuffer.Size * (int)sizeof(ImDrawIdx),
-                     (const GLvoid*)cmd_list->IdxBuffer.Data,
-                     GL_STREAM_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * (int)sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
+        glBufferData(
+            GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * (int)sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 
         for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
         {
@@ -397,8 +386,7 @@ void ImGui_ImplOpenGL3_RenderDrawData(ImDrawData* draw_data)
                 clip_rect.z = (pcmd->ClipRect.z - clip_off.x) * clip_scale.x;
                 clip_rect.w = (pcmd->ClipRect.w - clip_off.y) * clip_scale.y;
 
-                if (clip_rect.x < static_cast<float>(fb_width) && clip_rect.y < static_cast<float>(fb_height) && clip_rect.z >= 0.0f &&
-                    clip_rect.w >= 0.0f)
+                if (clip_rect.x < static_cast<float>(fb_width) && clip_rect.y < static_cast<float>(fb_height) && clip_rect.z >= 0.0f && clip_rect.w >= 0.0f)
                 {
                     // Apply scissor/clipping rectangle
                     glScissor((int)clip_rect.x,

@@ -3,194 +3,173 @@
 namespace Turbo
 {
     template<typename F>
-    void InputContext::bindKeyPressEvents(F callback)
+    InputHandle InputContext::bindKeyPressEvents(F callback)
     {
-        m_keyPressCallbacks.emplace_back(new Functor<bool, F, const Keyboard::KeyEvent&>(callback));
+        m_keyPressCallbacks.emplace_back(std::pair(m_currentId, new Functor<bool, F, const Keyboard::KeyEvent&>(callback)));
+        return InputHandle(m_keyPressCallbacks, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindKeyPressEvents(O* object, F callback)
+    InputHandle InputContext::bindKeyPressEvents(O* object, F callback)
     {
-        m_keyPressCallbacks.emplace_back(new Method<bool, O, F, const Keyboard::KeyEvent&>(object, callback));
+        m_keyPressCallbacks.emplace_back(std::pair(m_currentId, new Method<bool, O, F, const Keyboard::KeyEvent&>(object, callback)));
+        return InputHandle(m_keyPressCallbacks, this, m_currentId++);
     }
 
     template<typename F>
-    void InputContext::bindKeyReleaseEvents(F callback)
+    InputHandle InputContext::bindKeyReleaseEvents(F callback)
     {
-        m_keyReleaseCallbacks.emplace_back(new Functor<bool, F, const Keyboard::KeyEvent&>(callback));
+        m_keyReleaseCallbacks.emplace_back(std::pair(m_currentId, new Functor<bool, F, const Keyboard::KeyEvent&>(callback)));
+        return InputHandle(m_keyReleaseCallbacks, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindKeyReleaseEvents(O* object, F callback)
+    InputHandle InputContext::bindKeyReleaseEvents(O* object, F callback)
     {
-        m_keyReleaseCallbacks.emplace_back(new Method<bool, O, F, const Keyboard::KeyEvent&>(object, callback));
+        m_keyReleaseCallbacks.emplace_back(std::pair(m_currentId, new Method<bool, O, F, const Keyboard::KeyEvent&>(object, callback)));
+        return InputHandle(m_keyReleaseCallbacks, this, m_currentId++);
     }
 
     template<typename F>
-    void InputContext::bindTextEnterEvents(F callback)
+    InputHandle InputContext::bindTextEnterEvents(F callback)
     {
-        m_textEnterCallbacks.emplace_back(new Functor<bool, F, std::uint32_t>(callback));
+        m_textEnterCallbacks.emplace_back(std::pair(m_currentId, new Functor<bool, F, std::uint32_t>(callback)));
+        return InputHandle(m_textEnterCallbacks, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindTextEnterEvents(O* object, F callback)
+    InputHandle InputContext::bindTextEnterEvents(O* object, F callback)
     {
-        m_textEnterCallbacks.emplace_back(new Method<bool, O, F, std::uint32_t>(object, callback));
+        m_textEnterCallbacks.emplace_back(std::pair(m_currentId, new Method<bool, O, F, std::uint32_t>(object, callback)));
+        return InputHandle(m_textEnterCallbacks, this, m_currentId++);
     }
 
     template<typename F>
-    void InputContext::bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers)
+    InputHandle InputContext::bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers)
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
         {
-            return;
+            return InputHandle();
         }
-        m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<bool, F>(callback), action, modifiers);
+        auto& vector = m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)];
+        auto a = vector.size();
+        vector.emplace_back(std::pair(m_currentId, KeyboardActionEvent(new Functor<bool, F>(callback), action, modifiers)));
+        return InputHandle(vector, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers)
+    InputHandle InputContext::bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers)
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
         {
-            return;
+            return InputHandle();
         }
-        m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<bool, O, F>(object, callback),
-                                                                                action,
-                                                                                modifiers);
+        auto& vector = m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)];
+        vector.emplace_back(std::pair(m_currentId, KeyboardActionEvent(new Method<bool, O, F>(object, callback), action, modifiers)));
+        return InputHandle(vector, this, m_currentId++);
     }
 
     template<typename F>
-    void InputContext::bindKeyToState(F callback, Keyboard::Key key, std::uint8_t modifiers)
+    InputHandle InputContext::bindKeyToState(F callback, Keyboard::Key key, std::uint8_t modifiers)
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
         {
-            return;
+            return InputHandle();
         }
-        auto test = new (std::nothrow) Functor<bool, F, bool>(callback);
-        m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)].emplace_back(test, modifiers);
+        auto& vector = m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)];
+        vector.emplace_back(std::pair(m_currentId, KeyboardStateEvent(new Functor<bool, F, bool>(callback), modifiers)));
+        return InputHandle(vector, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindKeyToState(O* object, F callback, Keyboard::Key key, std::uint8_t modifiers)
+    InputHandle InputContext::bindKeyToState(O* object, F callback, Keyboard::Key key, std::uint8_t modifiers)
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
         {
-            return;
+            return InputHandle();
         }
-        m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<bool, O, F, bool>(object, callback), modifiers);
+        auto& vector = m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)];
+        vector.emplace_back(std::pair(m_currentId, KeyboardStateEvent(new Method<bool, O, F, bool>(object, callback), modifiers)));
+        return InputHandle(vector, this, m_currentId++);
     }
 
     template<typename F>
-    void InputContext::bindKeyToRange(F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers)
+    InputHandle InputContext::bindKeyToRange(F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers)
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
         {
-            return;
+            return InputHandle();
         }
-        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Functor<bool, F, float>(callback),
-                                                                                             direction,
-                                                                                             modifiers);
+        auto& vector = m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)];
+        vector.emplace_back(std::pair(m_currentId, KeyboardRangeEvent(new Functor<bool, F, float>(callback), direction, modifiers)));
+        return InputHandle(vector, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindKeyToRange(O* object, F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers)
+    InputHandle InputContext::bindKeyToRange(O* object, F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers)
     {
         if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
         {
-            return;
+            return InputHandle();
         }
-        m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)].emplace_back(new Method<bool, O, F, float>(object,
-                                                                                                                           callback),
-                                                                                             direction,
-                                                                                             modifiers);
-    }
-
-    template<typename F>
-    void InputContext::bindKeysToRange(F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers)
-    {
-        if (static_cast<std::int16_t>(positiveKey) < 0 || positiveKey > Keyboard::Key::LastKey ||
-            static_cast<std::int16_t>(negativeKey) < 0 || negativeKey > Keyboard::Key::LastKey)
-        {
-            return;
-        }
-        m_keyboardBidirectionalRangeCallbacks.emplace_back(new Functor<bool, F, float>(callback));
-        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
-                       &KeyboardBidirectionalRangeEvent::onPositiveKeyStateChange,
-                       positiveKey,
-                       modifiers);
-        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
-                       &KeyboardBidirectionalRangeEvent::onNegativeKeyStateChange,
-                       negativeKey,
-                       modifiers);
-    }
-
-    template<typename O, typename F>
-    void InputContext::bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers)
-    {
-        if (static_cast<std::int16_t>(positiveKey) < 0 || positiveKey > Keyboard::Key::LastKey ||
-            static_cast<std::int16_t>(negativeKey) < 0 || negativeKey > Keyboard::Key::LastKey)
-        {
-            return;
-        }
-        m_keyboardBidirectionalRangeCallbacks.emplace_back(new Method<bool, O, F, float>(object, callback));
-        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
-                       &KeyboardBidirectionalRangeEvent::onPositiveKeyStateChange,
-                       positiveKey,
-                       modifiers);
-        bindKeyToState(&m_keyboardBidirectionalRangeCallbacks.back(),
-                       &KeyboardBidirectionalRangeEvent::onNegativeKeyStateChange,
-                       negativeKey,
-                       modifiers);
+        auto& vector = m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)];
+        vector.emplace_back(std::pair(m_currentId, KeyboardRangeEvent(new Method<bool, O, F, float>(object, callback), direction, modifiers)));
+        return InputHandle(vector, this, m_currentId++);
     }
 
     template<typename F>
     InputHandle InputContext::bindMouseMoveEvents(F callback)
     {
         m_mouseMoveCallbacks.emplace_back(std::pair(m_currentId, new Functor<bool, F, const Mouse::MoveEvent&>(callback)));
-        return InputHandle(m_mouseMoveCallbacks, *this, m_currentId++);
+        return InputHandle(m_mouseMoveCallbacks, this, m_currentId++);
     }
 
     template<typename O, typename F>
     InputHandle InputContext::bindMouseMoveEvents(O* object, F callback)
     {
         m_mouseMoveCallbacks.emplace_back(std::pair(m_currentId, new Method<bool, O, F, const Mouse::MoveEvent&>(object, callback)));
-        return InputHandle(m_mouseMoveCallbacks, *this, m_currentId++);
+        return InputHandle(m_mouseMoveCallbacks, this, m_currentId++);
     }
 
     template<typename F>
-    void InputContext::bindMouseScrollEvents(F callback)
+    InputHandle InputContext::bindMouseScrollEvents(F callback)
     {
-        m_mouseScrollCallbacks.emplace_back(new Functor<bool, F, const Mouse::ScrollEvent&>(callback));
+        m_mouseScrollCallbacks.emplace_back(std::pair(m_currentId, new Functor<bool, F, const Mouse::ScrollEvent&>(callback)));
+        return InputHandle(m_mouseScrollCallbacks, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindMouseScrollEvents(O* object, F callback)
+    InputHandle InputContext::bindMouseScrollEvents(O* object, F callback)
     {
-        m_mouseScrollCallbacks.emplace_back(new Method<bool, O, F, const Mouse::ScrollEvent&>(object, callback));
+        m_mouseScrollCallbacks.emplace_back(std::pair(m_currentId, new Method<bool, O, F, const Mouse::ScrollEvent&>(object, callback)));
+        return InputHandle(m_mouseScrollCallbacks, this, m_currentId++);
     }
 
     template<typename F>
-    void InputContext::bindMousePressEvents(F callback)
+    InputHandle InputContext::bindMousePressEvents(F callback)
     {
-        m_mousePressCallbacks.emplace_back(new Functor<bool, F, const Mouse::ButtonEvent&>(callback));
+        m_mousePressCallbacks.emplace_back(std::pair(m_currentId, new Functor<bool, F, const Mouse::ButtonEvent&>(callback)));
+        return InputHandle(m_mousePressCallbacks, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindMousePressEvents(O* object, F callback)
+    InputHandle InputContext::bindMousePressEvents(O* object, F callback)
     {
-        m_mousePressCallbacks.emplace_back(new Method<bool, O, F, const Mouse::ButtonEvent&>(object, callback));
+        m_mousePressCallbacks.emplace_back(std::pair(m_currentId, new Method<bool, O, F, const Mouse::ButtonEvent&>(object, callback)));
+        return InputHandle(m_mousePressCallbacks, this, m_currentId++);
     }
 
     template<typename F>
-    void InputContext::bindMouseReleaseEvents(F callback)
+    InputHandle InputContext::bindMouseReleaseEvents(F callback)
     {
-        m_mouseReleaseCallbacks.emplace_back(new Functor<bool, F, const Mouse::ButtonEvent&>(callback));
+        m_mouseReleaseCallbacks.emplace_back(std::pair(m_currentId, new Functor<bool, F, const Mouse::ButtonEvent&>(callback)));
+        return InputHandle(m_mouseReleaseCallbacks, this, m_currentId++);
     }
 
     template<typename O, typename F>
-    void InputContext::bindMouseReleaseEvents(O* object, F callback)
+    InputHandle InputContext::bindMouseReleaseEvents(O* object, F callback)
     {
-        m_mouseReleaseCallbacks.emplace_back(new Method<bool, O, F, const Mouse::ButtonEvent&>(object, callback));
+        m_mouseReleaseCallbacks.emplace_back(std::pair(m_currentId, new Method<bool, O, F, const Mouse::ButtonEvent&>(object, callback)));
+        return InputHandle(m_mouseReleaseCallbacks, this, m_currentId++);
     }
 } // namespace Turbo

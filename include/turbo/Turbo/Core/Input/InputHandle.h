@@ -1,9 +1,11 @@
 #ifndef INCLUDED_TURBO_INPUTHANDLE_H
 #define INCLUDED_TURBO_INPUTHANDLE_H
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <algorithm>
+#include <string>
+#include "Turbo/Core/Log.h"
 
 namespace Turbo
 {
@@ -16,6 +18,9 @@ namespace Turbo
 
         class InputHandleHolder
         {
+        private:
+            friend class InputHandle;
+
         public:
             InputHandleHolder(std::uint32_t id)
                 : m_id(id)
@@ -62,9 +67,16 @@ namespace Turbo
         };
 
     public:
+        InputHandle()
+            : m_inputContext(nullptr)
+            , m_isBound(false)
+        {
+        }
+
         template<typename T>
-        InputHandle(T& vector, InputContext& inputContext, std::uint32_t id)
+        InputHandle(T& vector, InputContext* inputContext, std::uint32_t id)
             : m_inputContext(inputContext)
+            , m_isBound(true)
         {
             static_assert(sizeof(InputHandleVector<T>) <= s_maxSize);
             new (m_buffer) InputHandleVector<T>(vector, id);
@@ -72,6 +84,7 @@ namespace Turbo
 
         InputHandle(const InputHandle& other)
             : m_inputContext(other.m_inputContext)
+            , m_isBound(true)
         {
             if (this == &other)
             {
@@ -82,16 +95,83 @@ namespace Turbo
             {
                 m_buffer[i] = other.m_buffer[i];
             }
+
+            m_isBound = other.m_isBound;
         }
 
-        ~InputHandle() { reinterpret_cast<InputHandleHolder*>(m_buffer)->~InputHandleHolder(); }
+        InputHandle& operator=(const InputHandle& other)
+        {
+            if (this == &other)
+            {
+                return *this;
+            }
+
+            if (reinterpret_cast<const InputHandleHolder*>(m_buffer)->m_id != reinterpret_cast<const InputHandleHolder*>(other.m_buffer)->m_id &&
+                m_isBound == true)
+            {
+                TURBO_WARNING("Warning, InputHandle should be unbound before bound to another input.");
+            }
+
+            m_inputContext = other.m_inputContext;
+
+            for (std::size_t i = 0; i < s_maxSize; i++)
+            {
+                m_buffer[i] = other.m_buffer[i];
+            }
+
+            m_isBound = other.m_isBound;
+            return *this;
+        }
+
+        InputHandle(const InputHandle&& other)
+        {
+            m_inputContext = other.m_inputContext;
+
+            for (std::size_t i = 0; i < s_maxSize; i++)
+            {
+                m_buffer[i] = other.m_buffer[i];
+            }
+
+            m_isBound = other.m_isBound;
+        }
+
+        InputHandle& operator=(const InputHandle&& other)
+        {
+            m_inputContext = other.m_inputContext;
+
+            if (reinterpret_cast<const InputHandleHolder*>(m_buffer)->m_id != reinterpret_cast<const InputHandleHolder*>(other.m_buffer)->m_id &&
+                m_isBound == true)
+            {
+                TURBO_WARNING("Warning, InputHandle should be unbound before bound to another input.");
+            }
+
+            for (std::size_t i = 0; i < s_maxSize; i++)
+            {
+                m_buffer[i] = other.m_buffer[i];
+            }
+
+            m_isBound = other.m_isBound;
+            return *this;
+        }
+
+        ~InputHandle()
+        {
+            if (m_inputContext != nullptr)
+            {
+                reinterpret_cast<InputHandleHolder*>(m_buffer)->~InputHandleHolder();
+            }
+        }
 
         void unbind();
+        bool isBound() { return m_isBound; }
+
+        std::string a = "";
 
     protected:
         const static std::uint8_t s_maxSize = 24;
         std::byte m_buffer[s_maxSize];
-        InputContext& m_inputContext;
+        InputContext* m_inputContext = nullptr;
+        bool m_isBound = false;
 
     private:
         void removeFromVector() { reinterpret_cast<InputHandleHolder*>(m_buffer)->unbind(); }

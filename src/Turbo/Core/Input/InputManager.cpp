@@ -76,8 +76,18 @@ namespace Turbo
 
     const glm::dvec2& InputManager::getMousePosition() const { return m_mousePosition; }
 
-    void InputManager::resetTemporaryState()
+    void InputManager::onPollEvents()
     {
+        if (m_currentInputContextList != nullptr)
+        {
+            for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+            {
+                if ((*m_currentInputContextList)[i]->isEnabled)
+                {
+                    (*m_currentInputContextList)[i]->unbindOldHandles();
+                }
+            }
+        }
         std::fill(m_keyboardPressedKeys.begin(), m_keyboardPressedKeys.end(), false);
         std::fill(m_keyboardReleasedKeys.begin(), m_keyboardReleasedKeys.end(), false);
         m_detectedKeyPressedEvent = false;

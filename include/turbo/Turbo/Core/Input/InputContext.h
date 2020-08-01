@@ -37,43 +37,40 @@ namespace Turbo
         // -- Keyboard --
 
         template<typename F>
-        void bindKeyPressEvents(F callback);
+        InputHandle bindKeyPressEvents(F callback);
         template<typename O, typename F>
-        void bindKeyPressEvents(O* object, F callback);
+        InputHandle bindKeyPressEvents(O* object, F callback);
 
         template<typename F>
-        void bindKeyReleaseEvents(F callback);
+        InputHandle bindKeyReleaseEvents(F callback);
         template<typename O, typename F>
-        void bindKeyReleaseEvents(O* object, F callback);
+        InputHandle bindKeyReleaseEvents(O* object, F callback);
 
         template<typename F>
-        void bindTextEnterEvents(F callback);
+        InputHandle bindTextEnterEvents(F callback);
         template<typename O, typename F>
-        void bindTextEnterEvents(O* object, F callback);
+        InputHandle bindTextEnterEvents(O* object, F callback);
 
         template<typename F>
-        void bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
         template<typename O, typename F>
-        void bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action,
-                             std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
 
         template<typename F>
-        void bindKeyToState(F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToState(F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
         template<typename O, typename F>
-        void bindKeyToState(O* object, F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToState(O* object, F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
 
         template<typename F>
-        void bindKeyToRange(F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToRange(F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
         template<typename O, typename F>
-        void bindKeyToRange(O* object, F callback, Keyboard::Key key, Direction direction,
-                            std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToRange(O* object, F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
 
         template<typename F>
-        void bindKeysToRange(F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey,
-                             std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeysToRange(F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers = Keyboard::Modifier::None);
         template<typename O, typename F>
-        void bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey,
-                             std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey,
+                                    std::uint8_t modifiers = Keyboard::Modifier::None);
 
         // -- ~Keyboard --
 
@@ -85,19 +82,19 @@ namespace Turbo
         InputHandle bindMouseMoveEvents(O* object, F callback);
 
         template<typename F>
-        void bindMouseScrollEvents(F callback);
+        InputHandle bindMouseScrollEvents(F callback);
         template<typename O, typename F>
-        void bindMouseScrollEvents(O* object, F callback);
+        InputHandle bindMouseScrollEvents(O* object, F callback);
 
         template<typename F>
-        void bindMousePressEvents(F callback);
+        InputHandle bindMousePressEvents(F callback);
         template<typename O, typename F>
-        void bindMousePressEvents(O* object, F callback);
+        InputHandle bindMousePressEvents(O* object, F callback);
 
         template<typename F>
-        void bindMouseReleaseEvents(F callback);
+        InputHandle bindMouseReleaseEvents(F callback);
         template<typename O, typename F>
-        void bindMouseReleaseEvents(O* object, F callback);
+        InputHandle bindMouseReleaseEvents(O* object, F callback);
 
         // --~Mouse --
 
@@ -114,9 +111,9 @@ namespace Turbo
         bool onTextEnterEvent(std::uint32_t character);
 
         // All events
-        std::vector<std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>> m_keyPressCallbacks{};
-        std::vector<std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>> m_keyReleaseCallbacks{};
-        std::vector<std::unique_ptr<Callable<bool, std::uint32_t>>> m_textEnterCallbacks{};
+        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>>> m_keyPressCallbacks{};
+        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>>> m_keyReleaseCallbacks{};
+        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, std::uint32_t>>>> m_textEnterCallbacks{};
 
         // Action
         struct KeyboardActionEvent
@@ -133,18 +130,25 @@ namespace Turbo
             {
             }
 
-            KeyboardActionEvent(const KeyboardActionEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardActionEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardActionEvent& other) = delete;
-
             KeyboardActionEvent(const KeyboardActionEvent& other)
                 : callable(other.callable->clone())
                 , action(other.action)
                 , modifiers(other.modifiers)
             {
             }
+
+            const KeyboardActionEvent& operator=(const KeyboardActionEvent& other)
+            {
+                callable.reset(other.callable->clone());
+                action = other.action;
+                modifiers = other.modifiers;
+                return *this;
+            }
+
+            KeyboardActionEvent(const KeyboardActionEvent&& other) = delete;
+            const KeyboardActionEvent& operator=(const KeyboardActionEvent&& other) = delete;
         };
-        std::array<std::vector<KeyboardActionEvent>, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardActionCallbacks{};
+        std::array<std::vector<std::pair<std::uint32_t, KeyboardActionEvent>>, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardActionCallbacks{};
 
         // State
         struct KeyboardStateEvent
@@ -159,17 +163,23 @@ namespace Turbo
             {
             }
 
-            KeyboardStateEvent(const KeyboardStateEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other) = delete;
-
             KeyboardStateEvent(const KeyboardStateEvent& other)
                 : callable(other.callable->clone())
                 , modifiers(other.modifiers)
             {
             }
+
+            const KeyboardStateEvent& operator=(const KeyboardStateEvent& other)
+            {
+                callable.reset(other.callable->clone());
+                modifiers = other.modifiers;
+                return *this;
+            }
+
+            KeyboardStateEvent(const KeyboardStateEvent&& other) = delete;
+            const KeyboardStateEvent& operator=(const KeyboardStateEvent&& other) = delete;
         };
-        std::array<std::vector<KeyboardStateEvent>, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardStateCallbacks{};
+        std::array<std::vector<std::pair<std::uint32_t, KeyboardStateEvent>>, static_cast<int>(Keyboard::Key::LastKey) + 1> m_keyboardStateCallbacks{};
 
         // Unidirectional range
         struct KeyboardUnidirectionalRangeEvent
@@ -186,60 +196,26 @@ namespace Turbo
             {
             }
 
-            KeyboardUnidirectionalRangeEvent(const KeyboardUnidirectionalRangeEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other) = delete;
-
             KeyboardUnidirectionalRangeEvent(const KeyboardUnidirectionalRangeEvent& other)
                 : callable(other.callable->clone())
                 , direction(other.direction)
                 , modifiers(other.modifiers)
             {
             }
+
+            const KeyboardUnidirectionalRangeEvent& operator=(const KeyboardUnidirectionalRangeEvent& other)
+            {
+                callable.reset(other.callable->clone());
+                direction = other.direction;
+                modifiers = other.modifiers;
+                return *this;
+            }
+
+            KeyboardUnidirectionalRangeEvent(const KeyboardUnidirectionalRangeEvent&& other) = delete;
+            const KeyboardUnidirectionalRangeEvent& operator=(const KeyboardUnidirectionalRangeEvent&& other) = delete;
         };
-        std::array<std::vector<KeyboardUnidirectionalRangeEvent>, static_cast<int>(Keyboard::Key::LastKey) + 1>
+        std::array<std::vector<std::pair<std::uint32_t, KeyboardUnidirectionalRangeEvent>>, static_cast<int>(Keyboard::Key::LastKey) + 1>
             m_keyboardUnidirectionalRangeCallbacks{};
-
-        // Bidirectional range
-        struct KeyboardBidirectionalRangeEvent
-        {
-            std::unique_ptr<Turbo::Callable<bool, float>> callable;
-            bool positiveKeyState = false;
-            bool negativeKeyState = false;
-
-            KeyboardBidirectionalRangeEvent(Turbo::Callable<bool, float>* callable)
-                : callable(callable)
-            {
-            }
-
-            KeyboardBidirectionalRangeEvent(const KeyboardBidirectionalRangeEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent&& other) = delete;
-            const KeyboardActionEvent& operator=(const KeyboardStateEvent& other) = delete;
-
-            KeyboardBidirectionalRangeEvent(const KeyboardBidirectionalRangeEvent& other)
-                : callable(other.callable->clone())
-            {
-            }
-
-            bool onPositiveKeyStateChange(bool state)
-            {
-                positiveKeyState = state;
-                return onKeyStateChange();
-            }
-
-            bool onNegativeKeyStateChange(bool state)
-            {
-                negativeKeyState = state;
-                return onKeyStateChange();
-            }
-
-            bool onKeyStateChange()
-            {
-                float direction = positiveKeyState == negativeKeyState ? 0 : (positiveKeyState ? 1 : -1);
-                return (*callable)(direction);
-            }
-        };
-        std::vector<KeyboardBidirectionalRangeEvent> m_keyboardBidirectionalRangeCallbacks{};
 
         // -- ~Keyboard --
 
@@ -251,9 +227,9 @@ namespace Turbo
 
         // All events
         std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::MoveEvent&>>>> m_mouseMoveCallbacks{};
-        std::vector<std::unique_ptr<Callable<bool, const Mouse::ScrollEvent&>>> m_mouseScrollCallbacks{};
-        std::vector<std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>> m_mousePressCallbacks{};
-        std::vector<std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>> m_mouseReleaseCallbacks{};
+        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::ScrollEvent&>>>> m_mouseScrollCallbacks{};
+        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>>> m_mousePressCallbacks{};
+        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>>> m_mouseReleaseCallbacks{};
     };
 } // namespace Turbo
 
