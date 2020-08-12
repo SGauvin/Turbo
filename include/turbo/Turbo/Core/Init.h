@@ -2,7 +2,7 @@
 #define INCLUDED_TURBO_INIT_H
 
 #include "Turbo/Core/Log.h"
-#include "Turbo/Core/Window.h"
+#include "Turbo/Core/Window/Window.h"
 
 namespace Turbo
 {

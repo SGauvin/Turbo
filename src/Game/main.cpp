@@ -9,9 +9,27 @@
 #include <Turbo/Core/Layers/ImGuiLayer.h>
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/States/State.h>
-#include <Turbo/Core/Window.h>
+#include <Turbo/Core/Window/Window.h>
 
-// Avoir un handle de base les enfants unbind eux meme les coquins :)
+class TriangleLayer : public Turbo::Layer
+{
+public:
+    TriangleLayer(Turbo::Application& application, float a)
+        : Layer(application)
+        , a(a)
+    {}
+
+    virtual void onAttach() {}
+    virtual void onDetach() {}
+    
+    virtual void handleInput() {}
+    virtual void update() {}
+    virtual void draw(float lag = 1.0)
+    {
+    }
+
+    float a;
+};
 
 class TestState : public Turbo::State
 {
@@ -60,7 +78,7 @@ private:
         };
 
         inputContext->bindKeyToAction(unbindAction, Turbo::Keyboard::Key::Insert, Turbo::Keyboard::Action::Release);
-
+        pushLayer(new TriangleLayer(m_application, 1.0f));
         pushLayer(new Turbo::ImGuiLayer(m_application));
     }
 };
@@ -70,7 +88,7 @@ int main()
     Turbo::init();
 
     Turbo::InputManager inputManager;
-    Turbo::Window window({"Test", glm::vec2(1280, 720), Turbo::Window::Mode::Bordered}, inputManager);
+    Turbo::Window window({"Turbo", glm::vec2(1280, 720), Turbo::Window::Mode::Bordered}, inputManager);
 
     Turbo::Application app(window, inputManager);
     app.push(new TestState(app));

@@ -18,15 +18,20 @@ namespace Turbo
         }
     }
 
-    void State::pushLayer(Layer* layer) { m_layers.push_back(layer); }
+    void State::pushLayer(Layer* layer)
+    {
+        m_layers.push_back(layer);
+        layer->onAttach();
+    }
 
     void State::removeLayer(Layer* layer)
     {
         auto it = std::find(m_layers.cbegin(), m_layers.cend(), layer);
         if (it != m_layers.cend())
         {
-            delete *it;
             m_layers.erase(it);
+            layer->onDetach();
+            delete *it;
         }
     }
 

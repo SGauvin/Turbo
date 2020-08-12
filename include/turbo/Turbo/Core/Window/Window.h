@@ -5,6 +5,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "Turbo/Core/Input/InputManager.h"
+#include "Turbo/Core/Renderer/GraphicsContext.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo
 {
@@ -46,6 +48,7 @@ namespace Turbo
         Mode getMode() const { return m_mode; }
         bool isOpen() const;
         bool isRawMouseAvailable() const;
+        GLFWwindow* getWindow() const { return m_window; }
 
         // Setters
         void setIsVSyncEnabled(bool isVsynEnabled);
@@ -66,6 +69,7 @@ namespace Turbo
         void onMouseButtonEvent(Mouse::Button button, Mouse::Action action, std::uint8_t mods);
 
         GLFWwindow* m_window = nullptr;
+        GraphicsContext m_context;
         InputManager& m_inputManager;
 
         // Attributes
@@ -78,6 +82,7 @@ namespace Turbo
         bool m_isRawMouseEnabled = false;
         bool m_shouldClose = false;
     };
+
 } // namespace Turbo
 
 #endif // INCLUDED_TURBO_WINDOW_H

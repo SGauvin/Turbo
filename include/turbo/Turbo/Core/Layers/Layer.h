@@ -11,6 +11,9 @@ namespace Turbo
         Layer(Application& application);
         virtual ~Layer() {}
 
+        virtual void onAttach() = 0;
+        virtual void onDetach() = 0;
+        
         virtual void handleInput() = 0;
         virtual void update() = 0;
         virtual void draw(float lag = 1.0) = 0;

@@ -12,6 +12,9 @@ namespace Turbo
         ImGuiLayer(Application& application);
         ~ImGuiLayer();
 
+        void onAttach() override;
+        void onDetach() override;
+
         void handleInput() override;
         void update() override;
         void draw(float lag = 1.0) override;

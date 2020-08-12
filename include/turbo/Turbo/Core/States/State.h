@@ -4,7 +4,7 @@
 #include "Turbo/Core/Application.h"
 #include "Turbo/Core/Input/InputManager.h"
 #include "Turbo/Core/Layers/Layer.h"
-#include "Turbo/Core/Window.h"
+#include "Turbo/Core/Window/Window.h"
 
 namespace Turbo
 {
@@ -25,14 +25,13 @@ namespace Turbo
         Application& m_application;
         InputManager& m_inputManager;
         Window& m_window;
+        std::vector<Layer*> m_layers;
 
     private:
         virtual void handleInput() = 0;
         virtual void update() = 0;
         virtual void draw(float lag = 1.0) = 0;
         virtual void onAttach() = 0;
-
-        std::vector<Layer*> m_layers;
     };
 } // namespace Turbo
 

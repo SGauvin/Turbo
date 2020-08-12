@@ -3,7 +3,7 @@
 // ~ Glad
 
 #include "Turbo/Core/Log.h"
-#include "Turbo/Core/Window.h"
+#include "Turbo/Core/Window/Window.h"
 
 namespace
 {
@@ -30,13 +30,13 @@ namespace Turbo
     Window::~Window()
     {
         destroy();
-        glfwTerminate();
     }
 
     void Window::create(const Attributes& windowAttributes)
     {
         destroy();
 
+        glfwInit();
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 
         if (windowAttributes.mode == Mode::Bordered)
@@ -94,6 +94,7 @@ namespace Turbo
         }
         glfwDestroyWindow(m_window);
         m_window = nullptr;
+        glfwTerminate();
         TURBO_ENGINE_INFO("Window terminated");
     }
 
@@ -109,7 +110,7 @@ namespace Turbo
         glfwPollEvents();
     }
 
-    void Window::init() { glfwInit(); }
+    void Window::init() { }
 
     bool Window::isOpen() const { return !glfwWindowShouldClose(m_window) && !m_shouldClose; }
 
