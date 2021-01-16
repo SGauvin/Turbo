@@ -1,6 +1,6 @@
 #include "Turbo/Core/Layers/ImGuiLayer.h"
 #include "Turbo/Core/Log.h"
-#include "Turbo/Core/Renderer/imgui_impl_opengl3.h"
+#include "Turbo/Core/Renderer/OpenGL/imgui_impl_opengl3.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 
@@ -48,7 +48,7 @@ namespace Turbo
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         ImGuiIO& io = ImGui::GetIO();
-        io.DisplaySize = {m_window.getSize().x, m_window.getSize().y};
+        io.DisplaySize = {static_cast<float>(m_window.getSize().x), static_cast<float>(m_window.getSize().y)};
         io.DeltaTime = (1.0f / 60.0f);
 
         if (io.ConfigFlags | ImGuiConfigFlags_ViewportsEnable)

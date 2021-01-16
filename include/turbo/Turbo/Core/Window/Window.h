@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "Turbo/Core/Input/InputManager.h"
-#include "Turbo/Core/Renderer/OpenGLContext.h"
+#include "Turbo/Core/Renderer/OpenGL/OpenGLContext.h"
 
 namespace Turbo
 {

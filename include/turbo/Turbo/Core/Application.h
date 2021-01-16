@@ -5,6 +5,7 @@
 #include <numeric>
 #include <vector>
 #include "Turbo/Core/Window/Window.h"
+#include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
 
 namespace Turbo
 {
@@ -27,6 +28,7 @@ namespace Turbo
     private:
         Window& m_window;
         InputManager& m_inputManager;
+        OpenGLShader m_shader;
 
         std::vector<State*> m_states;
 
