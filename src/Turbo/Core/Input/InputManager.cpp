@@ -21,9 +21,8 @@ namespace Turbo
             TURBO_ENGINE_ERROR("Cannot create InputContext since there is no valid state.");
             return nullptr;
         }
-        InputContext* inputContext = new InputContext();
-        m_currentInputContextList->emplace_back(inputContext);
-        return inputContext;
+        m_currentInputContextList->emplace_back(new InputContext());
+        return m_currentInputContextList->back();
     }
 
     void InputManager::removeInputContext(const InputContext* inputContext)
@@ -235,6 +234,11 @@ namespace Turbo
         if (it != m_inputContextListMap.cend())
         {
             auto vec = it->second;
+            if (&vec == m_currentInputContextList)
+            {
+                m_currentInputContextList = nullptr;
+            }
+
             for (auto inputContext : vec)
             {
                 delete inputContext;

@@ -1,9 +1,5 @@
-// Include glad before Window.h
-#include <glad/glad.h>
-// ~ Glad
-
-#include "Turbo/Core/Log.h"
 #include "Turbo/Core/Window/Window.h"
+#include "Turbo/Core/Log.h"
 
 namespace
 {
@@ -27,10 +23,7 @@ namespace Turbo
         setIsRawMouseEnabled(m_isRawMouseEnabled);
     }
 
-    Window::~Window()
-    {
-        destroy();
-    }
+    Window::~Window() { destroy(); }
 
     void Window::create(const Attributes& windowAttributes)
     {
@@ -67,17 +60,10 @@ namespace Turbo
             TURBO_ENGINE_INFO("Window created");
         }
 
-        glfwMakeContextCurrent(m_window);
-
-        std::int32_t gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        if (gladStatus == 0)
-        {
-            TURBO_ENGINE_ERROR("Error loading OpenGL functions with glad");
-        }
+        m_context = std::make_unique<OpenGLContext>(m_window);
+        m_context->init();
 
         setIsVSyncEnabled(m_isVsyncEnabled);
-
-        glViewport(0, 0, windowAttributes.size.x, windowAttributes.size.y);
 
         setCallbacks();
 
@@ -100,9 +86,7 @@ namespace Turbo
 
     void Window::close() { m_shouldClose = true; }
 
-    void Window::clear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); }
-
-    void Window::swapBuffers() { glfwSwapBuffers(m_window); }
+    void Window::swapBuffers() { m_context->swapBuffers(); }
 
     void Window::processEvents()
     {
@@ -110,7 +94,7 @@ namespace Turbo
         glfwPollEvents();
     }
 
-    void Window::init() { }
+    void Window::init() {}
 
     bool Window::isOpen() const { return !glfwWindowShouldClose(m_window) && !m_shouldClose; }
 

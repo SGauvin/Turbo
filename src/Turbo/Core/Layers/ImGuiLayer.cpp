@@ -22,10 +22,7 @@ namespace Turbo
 
     ImGuiLayer::~ImGuiLayer() {}
 
-    void ImGuiLayer::onAttach()
-    {
-
-    }
+    void ImGuiLayer::onAttach() {}
 
     void ImGuiLayer::onDetach()
     {
@@ -51,7 +48,7 @@ namespace Turbo
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         ImGuiIO& io = ImGui::GetIO();
-        io.DisplaySize = { m_window.getSize().x, m_window.getSize().y };
+        io.DisplaySize = {m_window.getSize().x, m_window.getSize().y};
         io.DeltaTime = (1.0f / 60.0f);
 
         if (io.ConfigFlags | ImGuiConfigFlags_ViewportsEnable)

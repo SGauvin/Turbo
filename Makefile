@@ -32,8 +32,8 @@ CPPFLAGS := -MMD -MP -DGLFW_INCLUDE_NONE $(INCLUDES)
 
 # C++ compiler settings
 CXX = g++
-CXXFLAGS = -std=c++17
-WARNINGS = -Wall -Wpedantic -Wextra -Wconversion -Wno-unused-parameter -Wno-unused-value
+CXXFLAGS = -std=c++2a
+WARNINGS = -Wall -Wpedantic -Wextra -Wno-unused-parameter -Wno-unused-value
 
 # Linker flags
 LDFLAGS =

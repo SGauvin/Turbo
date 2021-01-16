@@ -1,12 +1,11 @@
 #ifndef INCLUDED_TURBO_WINDOW_H
 #define INCLUDED_TURBO_WINDOW_H
 
-#include <cstdint>
+#include <memory>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "Turbo/Core/Input/InputManager.h"
-#include "Turbo/Core/Renderer/GraphicsContext.h"
-#include "Turbo/Core/Renderer/RenderingApi.h"
+#include "Turbo/Core/Renderer/OpenGLContext.h"
 
 namespace Turbo
 {
@@ -38,7 +37,6 @@ namespace Turbo
         void create(const Attributes& windowAttributes);
         void destroy();
         void close();
-        void clear();
         void swapBuffers();
 
         void processEvents();
@@ -69,8 +67,8 @@ namespace Turbo
         void onMouseButtonEvent(Mouse::Button button, Mouse::Action action, std::uint8_t mods);
 
         GLFWwindow* m_window = nullptr;
-        GraphicsContext m_context;
         InputManager& m_inputManager;
+        std::unique_ptr<OpenGLContext> m_context;
 
         // Attributes
         glm::uvec2 m_size = {0, 0};

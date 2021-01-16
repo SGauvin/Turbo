@@ -17,16 +17,15 @@ public:
     TriangleLayer(Turbo::Application& application, float a)
         : Layer(application)
         , a(a)
-    {}
+    {
+    }
 
     virtual void onAttach() {}
     virtual void onDetach() {}
-    
+
     virtual void handleInput() {}
     virtual void update() {}
-    virtual void draw(float lag = 1.0)
-    {
-    }
+    virtual void draw(float lag = 1.0) {}
 
     float a;
 };
@@ -64,7 +63,7 @@ private:
         };
 
         static auto bindAction = [](const Turbo::Keyboard::KeyEvent& event) {
-            TURBO_INFO("Bound to {}", event.key);
+            TURBO_INFO("Bound to {}", static_cast<char>(event.key));
             inputHandleBind.unbind();
             inputHandleAction = inputContext->bindKeyToAction(action, event.key, Turbo::Keyboard::Action::Press, event.modifiers);
             return true;

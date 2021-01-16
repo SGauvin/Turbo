@@ -30,6 +30,10 @@ namespace Turbo
 
         std::vector<State*> m_states;
 
+        std::uint32_t m_vertexArray;
+        std::uint32_t m_vertexBuffer;
+        std::uint32_t m_indexBuffer;
+
         std::chrono::duration<double> m_timePerUpdate = std::chrono::nanoseconds(1000000000 / 60);
         std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(1000000000 / 200000);
         std::chrono::duration<double> m_updateLag{0};
