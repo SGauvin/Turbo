@@ -10,7 +10,6 @@
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/States/State.h>
 #include <Turbo/Core/Window/Window.h>
-
 #include <fmt/color.h>
 #include <fmt/core.h>
 

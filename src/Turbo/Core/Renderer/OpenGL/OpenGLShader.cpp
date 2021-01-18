@@ -1,7 +1,7 @@
 #include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
-#include "Turbo/Core/Log.h"
-#include <glad/glad.h>
 #include <vector>
+#include <glad/glad.h>
+#include "Turbo/Core/Log.h"
 
 OpenGLShader::OpenGLShader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
 {

@@ -4,8 +4,10 @@
 #include <chrono>
 #include <numeric>
 #include <vector>
-#include "Turbo/Core/Window/Window.h"
 #include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
+#include "Turbo/Core/Window/Window.h"
+#include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
+#include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
 
 namespace Turbo
 {
@@ -32,9 +34,10 @@ namespace Turbo
 
         std::vector<State*> m_states;
 
+        std::unique_ptr<VertexBuffer> m_vertexBuffer;
+        std::unique_ptr<IndexBuffer> m_indexBuffer;
+
         std::uint32_t m_vertexArray;
-        std::uint32_t m_vertexBuffer;
-        std::uint32_t m_indexBuffer;
 
         std::chrono::duration<double> m_timePerUpdate = std::chrono::nanoseconds(1000000000 / 60);
         std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(1000000000 / 200000);
