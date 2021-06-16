@@ -30,7 +30,7 @@ namespace Turbo
         {
             for (const auto& callback : m_keyPressCallbacks)
             {
-                bool callbackHandledEvent = (*callback.second)(event);
+                bool callbackHandledEvent = (callback.second)(event);
                 isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
@@ -38,7 +38,7 @@ namespace Turbo
         {
             for (const auto& callback : m_keyReleaseCallbacks)
             {
-                bool callbackHandledEvent = (*callback.second)(event);
+                bool callbackHandledEvent = (callback.second)(event);
                 isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
@@ -51,7 +51,7 @@ namespace Turbo
                 actionEvent.second.isDown = true;
                 if (actionEvent.second.action == Keyboard::Action::Press)
                 {
-                    bool callbackHandledEvent = (*actionEvent.second.callable)();
+                    bool callbackHandledEvent = (actionEvent.second.callable)();
                     isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
@@ -59,7 +59,7 @@ namespace Turbo
             else if (event.action == Keyboard::Action::Release && actionEvent.second.action == Keyboard::Action::Release && actionEvent.second.isDown == true)
             {
                 actionEvent.second.isDown = false;
-                bool callbackHandledEvent = (*actionEvent.second.callable)();
+                bool callbackHandledEvent = (actionEvent.second.callable)();
                 isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
@@ -72,7 +72,7 @@ namespace Turbo
                 if ((stateEvent.second.modifiers & event.modifiers) == stateEvent.second.modifiers)
                 {
                     stateEvent.second.isDown = true;
-                    bool callbackHandledEvent = (*stateEvent.second.callable)(true);
+                    bool callbackHandledEvent = (stateEvent.second.callable)(true);
                     isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
@@ -82,7 +82,7 @@ namespace Turbo
                 if (stateEvent.second.isDown == true)
                 {
                     stateEvent.second.isDown = false;
-                    bool callbackHandledEvent = (*stateEvent.second.callable)(false);
+                    bool callbackHandledEvent = (stateEvent.second.callable)(false);
                     isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
@@ -96,7 +96,7 @@ namespace Turbo
                 if ((rangeEvent.second.modifiers & event.modifiers) == rangeEvent.second.modifiers)
                 {
                     rangeEvent.second.isDown = true;
-                    bool callbackHandledEvent = (*rangeEvent.second.callable)(rangeEvent.second.direction == Direction::Negative ? -1 : 1);
+                    bool callbackHandledEvent = (rangeEvent.second.callable)(rangeEvent.second.direction == Direction::Negative ? -1 : 1);
                     isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
@@ -106,7 +106,7 @@ namespace Turbo
                 if (rangeEvent.second.isDown == true)
                 {
                     rangeEvent.second.isDown = false;
-                    bool callbackHandledEvent = (*rangeEvent.second.callable)(0);
+                    bool callbackHandledEvent = (rangeEvent.second.callable)(0);
                     isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
@@ -120,7 +120,7 @@ namespace Turbo
         bool isEventHandled = false;
         for (const auto& callback : m_textEnterCallbacks)
         {
-            bool callbackHandledEvent = (*callback.second)(character);
+            bool callbackHandledEvent = (callback.second)(character);
             isEventHandled = isEventHandled || callbackHandledEvent;
         }
 
@@ -132,7 +132,7 @@ namespace Turbo
         bool isEventHandled = false;
         for (const auto& callback : m_mouseMoveCallbacks)
         {
-            bool callbackHandledEvent = (*callback.second)(event);
+            bool callbackHandledEvent = (callback.second)(event);
             isEventHandled = isEventHandled || callbackHandledEvent;
         }
         return isEventHandled;
@@ -143,7 +143,7 @@ namespace Turbo
         bool isEventHandled = false;
         for (const auto& callback : m_mouseScrollCallbacks)
         {
-            bool callbackHandledEvent = (*callback.second)(event);
+            bool callbackHandledEvent = (callback.second)(event);
             isEventHandled = isEventHandled || callbackHandledEvent;
         }
         return isEventHandled;
@@ -156,7 +156,7 @@ namespace Turbo
         {
             for (const auto& callback : m_mousePressCallbacks)
             {
-                bool callbackHandledEvent = (*callback.second)(event);
+                bool callbackHandledEvent = (callback.second)(event);
                 isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }
@@ -164,7 +164,7 @@ namespace Turbo
         {
             for (const auto& callback : m_mouseReleaseCallbacks)
             {
-                bool callbackHandledEvent = (*callback.second)(event);
+                bool callbackHandledEvent = (callback.second)(event);
                 isEventHandled = isEventHandled || callbackHandledEvent;
             }
         }

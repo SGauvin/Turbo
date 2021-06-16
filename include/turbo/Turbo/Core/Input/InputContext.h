@@ -6,7 +6,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
-#include "Turbo/Core/Callable.h"
+#include "Turbo/Core/Callback.h"
 #include "Turbo/Core/Input/InputHandle.h"
 #include "Turbo/Core/Input/Keyboard.h"
 #include "Turbo/Core/Input/Mouse.h"
@@ -111,19 +111,19 @@ namespace Turbo
         bool onTextEnterEvent(std::uint32_t character);
 
         // All events
-        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>>> m_keyPressCallbacks{};
-        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Keyboard::KeyEvent&>>>> m_keyReleaseCallbacks{};
-        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, std::uint32_t>>>> m_textEnterCallbacks{};
+        std::vector<std::pair<std::uint32_t, Callable<bool, const Keyboard::KeyEvent&>>> m_keyPressCallbacks{};
+        std::vector<std::pair<std::uint32_t, Callable<bool, const Keyboard::KeyEvent&>>> m_keyReleaseCallbacks{};
+        std::vector<std::pair<std::uint32_t, Callable<bool, std::uint32_t>>> m_textEnterCallbacks{};
 
         // Action
         struct KeyboardActionEvent
         {
-            std::unique_ptr<Turbo::Callable<bool>> callable;
+            Turbo::Callable<bool> callable;
             Keyboard::Action action;
             std::uint8_t modifiers;
             mutable bool isDown = false;
 
-            KeyboardActionEvent(Turbo::Callable<bool>* callable, Keyboard::Action action, std::uint8_t modifiers)
+            KeyboardActionEvent(Turbo::Callable<bool> callable, Keyboard::Action action, std::uint8_t modifiers)
                 : callable(callable)
                 , action(action)
                 , modifiers(modifiers)
@@ -131,7 +131,7 @@ namespace Turbo
             }
 
             KeyboardActionEvent(const KeyboardActionEvent& other)
-                : callable(other.callable->clone())
+                : callable(other.callable)
                 , action(other.action)
                 , modifiers(other.modifiers)
             {
@@ -139,7 +139,7 @@ namespace Turbo
 
             const KeyboardActionEvent& operator=(const KeyboardActionEvent& other)
             {
-                callable.reset(other.callable->clone());
+                callable = other.callable;
                 action = other.action;
                 modifiers = other.modifiers;
                 return *this;
@@ -153,25 +153,25 @@ namespace Turbo
         // State
         struct KeyboardStateEvent
         {
-            std::unique_ptr<Turbo::Callable<bool, bool>> callable;
+            Turbo::Callable<bool, bool> callable;
             std::uint8_t modifiers;
             mutable bool isDown = false;
 
-            KeyboardStateEvent(Turbo::Callable<bool, bool>* callable, std::uint8_t modifiers)
+            KeyboardStateEvent(Turbo::Callable<bool, bool> callable, std::uint8_t modifiers)
                 : callable(callable)
                 , modifiers(modifiers)
             {
             }
 
             KeyboardStateEvent(const KeyboardStateEvent& other)
-                : callable(other.callable->clone())
+                : callable(other.callable)
                 , modifiers(other.modifiers)
             {
             }
 
             const KeyboardStateEvent& operator=(const KeyboardStateEvent& other)
             {
-                callable.reset(other.callable->clone());
+                callable = other.callable;
                 modifiers = other.modifiers;
                 return *this;
             }
@@ -184,12 +184,12 @@ namespace Turbo
         // Unidirectional range
         struct KeyboardUnidirectionalRangeEvent
         {
-            std::unique_ptr<Turbo::Callable<bool, float>> callable;
+            Turbo::Callable<bool, float> callable;
             Direction direction;
             std::uint8_t modifiers;
             mutable bool isDown = false;
 
-            KeyboardUnidirectionalRangeEvent(Turbo::Callable<bool, float>* callable, Direction direction, std::uint8_t modifiers)
+            KeyboardUnidirectionalRangeEvent(Turbo::Callable<bool, float> callable, Direction direction, std::uint8_t modifiers)
                 : callable(callable)
                 , direction(direction)
                 , modifiers(modifiers)
@@ -197,7 +197,7 @@ namespace Turbo
             }
 
             KeyboardUnidirectionalRangeEvent(const KeyboardUnidirectionalRangeEvent& other)
-                : callable(other.callable->clone())
+                : callable(other.callable)
                 , direction(other.direction)
                 , modifiers(other.modifiers)
             {
@@ -205,7 +205,7 @@ namespace Turbo
 
             const KeyboardUnidirectionalRangeEvent& operator=(const KeyboardUnidirectionalRangeEvent& other)
             {
-                callable.reset(other.callable->clone());
+                callable = other.callable;
                 direction = other.direction;
                 modifiers = other.modifiers;
                 return *this;
@@ -226,10 +226,10 @@ namespace Turbo
         bool onMouseButtonEvent(const Mouse::ButtonEvent& event);
 
         // All events
-        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::MoveEvent&>>>> m_mouseMoveCallbacks{};
-        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::ScrollEvent&>>>> m_mouseScrollCallbacks{};
-        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>>> m_mousePressCallbacks{};
-        std::vector<std::pair<std::uint32_t, std::unique_ptr<Callable<bool, const Mouse::ButtonEvent&>>>> m_mouseReleaseCallbacks{};
+        std::vector<std::pair<std::uint32_t, Callable<bool, const Mouse::MoveEvent&>>> m_mouseMoveCallbacks{};
+        std::vector<std::pair<std::uint32_t, Callable<bool, const Mouse::ScrollEvent&>>> m_mouseScrollCallbacks{};
+        std::vector<std::pair<std::uint32_t, Callable<bool, const Mouse::ButtonEvent&>>> m_mousePressCallbacks{};
+        std::vector<std::pair<std::uint32_t, Callable<bool, const Mouse::ButtonEvent&>>> m_mouseReleaseCallbacks{};
     };
 } // namespace Turbo
 
