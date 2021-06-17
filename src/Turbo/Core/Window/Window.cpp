@@ -25,51 +25,35 @@ namespace Turbo
 
     Window::~Window() { destroy(); }
 
-    void Window::create(const Attributes& windowAttributes)
+    void Window::setAttributes(const Attributes& windowAttributes)
     {
-        destroy();
-
-        glfwInit();
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-
-        if (windowAttributes.mode == Mode::Bordered)
+        if (m_mode == windowAttributes.mode)
         {
-            m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), nullptr, nullptr);
-            m_size = {windowAttributes.size.x, windowAttributes.size.y};
-        }
-        else if (windowAttributes.mode == Mode::FullScreen)
-        {
-            m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), monitor, nullptr);
-            m_size = {windowAttributes.size.x, windowAttributes.size.y};
-        }
-        else if (windowAttributes.mode == Mode::Borderless)
-        {
-            const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-            m_window = glfwCreateWindow(mode->width, mode->height, windowAttributes.title.c_str(), monitor, nullptr);
-            m_size = {mode->width, mode->height};
+            return;
         }
 
+        m_size = {windowAttributes.size.x, windowAttributes.size.y};
         m_mode = windowAttributes.mode;
 
-        if (m_window == nullptr)
+        if (m_windowTitle != windowAttributes.title)
         {
-            TURBO_ENGINE_ERROR("Error creating the window");
-        }
-        else
-        {
-            TURBO_ENGINE_INFO("Window created");
+            m_windowTitle = windowAttributes.title;
+            glfwSetWindowTitle(m_window, m_windowTitle.c_str());
         }
 
-        m_context = std::make_unique<OpenGLContext>(m_window);
-        m_context->init();
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-        setIsVSyncEnabled(m_isVsyncEnabled);
-
-        setCallbacks();
-
-        setIsResizable(m_isResizable);
-
-        glfwGetCursorPos(m_window, &m_inputManager.m_mousePosition.x, &m_inputManager.m_mousePosition.y);
+        switch(m_mode)
+        {
+        case Mode::Bordered:
+            glfwSetWindowMonitor(m_window, nullptr, m_windowPosition.x, m_windowPosition.y, m_size.x, m_size.y, GLFW_DONT_CARE);
+            break;
+        case Mode::FullScreen:
+            glfwGetWindowPos(m_window, &m_windowPosition.x, &m_windowPosition.y);
+            glfwSetWindowMonitor(m_window, monitor, 0, 0, m_size.x, m_size.y, GLFW_DONT_CARE);
+            break;
+        }
     }
 
     void Window::destroy()
@@ -93,8 +77,6 @@ namespace Turbo
         m_inputManager.onPollEvents();
         glfwPollEvents();
     }
-
-    void Window::init() {}
 
     bool Window::isOpen() const { return !glfwWindowShouldClose(m_window) && !m_shouldClose; }
 
@@ -142,6 +124,48 @@ namespace Turbo
             return;
 
         glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, isResizable);
+    }
+
+    void Window::create(const Attributes& windowAttributes)
+    {
+        destroy();
+        glfwInit();
+
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        m_mode = windowAttributes.mode;
+        m_size = {windowAttributes.size.x, windowAttributes.size.y};
+        m_windowTitle = windowAttributes.title;
+
+        switch(m_mode)
+        {
+        case Mode::Bordered:
+            m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), nullptr, nullptr);
+            glfwGetWindowPos(m_window, &m_windowPosition.x, &m_windowPosition.y);
+            break;
+        case Mode::FullScreen:
+            m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), monitor, nullptr);
+            break;
+        }
+
+        if (m_window == nullptr)
+        {
+            TURBO_ENGINE_ERROR("Error creating the window");
+        }
+        else
+        {
+            TURBO_ENGINE_INFO("Window created");
+        }
+
+        m_context = std::make_unique<OpenGLContext>(m_window);
+        m_context->init();
+
+        setIsVSyncEnabled(m_isVsyncEnabled);
+
+        setCallbacks();
+
+        setIsResizable(m_isResizable);
+
+        glfwGetCursorPos(m_window, &m_inputManager.m_mousePosition.x, &m_inputManager.m_mousePosition.y);
     }
 
     void Window::setCallbacks()

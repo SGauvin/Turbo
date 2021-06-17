@@ -15,7 +15,6 @@ namespace Turbo
         enum class Mode : std::uint8_t
         {
             Bordered = 0,
-            Borderless,
             FullScreen
         };
 
@@ -34,7 +33,7 @@ namespace Turbo
         ~Window();
 
         // Functions
-        void create(const Attributes& windowAttributes);
+        void setAttributes(const Attributes& windowAttributes);
         void destroy();
         void close();
         void swapBuffers();
@@ -44,6 +43,7 @@ namespace Turbo
         // Getters
         glm::uvec2 getSize() const { return m_size; }
         Mode getMode() const { return m_mode; }
+        const std::string& getTitle() const { return m_windowTitle; }
         bool isOpen() const;
         bool isRawMouseAvailable() const;
         GLFWwindow* getWindow() const { return m_window; }
@@ -53,10 +53,8 @@ namespace Turbo
         void setIsRawMouseEnabled(bool isRawMouseEnabled);
         void setIsResizable(bool isResizable);
 
-        // Static functions
-        static void init();
-
     private:
+        void create(const Attributes& windowAttributes);
         void setCallbacks();
 
         void onWindowResize(glm::uvec2 windowSize);
@@ -73,12 +71,16 @@ namespace Turbo
         // Attributes
         glm::uvec2 m_size = {0, 0};
         Mode m_mode;
+        std::string m_windowTitle;
 
         // Settings
         bool m_isResizable = true;
         bool m_isVsyncEnabled = false;
         bool m_isRawMouseEnabled = false;
         bool m_shouldClose = false;
+
+        // Memory
+        glm::ivec2 m_windowPosition = {0, 0};
     };
 
 } // namespace Turbo

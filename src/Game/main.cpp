@@ -5,7 +5,6 @@
 #include <thread>
 #include <utility>
 #include <Turbo/Core/Application.h>
-#include <Turbo/Core/Init.h>
 #include <Turbo/Core/Layers/ImGuiLayer.h>
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/States/State.h>
@@ -56,6 +55,18 @@ private:
             Turbo::Keyboard::Key::Escape,
             Turbo::Keyboard::Action::Press);
 
+        inputContext->bindKeyToAction(
+            [this]() {
+                m_window.setAttributes({
+                    m_window.getTitle(),
+                    m_window.getSize(),
+                    m_window.getMode() == Turbo::Window::Mode::Bordered ? Turbo::Window::Mode::FullScreen : Turbo::Window::Mode::Bordered
+                });
+                return true;
+            },
+            Turbo::Keyboard::Key::F11,
+            Turbo::Keyboard::Action::Press);
+
         static Turbo::InputHandle inputHandleAction;
         static Turbo::InputHandle inputHandleBind;
 
@@ -86,10 +97,8 @@ private:
 
 int main()
 {
-    Turbo::init();
-
     Turbo::InputManager inputManager;
-    Turbo::Window window({"Turbo", glm::vec2(1280, 720), Turbo::Window::Mode::Bordered}, inputManager);
+    Turbo::Window window({"Turbo", glm::vec2(2560, 1440), Turbo::Window::Mode::Bordered}, inputManager);
 
     Turbo::Application app(window, inputManager);
     app.push(new TestState(app));
