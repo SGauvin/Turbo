@@ -12,6 +12,82 @@ namespace Turbo
         }
     }
 
+    InputHandle InputContext::bindKeyPressEvents(const Callable<bool, const Keyboard::KeyEvent&>& callback)
+    {
+        m_keyPressCallbacks.emplace_back(std::pair(m_currentId, callback));
+        return InputHandle(m_keyPressCallbacks, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindKeyReleaseEvents(const Callable<bool, const Keyboard::KeyEvent&>& callback)
+    {
+        m_keyReleaseCallbacks.emplace_back(std::pair(m_currentId, callback));
+        return InputHandle(m_keyReleaseCallbacks, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindTextEnterEvents(const Callable<bool, std::uint32_t>& callback)
+    {
+        m_textEnterCallbacks.emplace_back(std::pair(m_currentId, callback));
+        return InputHandle(m_textEnterCallbacks, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindKeyToAction(const Callable<bool>& callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers)
+    {
+        if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
+        {
+            return InputHandle();
+        }
+        auto& vector = m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)];
+        vector.emplace_back(std::pair(m_currentId, KeyboardActionEvent(callback, action, modifiers)));
+        return InputHandle(vector, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindKeyToState(const Callable<bool, bool>& callback, Keyboard::Key key, std::uint8_t modifiers)
+    {
+        if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
+        {
+            return InputHandle();
+        }
+        auto& vector = m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)];
+        vector.emplace_back(std::pair(m_currentId, KeyboardStateEvent(callback, modifiers)));
+        return InputHandle(vector, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindKeyToRange(const Callable<bool, float>& callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers)
+    {
+        return InputHandle();
+        // if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
+        // {
+        //     return InputHandle();
+        // }
+        // auto& vector = m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(key)];
+        // vector.emplace_back(std::pair(m_currentId, KeyboardRangeEvent(Callable<bool, float>(callback), direction, modifiers)));
+        // return InputHandle(vector, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindMouseMoveEvents(const Callable<bool, const Mouse::MoveEvent&>& callback)
+    {
+        m_mouseMoveCallbacks.emplace_back(std::pair(m_currentId, callback));
+        return InputHandle(m_mouseMoveCallbacks, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindMouseScrollEvents(const Callable<bool, const Mouse::ScrollEvent&>& callback)
+    {
+        m_mouseScrollCallbacks.emplace_back(std::pair(m_currentId, callback));
+        return InputHandle(m_mouseScrollCallbacks, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindMousePressEvents(const Callable<bool, const Mouse::ButtonEvent&>& callback)
+    {
+        m_mousePressCallbacks.emplace_back(std::pair(m_currentId, callback));
+        return InputHandle(m_mousePressCallbacks, this, m_currentId++);
+    }
+
+    InputHandle InputContext::bindMouseReleaseEvents(const Callable<bool, const Mouse::ButtonEvent&>& callback)
+    {
+        m_mouseReleaseCallbacks.emplace_back(std::pair(m_currentId, callback));
+        return InputHandle(m_mouseReleaseCallbacks, this, m_currentId++);
+    }
+
     void InputContext::unbind(InputHandle* handle)
     {
         if (handle == nullptr)

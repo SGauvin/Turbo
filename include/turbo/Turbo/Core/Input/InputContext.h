@@ -35,67 +35,20 @@ namespace Turbo
         bool isEnabled = true;
 
         // -- Keyboard --
-
-        template<typename F>
-        InputHandle bindKeyPressEvents(F callback);
-        template<typename O, typename F>
-        InputHandle bindKeyPressEvents(O* object, F callback);
-
-        template<typename F>
-        InputHandle bindKeyReleaseEvents(F callback);
-        template<typename O, typename F>
-        InputHandle bindKeyReleaseEvents(O* object, F callback);
-
-        template<typename F>
-        InputHandle bindTextEnterEvents(F callback);
-        template<typename O, typename F>
-        InputHandle bindTextEnterEvents(O* object, F callback);
-
-        template<typename F>
-        InputHandle bindKeyToAction(F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
-        template<typename O, typename F>
-        InputHandle bindKeyToAction(O* object, F callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
-
-        template<typename F>
-        InputHandle bindKeyToState(F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
-        template<typename O, typename F>
-        InputHandle bindKeyToState(O* object, F callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
-
-        template<typename F>
-        InputHandle bindKeyToRange(F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
-        template<typename O, typename F>
-        InputHandle bindKeyToRange(O* object, F callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
-
-        template<typename F>
-        InputHandle bindKeysToRange(F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers = Keyboard::Modifier::None);
-        template<typename O, typename F>
-        InputHandle bindKeysToRange(O* object, F callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey,
-                                    std::uint8_t modifiers = Keyboard::Modifier::None);
-
+        InputHandle bindKeyPressEvents(const Callable<bool, const Keyboard::KeyEvent&>& callback);
+        InputHandle bindKeyReleaseEvents(const Callable<bool, const Keyboard::KeyEvent&>& callback);
+        InputHandle bindTextEnterEvents(const Callable<bool, std::uint32_t>& callback);
+        InputHandle bindKeyToAction(const Callable<bool>& callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToState(const Callable<bool, bool>& callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToRange(const Callable<bool, float>& callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeysToRange(const Callable<bool, float>& callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers = Keyboard::Modifier::None);
         // -- ~Keyboard --
 
         // -- Mouse --
-
-        template<typename F>
-        InputHandle bindMouseMoveEvents(F callback);
-        template<typename O, typename F>
-        InputHandle bindMouseMoveEvents(O* object, F callback);
-
-        template<typename F>
-        InputHandle bindMouseScrollEvents(F callback);
-        template<typename O, typename F>
-        InputHandle bindMouseScrollEvents(O* object, F callback);
-
-        template<typename F>
-        InputHandle bindMousePressEvents(F callback);
-        template<typename O, typename F>
-        InputHandle bindMousePressEvents(O* object, F callback);
-
-        template<typename F>
-        InputHandle bindMouseReleaseEvents(F callback);
-        template<typename O, typename F>
-        InputHandle bindMouseReleaseEvents(O* object, F callback);
-
+        InputHandle bindMouseMoveEvents(const Callable<bool, const Mouse::MoveEvent&>&);
+        InputHandle bindMouseScrollEvents(const Callable<bool, const Mouse::ScrollEvent&>& callback);
+        InputHandle bindMousePressEvents(const Callable<bool, const Mouse::ButtonEvent&>& callback);
+        InputHandle bindMouseReleaseEvents(const Callable<bool, const Mouse::ButtonEvent&>& callback);
         // --~Mouse --
 
     private:
@@ -232,7 +185,5 @@ namespace Turbo
         std::vector<std::pair<std::uint32_t, Callable<bool, const Mouse::ButtonEvent&>>> m_mouseReleaseCallbacks{};
     };
 } // namespace Turbo
-
-#include "Turbo/Core/Input/InputContext.inl"
 
 #endif // INCLUDED_TURBO_INPUTCONTEXT_H
