@@ -43,7 +43,6 @@ namespace Turbo
         }
 
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
         switch(m_mode)
         {
