@@ -1,5 +1,6 @@
 #include "Turbo/Core/Window/Window.h"
 #include "Turbo/Core/Log.h"
+#include <glad/glad.h>
 
 namespace
 {
@@ -203,7 +204,11 @@ namespace Turbo
         });
     }
 
-    void Window::onWindowResize(glm::uvec2 windowSize) { m_size = windowSize; }
+    void Window::onWindowResize(glm::uvec2 windowSize)
+    {
+        m_size = windowSize;
+        glViewport(0, 0, m_size.x, m_size.y);
+    }
 
     void Window::onKeyEvent(Keyboard::Key key, std::int32_t /*scancode*/, Keyboard::Action action, std::uint8_t mods)
     {
