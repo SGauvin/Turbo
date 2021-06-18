@@ -4,7 +4,6 @@
 #include "Turbo/Core/Log.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/States/State.h"
-#include "Turbo/Core/Renderer/OpenGL/VulkanVertexBuffer.h"
 
 namespace Turbo
 {
