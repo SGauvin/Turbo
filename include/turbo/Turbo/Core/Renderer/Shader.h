@@ -1,26 +1,22 @@
-#ifndef INCLUDED_TURBO_OPENGLSHADER_H
-#define INCLUDED_TURBO_OPENGLSHADER_H
+#ifndef INCLUDED_TURBO_SHADER_H
+#define INCLUDED_TURBO_SHADER_H
 
-#include <string>
-#include "Turbo/Core/Renderer/Shader.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo
 {
-    template<>
-    class Shader<RenderingApi::OpenGL>
+    template<RenderingApi>
+    class Shader
     {
     public:
-        Shader() {}
         Shader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
         ~Shader();
-
+        
         bool load(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
         void bind() const;
         void unbind() const;
-
-    private:
-        std::uint32_t m_programId;
     };
-}
 
-#endif // INCLUDED_TURBO_OPENGLSHADER_H
+} // namespace Turbo
+
+#endif //INCLUDED_TURBO_SHADER_H

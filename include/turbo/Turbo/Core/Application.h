@@ -34,7 +34,7 @@ namespace Turbo
     private:
         Window& m_window;
         InputManager& m_inputManager;
-        OpenGLShader m_shader;
+        Shader<renderingApi> m_shader;
 
         std::vector<State*> m_states;
 
