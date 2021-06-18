@@ -6,14 +6,15 @@
 
 namespace Turbo
 {
-    class OpenGLIndexBuffer : public IndexBuffer
+    template<>
+    class IndexBuffer<RenderingApi::OpenGL>
     {
     public:
-        OpenGLIndexBuffer(std::span<std::uint32_t> indices);
-        virtual ~OpenGLIndexBuffer();
+        IndexBuffer(std::span<std::uint32_t> indices);
+        ~IndexBuffer();
 
-        void bind() const override;
-        void unbind() const override;
+        void bind() const;
+        void unbind() const;
 
         std::uint32_t getCount() const;
 

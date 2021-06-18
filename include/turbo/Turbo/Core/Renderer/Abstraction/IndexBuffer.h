@@ -7,17 +7,16 @@
 
 namespace Turbo
 {
+    template<RenderingApi>
     class IndexBuffer
     {
     public:
-        virtual ~IndexBuffer() {}
-
-        virtual void bind() const = 0;
-        virtual void unbind() const = 0;
-
-        virtual std::uint32_t getCount() const = 0;
-
-        static std::unique_ptr<IndexBuffer> create(const std::span<std::uint32_t> indices);
+        IndexBuffer(std::span<std::uint32_t> indices);
+        ~IndexBuffer();
+        
+        void bind() const;
+        void unbind() const;
+        std::uint32_t getCount();
     };
 } // namespace Turbo
 

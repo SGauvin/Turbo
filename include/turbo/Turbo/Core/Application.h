@@ -39,7 +39,7 @@ namespace Turbo
         std::vector<State*> m_states;
 
         std::unique_ptr<VertexBuffer<renderingApi>> m_vertexBuffer;
-        std::unique_ptr<IndexBuffer> m_indexBuffer;
+        std::unique_ptr<IndexBuffer<renderingApi>> m_indexBuffer;
 
         std::uint32_t m_vertexArray;
 

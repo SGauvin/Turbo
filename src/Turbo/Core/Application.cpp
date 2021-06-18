@@ -33,7 +33,8 @@ namespace Turbo
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
         std::uint32_t indices[] = {0, 1, 2};
-        m_indexBuffer = IndexBuffer::create({indices, sizeof(indices) / sizeof(uint32_t)});
+        std::span sheesh = std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t));
+        m_indexBuffer = std::make_unique<IndexBuffer<renderingApi>>(sheesh);
 
         std::string vertexSource = R"(
             #version 330 core
