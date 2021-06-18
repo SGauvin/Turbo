@@ -27,7 +27,7 @@ namespace Turbo
         glBindVertexArray(m_vertexArray);
 
         float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
-        m_vertexBuffer = VertexBuffer::create({vertices, sizeof(vertices) / sizeof(float)});
+        m_vertexBuffer = std::make_unique<VertexBuffer<RenderingApi::OpenGL>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
 
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);

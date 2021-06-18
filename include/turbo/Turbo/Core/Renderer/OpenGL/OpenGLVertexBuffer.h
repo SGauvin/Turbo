@@ -2,18 +2,21 @@
 #define INCLUDED_TURBO_OPENGLVERTEXBUFFER_H
 
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 #include <span>
+#include <glad/glad.h>
 
 namespace Turbo
 {
-    class OpenGLVertexBuffer : public VertexBuffer
+    template<>
+    class VertexBuffer<RenderingApi::OpenGL>
     {
     public:
-        OpenGLVertexBuffer(std::span<float> vertices);
-        virtual ~OpenGLVertexBuffer();
-
-        void bind() const override;
-        void unbind() const override;
+        VertexBuffer() {}
+        VertexBuffer(std::span<float> vertices);
+        ~VertexBuffer();
+        void bind() const;
+        void unbind() const;
 
     private:
         std::uint32_t m_rendererId;

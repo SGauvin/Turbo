@@ -3,18 +3,23 @@
 
 #include <memory>
 #include <span>
+#include <glad/glad.h>
+
+#include "Turbo/Core/Renderer/RenderingApi.h"
+#include "Turbo/Core/Log.h"
 
 namespace Turbo
 {
+    template<RenderingApi R>
     class VertexBuffer
     {
     public:
-        virtual ~VertexBuffer() {}
+        VertexBuffer() = default;
+        VertexBuffer(std::span<float> vertices);
+        ~VertexBuffer();
 
-        virtual void bind() const = 0;
-        virtual void unbind() const = 0;
-
-        static std::unique_ptr<VertexBuffer> create(const std::span<float> vertices);
+        void bind() const;
+        void unbind() const;
     };
 } // namespace Turbo
 

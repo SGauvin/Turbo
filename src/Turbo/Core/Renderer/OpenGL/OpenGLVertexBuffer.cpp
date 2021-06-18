@@ -3,24 +3,24 @@
 
 namespace Turbo
 {
-    OpenGLVertexBuffer::OpenGLVertexBuffer(std::span<float> vertices)
+    VertexBuffer<RenderingApi::OpenGL>::VertexBuffer(std::span<float> vertices)
     {
         glCreateBuffers(1, &m_rendererId);
         glBindBuffer(GL_ARRAY_BUFFER, m_rendererId);
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
     }
 
-    OpenGLVertexBuffer::~OpenGLVertexBuffer()
+    VertexBuffer<RenderingApi::OpenGL>::~VertexBuffer()
     {
         glDeleteBuffers(1, &m_rendererId);
     }
 
-    void OpenGLVertexBuffer::bind() const
+    void VertexBuffer<RenderingApi::OpenGL>::bind() const
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_rendererId);
     }
 
-    void OpenGLVertexBuffer::unbind() const
+    void VertexBuffer<RenderingApi::OpenGL>::unbind() const
     {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
