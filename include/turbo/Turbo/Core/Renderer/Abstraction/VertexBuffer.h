@@ -10,7 +10,7 @@
 
 namespace Turbo
 {
-    template<RenderingApi R>
+    template<RenderingApi>
     class VertexBuffer
     {
     public:

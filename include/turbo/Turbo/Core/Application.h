@@ -10,9 +10,12 @@
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
 #include "Turbo/Core/Renderer/OpenGL/OpenGLIndexBuffer.h"
 
+
 namespace Turbo
 {
     class State;
+
+    static constexpr RenderingApi renderingApi = RenderingApi::OpenGL;
 
     class Application
     {
@@ -35,7 +38,7 @@ namespace Turbo
 
         std::vector<State*> m_states;
 
-        std::unique_ptr<VertexBuffer<RenderingApi::OpenGL>> m_vertexBuffer;
+        std::unique_ptr<VertexBuffer<renderingApi>> m_vertexBuffer;
         std::unique_ptr<IndexBuffer> m_indexBuffer;
 
         std::uint32_t m_vertexArray;

@@ -19,7 +19,6 @@ namespace Turbo
 
     private:
         std::uint32_t m_rendererId;
-        bool m_isInitialized;
     };
 }
 
