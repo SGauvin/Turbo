@@ -14,7 +14,6 @@ namespace Turbo
     class VertexBuffer
     {
     public:
-        VertexBuffer() = default;
         VertexBuffer(std::span<float> vertices);
         ~VertexBuffer();
 

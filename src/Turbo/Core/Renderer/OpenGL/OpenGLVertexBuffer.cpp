@@ -4,6 +4,7 @@
 namespace Turbo
 {
     VertexBuffer<RenderingApi::OpenGL>::VertexBuffer(std::span<float> vertices)
+        : m_isInitialized(true)
     {
         glCreateBuffers(1, &m_rendererId);
         glBindBuffer(GL_ARRAY_BUFFER, m_rendererId);
