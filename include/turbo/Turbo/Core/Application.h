@@ -44,7 +44,7 @@ namespace Turbo
         std::uint32_t m_vertexArray;
 
         std::chrono::duration<double> m_timePerUpdate = std::chrono::nanoseconds(1000000000 / 60);
-        std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(1000000000 / 200000);
+        std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(1000000000 / 144);
         std::chrono::duration<double> m_updateLag{0};
         std::chrono::duration<double> m_drawLag{0};
     };

@@ -2,7 +2,7 @@
 #define INCLUDED_TURBO_OPENGLSHADER_H
 
 #include <string>
-#include "Turbo/Core/Renderer/Shader.h"
+#include "Turbo/Core/Renderer/Abstraction/Shader.h"
 
 namespace Turbo
 {
