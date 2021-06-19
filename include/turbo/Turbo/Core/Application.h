@@ -5,7 +5,7 @@
 #include <numeric>
 #include <vector>
 #include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
-#include "Turbo/Core/Window/OpenGLWindow.h"
+#include "Turbo/Core/Window/Window.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
 #include "Turbo/Core/Renderer/OpenGL/OpenGLIndexBuffer.h"
@@ -20,7 +20,7 @@ namespace Turbo
     class Application
     {
     public:
-        Application(Window<RenderingApi::OpenGL>& window, InputManager& inputManager);
+        Application(Window<renderingApi>& window, InputManager& inputManager);
         ~Application();
 
         void push(State* state);
@@ -28,11 +28,11 @@ namespace Turbo
 
         void start();
 
-        Window<RenderingApi::OpenGL>& getWindow() { return m_window; }
+        Window<renderingApi>& getWindow() { return m_window; }
         InputManager& getInputManager() { return m_inputManager; }
 
     private:
-        Window<RenderingApi::OpenGL>& m_window;
+        Window<renderingApi>& m_window;
         InputManager& m_inputManager;
         Shader<renderingApi> m_shader;
 

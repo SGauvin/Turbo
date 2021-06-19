@@ -25,7 +25,7 @@ namespace Turbo
     protected:
         Application& m_application;
         InputManager& m_inputManager;
-        Window<RenderingApi::OpenGL>& m_window;
+        Window<renderingApi>& m_window;
     };
 } // namespace Turbo
 

@@ -88,6 +88,8 @@ namespace Turbo
 
     bool Window<RenderingApi::OpenGL>::isRawMouseAvailable() const { return glfwRawMouseMotionSupported(); }
 
+    GLFWwindow* Window<RenderingApi::OpenGL>::getHandle() const { return m_window; }
+
     void Window<RenderingApi::OpenGL>::setIsVSyncEnabled(bool isVsyncEnabled)
     {
         m_isVsyncEnabled = isVsyncEnabled;

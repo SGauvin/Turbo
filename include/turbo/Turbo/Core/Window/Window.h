@@ -1,7 +1,11 @@
 #ifndef INCLUDED_TURBO_WINDOW_H
 #define INCLUDED_TURBO_WINDOW_H
 
+#include <glm/glm.hpp>
 #include "Turbo/Core/Renderer/RenderingApi.h"
+#include "Turbo/Core/Input/InputManager.h"
+
+class GLFWwindow;
 
 namespace Turbo
 {
@@ -21,6 +25,7 @@ namespace Turbo
     template<RenderingApi>
     class Window
     {
+    public:
         Window(const WindowAttributes& windowAttributes, InputManager& inputManager);
         Window(const Window& other) = delete;
         Window(const Window&& other) = delete;
@@ -42,6 +47,7 @@ namespace Turbo
         const std::string& getTitle() const;
         bool isOpen() const;
         bool isRawMouseAvailable() const;
+        GLFWwindow* getHandle() const;
 
         // Setters
         void setIsVSyncEnabled(bool isVsynEnabled);

@@ -35,7 +35,7 @@ namespace Turbo
         const std::string& getTitle() const;
         bool isOpen() const;
         bool isRawMouseAvailable() const;
-        GLFWwindow* getWindow() const { return m_window; }
+        GLFWwindow* getHandle() const;
 
         // Setters
         void setIsVSyncEnabled(bool isVsynEnabled);

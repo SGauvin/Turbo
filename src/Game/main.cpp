@@ -9,7 +9,6 @@
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/States/State.h>
 #include <Turbo/Core/Window/OpenGLWindow.h>
-#include <Turbo/Core/Window/Window.h>
 #include <fmt/color.h>
 #include <fmt/core.h>
 
@@ -99,7 +98,7 @@ private:
 int main()
 {
     Turbo::InputManager inputManager;
-    Turbo::Window<Turbo::RenderingApi::OpenGL> window({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered}, inputManager);
+    Turbo::Window<Turbo::renderingApi> window({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered}, inputManager);
 
     Turbo::Application app(window, inputManager);
     app.push(new TestState(app));

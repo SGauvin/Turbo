@@ -3,6 +3,7 @@
 #include "Turbo/Core/Renderer/OpenGL/imgui_impl_opengl3.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
+#include "Turbo/Core/Window/OpenGLWindow.h"
 
 namespace Turbo
 {
@@ -16,7 +17,9 @@ namespace Turbo
         io.ConfigFlags |=
             ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad | ImGuiConfigFlags_DockingEnable | ImGuiConfigFlags_ViewportsEnable;
         ImGui::StyleColorsDark();
-        ImGui_ImplGlfw_InitForOpenGL(application.getWindow().getWindow(), true);
+        auto& window = application.getWindow();
+        auto handle = window.getHandle();
+        ImGui_ImplGlfw_InitForOpenGL(handle, true);
         ImGui_ImplOpenGL3_Init("#version 430");
     }
 
