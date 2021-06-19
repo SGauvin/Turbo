@@ -10,16 +10,16 @@
 
 namespace Turbo
 {
-    
-    class OpenGLWindow
+    template<>
+    class Window<RenderingApi::OpenGL>
     {
     public:
-        OpenGLWindow(const WindowAttributes& windowAttributes, InputManager& inputManager);
-        OpenGLWindow(const OpenGLWindow& other) = delete;
-        OpenGLWindow(const OpenGLWindow&& other) = delete;
-        OpenGLWindow& operator=(const OpenGLWindow& other) = delete;
-        OpenGLWindow& operator=(const OpenGLWindow&& other) = delete;
-        ~OpenGLWindow();
+        Window<RenderingApi::OpenGL>(const WindowAttributes& windowAttributes, InputManager& inputManager);
+        Window<RenderingApi::OpenGL>(const Window<RenderingApi::OpenGL>& other) = delete;
+        Window<RenderingApi::OpenGL>(const Window<RenderingApi::OpenGL>&& other) = delete;
+        Window<RenderingApi::OpenGL>& operator=(const Window<RenderingApi::OpenGL>& other) = delete;
+        Window<RenderingApi::OpenGL>& operator=(const Window<RenderingApi::OpenGL>&& other) = delete;
+        ~Window<RenderingApi::OpenGL>();
 
         // Functions
         void setAttributes(const WindowAttributes& windowAttributes);

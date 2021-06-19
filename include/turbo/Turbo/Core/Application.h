@@ -20,7 +20,7 @@ namespace Turbo
     class Application
     {
     public:
-        Application(OpenGLWindow& window, InputManager& inputManager);
+        Application(Window<RenderingApi::OpenGL>& window, InputManager& inputManager);
         ~Application();
 
         void push(State* state);
@@ -28,11 +28,11 @@ namespace Turbo
 
         void start();
 
-        OpenGLWindow& getWindow() { return m_window; }
+        Window<RenderingApi::OpenGL>& getWindow() { return m_window; }
         InputManager& getInputManager() { return m_inputManager; }
 
     private:
-        OpenGLWindow& m_window;
+        Window<RenderingApi::OpenGL>& m_window;
         InputManager& m_inputManager;
         Shader<renderingApi> m_shader;
 

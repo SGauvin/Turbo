@@ -17,16 +17,16 @@ namespace
 
 namespace Turbo
 {
-    OpenGLWindow::OpenGLWindow(const WindowAttributes& windowAttributes, InputManager& inputManager)
+    Window<RenderingApi::OpenGL>::Window(const WindowAttributes& windowAttributes, InputManager& inputManager)
         : m_inputManager(inputManager)
     {
         create(windowAttributes);
         setIsRawMouseEnabled(m_isRawMouseEnabled);
     }
 
-    OpenGLWindow::~OpenGLWindow() { destroy(); }
+    Window<RenderingApi::OpenGL>::~Window() { destroy(); }
 
-    void OpenGLWindow::setAttributes(const WindowAttributes& windowAttributes)
+    void Window<RenderingApi::OpenGL>::setAttributes(const WindowAttributes& windowAttributes)
     {
         if (m_mode == windowAttributes.mode)
         {
@@ -56,7 +56,7 @@ namespace Turbo
         }
     }
 
-    void OpenGLWindow::destroy()
+    void Window<RenderingApi::OpenGL>::destroy()
     {
         if (m_window == nullptr)
         {
@@ -68,27 +68,27 @@ namespace Turbo
         TURBO_ENGINE_INFO("Window terminated");
     }
 
-    void OpenGLWindow::close() { m_shouldClose = true; }
+    void Window<RenderingApi::OpenGL>::close() { m_shouldClose = true; }
 
-    void OpenGLWindow::swapBuffers() { m_context->swapBuffers(); }
+    void Window<RenderingApi::OpenGL>::swapBuffers() { m_context->swapBuffers(); }
 
-    void OpenGLWindow::processEvents()
+    void Window<RenderingApi::OpenGL>::processEvents()
     {
         m_inputManager.onPollEvents();
         glfwPollEvents();
     }
 
-    glm::uvec2 OpenGLWindow::getSize() const { return m_size; }
+    glm::uvec2 Window<RenderingApi::OpenGL>::getSize() const { return m_size; }
 
-    WindowMode OpenGLWindow::getMode() const { return m_mode; }
+    WindowMode Window<RenderingApi::OpenGL>::getMode() const { return m_mode; }
 
-    const std::string& OpenGLWindow::getTitle() const { return m_windowTitle; }
+    const std::string& Window<RenderingApi::OpenGL>::getTitle() const { return m_windowTitle; }
 
-    bool OpenGLWindow::isOpen() const { return !glfwWindowShouldClose(m_window) && !m_shouldClose; }
+    bool Window<RenderingApi::OpenGL>::isOpen() const { return !glfwWindowShouldClose(m_window) && !m_shouldClose; }
 
-    bool OpenGLWindow::isRawMouseAvailable() const { return glfwRawMouseMotionSupported(); }
+    bool Window<RenderingApi::OpenGL>::isRawMouseAvailable() const { return glfwRawMouseMotionSupported(); }
 
-    void OpenGLWindow::setIsVSyncEnabled(bool isVsyncEnabled)
+    void Window<RenderingApi::OpenGL>::setIsVSyncEnabled(bool isVsyncEnabled)
     {
         m_isVsyncEnabled = isVsyncEnabled;
         if (!checkWindow(m_window))
@@ -107,7 +107,7 @@ namespace Turbo
         }
     }
 
-    void OpenGLWindow::setIsRawMouseEnabled(bool isRawMouseEnabled)
+    void Window<RenderingApi::OpenGL>::setIsRawMouseEnabled(bool isRawMouseEnabled)
     {
         if (isRawMouseEnabled && !isRawMouseAvailable())
         {
@@ -122,7 +122,7 @@ namespace Turbo
         glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, isRawMouseEnabled);
     }
 
-    void OpenGLWindow::setIsResizable(bool isResizable)
+    void Window<RenderingApi::OpenGL>::setIsResizable(bool isResizable)
     {
         m_isResizable = isResizable;
 
@@ -132,7 +132,7 @@ namespace Turbo
         glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, isResizable);
     }
 
-    void OpenGLWindow::create(const WindowAttributes& windowAttributes)
+    void Window<RenderingApi::OpenGL>::create(const WindowAttributes& windowAttributes)
     {
         destroy();
         glfwInit();
@@ -174,62 +174,62 @@ namespace Turbo
         glfwGetCursorPos(m_window, &m_inputManager.m_mousePosition.x, &m_inputManager.m_mousePosition.y);
     }
 
-    void OpenGLWindow::setCallbacks()
+    void Window<RenderingApi::OpenGL>::setCallbacks()
     {
         glfwSetWindowUserPointer(m_window, this);
 
         // Window resize
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, std::int32_t width, std::int32_t height) {
-            static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window))->onWindowResize({width, height});
+            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onWindowResize({width, height});
         });
 
         // Keyboard
         glfwSetKeyCallback(m_window, [](GLFWwindow* window, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
-            static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window))
+            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))
                 ->onKeyEvent(static_cast<Keyboard::Key>(key), scancode, static_cast<Keyboard::Action>(action), static_cast<std::uint8_t>(mods));
         });
 
         glfwSetCharCallback(
-            m_window, [](GLFWwindow* window, std::uint32_t character) { static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character); });
+            m_window, [](GLFWwindow* window, std::uint32_t character) { static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character); });
 
         // Cursor position
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
-            static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window))->onMouseMove({xpos, ypos});
+            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onMouseMove({xpos, ypos});
         });
 
         // Mouse buttons
         glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, std::int32_t button, std::int32_t action, std::int32_t mods) {
-            static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window))
+            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))
                 ->onMouseButtonEvent(static_cast<Mouse::Button>(button), static_cast<Mouse::Action>(action), static_cast<std::uint8_t>(mods));
         });
 
         // Mouse scroll
         glfwSetScrollCallback(m_window, [](GLFWwindow* window, double offsetX, double offsetY) {
-            static_cast<OpenGLWindow*>(glfwGetWindowUserPointer(window))->onMouseScrollEvent({offsetX, offsetY});
+            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onMouseScrollEvent({offsetX, offsetY});
         });
     }
 
-    void OpenGLWindow::onWindowResize(glm::uvec2 windowSize)
+    void Window<RenderingApi::OpenGL>::onWindowResize(glm::uvec2 windowSize)
     {
         m_size = windowSize;
         glViewport(0, 0, m_size.x, m_size.y);
     }
 
-    void OpenGLWindow::onKeyEvent(Keyboard::Key key, std::int32_t /*scancode*/, Keyboard::Action action, std::uint8_t mods)
+    void Window<RenderingApi::OpenGL>::onKeyEvent(Keyboard::Key key, std::int32_t /*scancode*/, Keyboard::Action action, std::uint8_t mods)
     {
         m_inputManager.onKeyboardEvent({key, action, mods});
     }
 
-    void OpenGLWindow::onTextEnterEvent(std::uint32_t character) { m_inputManager.onTextEnterEvent(character); }
+    void Window<RenderingApi::OpenGL>::onTextEnterEvent(std::uint32_t character) { m_inputManager.onTextEnterEvent(character); }
 
-    void OpenGLWindow::onMouseScrollEvent(const glm::dvec2& delta) { m_inputManager.onMouseScrollEvent({delta}); }
+    void Window<RenderingApi::OpenGL>::onMouseScrollEvent(const glm::dvec2& delta) { m_inputManager.onMouseScrollEvent({delta}); }
 
-    void OpenGLWindow::onMouseMove(const glm::dvec2& mousePosition)
+    void Window<RenderingApi::OpenGL>::onMouseMove(const glm::dvec2& mousePosition)
     {
         m_inputManager.onMouseMoveEvent(Mouse::MoveEvent{mousePosition, mousePosition - m_inputManager.getMousePosition()});
     }
 
-    void OpenGLWindow::onMouseButtonEvent(Mouse::Button button, Mouse::Action action, std::uint8_t mods)
+    void Window<RenderingApi::OpenGL>::onMouseButtonEvent(Mouse::Button button, Mouse::Action action, std::uint8_t mods)
     {
         m_inputManager.onMouseButtonEvent({button, action, m_inputManager.getMousePosition(), mods});
     }

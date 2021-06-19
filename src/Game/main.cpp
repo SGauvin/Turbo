@@ -99,7 +99,7 @@ private:
 int main()
 {
     Turbo::InputManager inputManager;
-    Turbo::OpenGLWindow window({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered}, inputManager);
+    Turbo::Window<Turbo::RenderingApi::OpenGL> window({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered}, inputManager);
 
     Turbo::Application app(window, inputManager);
     app.push(new TestState(app));

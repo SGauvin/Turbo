@@ -24,7 +24,7 @@ namespace Turbo
     protected:
         Application& m_application;
         InputManager& m_inputManager;
-        OpenGLWindow& m_window;
+        Window<RenderingApi::OpenGL>& m_window;
         std::vector<Layer*> m_layers;
 
     private:

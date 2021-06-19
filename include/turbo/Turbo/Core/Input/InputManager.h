@@ -7,6 +7,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "Turbo/Core/Input/InputContext.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo
 {
@@ -15,7 +16,7 @@ namespace Turbo
     class InputManager
     {
     private:
-        friend class OpenGLWindow;
+        template<RenderingApi> friend class Window;
         friend class Application;
 
     public:
