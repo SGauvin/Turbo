@@ -3,6 +3,7 @@
 
 #include <initializer_list>
 #include <string>
+#include <vector>
 
 namespace Turbo
 {
@@ -26,6 +27,7 @@ namespace Turbo
     class BufferElement
     {
     public:
+        friend class BufferLayout;
         BufferElement(DataType type, const std::string& name);
 
     private:
@@ -38,9 +40,10 @@ namespace Turbo
     class BufferLayout
     {
     public:
-        BufferLayout(std::initializer_list<BufferElement>);
-
+        BufferLayout(std::initializer_list<BufferElement> elements);
     private:
+        std::vector<BufferElement> m_elements;
+        std::uint32_t m_stride;
     };
 } // namespace Turbo
 
