@@ -10,10 +10,7 @@ namespace Turbo
         load(vertexShaderSource, fragmentShaderSource);
     }
 
-    Shader<RenderingApi::OpenGL>::~Shader()
-    {
-        glDeleteProgram(m_programId);
-    }
+    Shader<RenderingApi::OpenGL>::~Shader() { glDeleteProgram(m_programId); }
 
     bool Shader<RenderingApi::OpenGL>::load(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
     {
@@ -122,14 +119,7 @@ namespace Turbo
         return true;
     }
 
-    void Shader<RenderingApi::OpenGL>::bind() const
-    {
-        glUseProgram(m_programId);
-    }
+    void Shader<RenderingApi::OpenGL>::bind() const { glUseProgram(m_programId); }
 
-    void Shader<RenderingApi::OpenGL>::unbind() const
-    {
-        glUseProgram(0);
-    }
-}
-
+    void Shader<RenderingApi::OpenGL>::unbind() const { glUseProgram(0); }
+} // namespace Turbo

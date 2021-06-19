@@ -4,9 +4,8 @@
 #include <memory>
 #include <span>
 #include <glad/glad.h>
-
-#include "Turbo/Core/Renderer/RenderingApi.h"
 #include "Turbo/Core/Log.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo
 {

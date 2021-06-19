@@ -2,8 +2,8 @@
 #define INCLUDED_TURBO_WINDOW_H
 
 #include <glm/glm.hpp>
-#include "Turbo/Core/Renderer/RenderingApi.h"
 #include "Turbo/Core/Input/InputManager.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 
 class GLFWwindow;
 
@@ -54,6 +54,6 @@ namespace Turbo
         void setIsRawMouseEnabled(bool isRawMouseEnabled);
         void setIsResizable(bool isResizable);
     };
-}
+} // namespace Turbo
 
 #endif // INCLUDED_TURBO_WINDOW_H

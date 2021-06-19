@@ -1,8 +1,8 @@
 #ifndef INCLUDED_TURBO_BUFFERLAYOUT_H
 #define INCLUDED_TURBO_BUFFERLAYOUT_H
 
-#include <string>
 #include <initializer_list>
+#include <string>
 
 namespace Turbo
 {
@@ -27,6 +27,7 @@ namespace Turbo
     {
     public:
         BufferElement(DataType type, const std::string& name);
+
     private:
         DataType m_type;
         std::string m_name;
@@ -38,8 +39,9 @@ namespace Turbo
     {
     public:
         BufferLayout(std::initializer_list<BufferElement>);
+
     private:
-};
-}
+    };
+} // namespace Turbo
 
 #endif

@@ -38,10 +38,13 @@ namespace Turbo
         InputHandle bindKeyPressEvents(const Callable<bool, const Keyboard::KeyEvent&>& callback);
         InputHandle bindKeyReleaseEvents(const Callable<bool, const Keyboard::KeyEvent&>& callback);
         InputHandle bindTextEnterEvents(const Callable<bool, std::uint32_t>& callback);
-        InputHandle bindKeyToAction(const Callable<bool>& callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToAction(const Callable<bool>& callback, Keyboard::Key key, Keyboard::Action action,
+                                    std::uint8_t modifiers = Keyboard::Modifier::None);
         InputHandle bindKeyToState(const Callable<bool, bool>& callback, Keyboard::Key key, std::uint8_t modifiers = Keyboard::Modifier::None);
-        InputHandle bindKeyToRange(const Callable<bool, float>& callback, Keyboard::Key key, Direction direction, std::uint8_t modifiers = Keyboard::Modifier::None);
-        InputHandle bindKeysToRange(const Callable<bool, float>& callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey, std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeyToRange(const Callable<bool, float>& callback, Keyboard::Key key, Direction direction,
+                                   std::uint8_t modifiers = Keyboard::Modifier::None);
+        InputHandle bindKeysToRange(const Callable<bool, float>& callback, Keyboard::Key positiveKey, Keyboard::Key negativeKey,
+                                    std::uint8_t modifiers = Keyboard::Modifier::None);
         // -- ~Keyboard --
 
         // -- Mouse --

@@ -16,7 +16,8 @@ namespace Turbo
     class InputManager
     {
     private:
-        template<RenderingApi> friend class Window;
+        template<RenderingApi>
+        friend class Window;
         friend class Application;
 
     public:

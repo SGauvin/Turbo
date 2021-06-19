@@ -13,7 +13,7 @@ namespace Turbo
     public:
         IndexBuffer(std::span<std::uint32_t> indices);
         ~IndexBuffer();
-        
+
         void bind() const;
         void unbind() const;
         std::uint32_t getCount();

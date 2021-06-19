@@ -21,6 +21,6 @@ namespace Turbo
     private:
         std::uint32_t m_programId;
     };
-}
+} // namespace Turbo
 
 #endif // INCLUDED_TURBO_OPENGLSHADER_H

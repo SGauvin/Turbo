@@ -11,23 +11,11 @@ namespace Turbo
         m_count = indices.size();
     }
 
-    IndexBuffer<RenderingApi::OpenGL>::~IndexBuffer()
-    {
-        glDeleteBuffers(1, &m_rendererId);
-    }
+    IndexBuffer<RenderingApi::OpenGL>::~IndexBuffer() { glDeleteBuffers(1, &m_rendererId); }
 
-    void IndexBuffer<RenderingApi::OpenGL>::bind() const
-    {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererId);
-    }
+    void IndexBuffer<RenderingApi::OpenGL>::bind() const { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererId); }
 
-    void IndexBuffer<RenderingApi::OpenGL>::unbind() const
-    {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
+    void IndexBuffer<RenderingApi::OpenGL>::unbind() const { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); }
 
-    std::uint32_t IndexBuffer<RenderingApi::OpenGL>::getCount() const
-    {
-        return m_count;
-    }
-}
+    std::uint32_t IndexBuffer<RenderingApi::OpenGL>::getCount() const { return m_count; }
+} // namespace Turbo

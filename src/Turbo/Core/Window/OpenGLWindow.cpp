@@ -1,6 +1,6 @@
 #include "Turbo/Core/Window/OpenGLWindow.h"
-#include "Turbo/Core/Log.h"
 #include <glad/glad.h>
+#include "Turbo/Core/Log.h"
 
 namespace
 {
@@ -44,7 +44,7 @@ namespace Turbo
 
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 
-        switch(m_mode)
+        switch (m_mode)
         {
         case WindowMode::Bordered:
             glfwSetWindowMonitor(m_window, nullptr, m_windowPosition.x, m_windowPosition.y, m_size.x, m_size.y, GLFW_DONT_CARE);
@@ -144,7 +144,7 @@ namespace Turbo
         m_size = {windowAttributes.size.x, windowAttributes.size.y};
         m_windowTitle = windowAttributes.title;
 
-        switch(m_mode)
+        switch (m_mode)
         {
         case WindowMode::Bordered:
             m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), nullptr, nullptr);
@@ -191,8 +191,9 @@ namespace Turbo
                 ->onKeyEvent(static_cast<Keyboard::Key>(key), scancode, static_cast<Keyboard::Action>(action), static_cast<std::uint8_t>(mods));
         });
 
-        glfwSetCharCallback(
-            m_window, [](GLFWwindow* window, std::uint32_t character) { static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character); });
+        glfwSetCharCallback(m_window, [](GLFWwindow* window, std::uint32_t character) {
+            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character);
+        });
 
         // Cursor position
         glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {

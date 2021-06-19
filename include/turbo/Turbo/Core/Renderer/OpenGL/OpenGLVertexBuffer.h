@@ -1,10 +1,10 @@
 #ifndef INCLUDED_TURBO_OPENGLVERTEXBUFFER_H
 #define INCLUDED_TURBO_OPENGLVERTEXBUFFER_H
 
-#include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
-#include "Turbo/Core/Renderer/RenderingApi.h"
 #include <span>
 #include <glad/glad.h>
+#include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo
 {
@@ -20,6 +20,6 @@ namespace Turbo
     private:
         std::uint32_t m_rendererId;
     };
-}
+} // namespace Turbo
 
 #endif // INCLUDED_TURBO_OPENGLVERTEXBUFFER_H

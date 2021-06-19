@@ -11,7 +11,7 @@ namespace Turbo
     public:
         Shader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
         ~Shader();
-        
+
         bool load(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
         void bind() const;
         void unbind() const;
@@ -19,4 +19,4 @@ namespace Turbo
 
 } // namespace Turbo
 
-#endif //INCLUDED_TURBO_SHADER_H
+#endif // INCLUDED_TURBO_SHADER_H

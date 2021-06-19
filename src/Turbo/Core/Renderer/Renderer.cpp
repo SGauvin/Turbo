@@ -9,14 +9,8 @@ namespace Turbo
 
     namespace Renderer
     {
-        void setApi(RenderingApi api)
-        {
-            renderingApi = api;
-        }
-        
-        RenderingApi getApi()
-        {
-            return renderingApi;
-        }
+        void setApi(RenderingApi api) { renderingApi = api; }
+
+        RenderingApi getApi() { return renderingApi; }
     } // namespace Renderer
 } // namespace Turbo

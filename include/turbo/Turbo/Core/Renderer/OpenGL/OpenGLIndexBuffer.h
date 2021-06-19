@@ -1,8 +1,8 @@
 #ifndef INCLUDED_TURBO_OPENGLINDEXBUFFER_H
 #define INCLUDED_TURBO_OPENGLINDEXBUFFER_H
 
-#include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include <span>
+#include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 
 namespace Turbo
 {
@@ -22,6 +22,6 @@ namespace Turbo
         std::uint32_t m_rendererId;
         std::uint32_t m_count;
     };
-}
+} // namespace Turbo
 
 #endif // INCLUDED_TURBO_OPENGLINDEXBUFFER_H

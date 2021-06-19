@@ -56,11 +56,9 @@ private:
 
         inputContext->bindKeyToAction(
             [this]() {
-                m_window.setAttributes({
-                    m_window.getTitle(),
-                    m_window.getSize(),
-                    m_window.getMode() == Turbo::WindowMode::Bordered ? Turbo::WindowMode::FullScreen : Turbo::WindowMode::Bordered
-                });
+                m_window.setAttributes({m_window.getTitle(),
+                                        m_window.getSize(),
+                                        m_window.getMode() == Turbo::WindowMode::Bordered ? Turbo::WindowMode::FullScreen : Turbo::WindowMode::Bordered});
                 return true;
             },
             Turbo::Keyboard::Key::F11,
