@@ -19,8 +19,8 @@ namespace Turbo
         }
     };
 
-    Application::Application(Window<renderingApi>& window, InputManager& inputManager)
-        : m_window(window)
+    Application::Application(const WindowAttributes& windowAttributes, InputManager& inputManager)
+        : m_window(windowAttributes, inputManager)
         , m_inputManager(inputManager)
     {
         glGenVertexArrays(1, &m_vertexArray);
