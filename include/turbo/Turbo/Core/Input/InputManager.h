@@ -15,7 +15,7 @@ namespace Turbo
     class InputManager
     {
     private:
-        friend class Window;
+        friend class OpenGLWindow;
         friend class Application;
 
     public:

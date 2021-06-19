@@ -8,6 +8,7 @@
 #include <Turbo/Core/Layers/ImGuiLayer.h>
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/States/State.h>
+#include <Turbo/Core/Window/OpenGLWindow.h>
 #include <Turbo/Core/Window/Window.h>
 #include <fmt/color.h>
 #include <fmt/core.h>
@@ -60,7 +61,7 @@ private:
                 m_window.setAttributes({
                     m_window.getTitle(),
                     m_window.getSize(),
-                    m_window.getMode() == Turbo::Window::Mode::Bordered ? Turbo::Window::Mode::FullScreen : Turbo::Window::Mode::Bordered
+                    m_window.getMode() == Turbo::WindowMode::Bordered ? Turbo::WindowMode::FullScreen : Turbo::WindowMode::Bordered
                 });
                 return true;
             },
@@ -98,7 +99,7 @@ private:
 int main()
 {
     Turbo::InputManager inputManager;
-    Turbo::Window window({"Turbo", glm::vec2(2560, 1440), Turbo::Window::Mode::Bordered}, inputManager);
+    Turbo::OpenGLWindow window({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered}, inputManager);
 
     Turbo::Application app(window, inputManager);
     app.push(new TestState(app));

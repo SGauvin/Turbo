@@ -4,7 +4,7 @@
 #include "Turbo/Core/Application.h"
 #include "Turbo/Core/Input/InputManager.h"
 #include "Turbo/Core/Layers/Layer.h"
-#include "Turbo/Core/Window/Window.h"
+#include "Turbo/Core/Window/OpenGLWindow.h"
 
 namespace Turbo
 {
@@ -24,7 +24,7 @@ namespace Turbo
     protected:
         Application& m_application;
         InputManager& m_inputManager;
-        Window& m_window;
+        OpenGLWindow& m_window;
         std::vector<Layer*> m_layers;
 
     private:

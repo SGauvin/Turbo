@@ -19,7 +19,7 @@ namespace Turbo
         }
     };
 
-    Application::Application(Window& window, InputManager& inputManager)
+    Application::Application(OpenGLWindow& window, InputManager& inputManager)
         : m_window(window)
         , m_inputManager(inputManager)
     {

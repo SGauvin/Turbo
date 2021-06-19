@@ -25,7 +25,7 @@ namespace Turbo
     protected:
         Application& m_application;
         InputManager& m_inputManager;
-        Window& m_window;
+        OpenGLWindow& m_window;
     };
 } // namespace Turbo
 
