@@ -4,6 +4,26 @@
 #include "Turbo/Core/Log.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/States/State.h"
+#include "Turbo/Core/Renderer/BufferLayout.h"
+
+namespace
+{
+    GLenum getOpenGLType(Turbo::DataType dataType)
+    {
+        static constexpr GLenum dataTypes[] = {
+            GL_FLOAT, // Float
+            GL_FLOAT, // Float2
+            GL_FLOAT, // Float3
+            GL_FLOAT, // Float4
+            GL_INT, // Int
+            GL_INT, // Int2
+            GL_INT, // Int3
+            GL_INT, // Int4
+            GL_BOOL, // Bool
+        };
+        return dataTypes[static_cast<std::uint8_t>(dataType)];
+    }
+}
 
 namespace Turbo
 {
@@ -26,11 +46,23 @@ namespace Turbo
         glGenVertexArrays(1, &m_vertexArray);
         glBindVertexArray(m_vertexArray);
 
-        float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
+        float vertices[] = {
+            -0.5f, -0.5f, 0.0f, 1.f, 0.f, 1.f, 1.f,
+            0.5f, -0.5f, 0.0f, 0.f, 1.f, 0.f, 1.f,
+            0.0f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f
+        };
         m_vertexBuffer = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
 
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+        BufferLayout layout = {
+            { DataType::Float3, "position" },
+            { DataType::Float4, "position2" },
+        };
+
+        for (std::size_t i = 0; i < layout.size(); i++)
+        {
+            glEnableVertexAttribArray(i);
+            glVertexAttribPointer(i, layout[i].getComponentCount(), ::getOpenGLType(layout[i].getDataType()), layout[i].isNormalized(), layout.getStride(), reinterpret_cast<void*>(layout[i].getOffset()));
+        }
 
         std::uint32_t indices[] = {0, 1, 2};
         std::span sheesh = std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t));
@@ -40,11 +72,15 @@ namespace Turbo
             #version 330 core
 
             layout(location = 0) in vec3 position;
+            layout(location = 1) in vec4 color;
+
             out vec3 v_position;
+            out vec4 v_color;
 
             void main()
             {
                 v_position = position;
+                v_color = color;
                 gl_Position = vec4(position, 1.0);
             }
         )";
@@ -54,10 +90,12 @@ namespace Turbo
 
             layout(location = 0) out vec4 color;
             in vec3 v_position;
+            in vec4 v_color;
 
             void main()
             {
                 color = vec4(v_position / 2 + 0.5, 1.0);
+                color = v_color;
             }
         )";
 

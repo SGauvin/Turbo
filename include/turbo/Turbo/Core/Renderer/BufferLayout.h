@@ -17,10 +17,6 @@ namespace Turbo
         Int2,
         Int3,
         Int4,
-        UInt,
-        UInt2,
-        UInt3,
-        UInt4,
         Bool,
     };
 
@@ -28,19 +24,31 @@ namespace Turbo
     {
     public:
         friend class BufferLayout;
-        BufferElement(DataType type, const std::string& name);
+        BufferElement(DataType type, const std::string& name, bool isNormalized = false);
+
+        DataType getDataType() const;
+        std::uint8_t getSize() const;
+        std::uint32_t& getOffset();
+        std::uint8_t getComponentCount() const;
+        bool isNormalized() const;
 
     private:
         DataType m_type;
         std::string m_name;
         std::uint8_t m_size;
-        std::uint16_t m_offset;
+        std::uint32_t m_offset;
+        std::uint8_t m_componentCount;
+        bool m_isNormalized;
     };
 
     class BufferLayout
     {
     public:
         BufferLayout(std::initializer_list<BufferElement> elements);
+        BufferElement& operator[](std::size_t i);
+        std::size_t size() const;
+        std::uint32_t getStride() const;
+
     private:
         std::vector<BufferElement> m_elements;
         std::uint32_t m_stride;
