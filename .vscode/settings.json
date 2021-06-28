@@ -71,6 +71,11 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "clocale": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "valarray": "cpp"
     }
 }
