@@ -1,5 +1,5 @@
-#include "Turbo/Core/Window/OpenGLWindow.h"
 #include <glad/glad.h>
+#include "Turbo/Core/Window/OpenGLWindow.h"
 #include "Turbo/Core/Log.h"
 
 namespace

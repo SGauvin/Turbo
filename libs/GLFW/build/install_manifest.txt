@@ -1,8 +1,0 @@
-C:/Users/Simon/Desktop/glfw-3.3.2/build/../lib/include/GLFW/glfw3.h
-C:/Users/Simon/Desktop/glfw-3.3.2/build/../lib/include/GLFW/glfw3native.h
-C:/Users/Simon/Desktop/glfw-3.3.2/build/../lib/lib/cmake/glfw3/glfw3Config.cmake
-C:/Users/Simon/Desktop/glfw-3.3.2/build/../lib/lib/cmake/glfw3/glfw3ConfigVersion.cmake
-C:/Users/Simon/Desktop/glfw-3.3.2/build/../lib/lib/cmake/glfw3/glfw3Targets.cmake
-C:/Users/Simon/Desktop/glfw-3.3.2/build/../lib/lib/cmake/glfw3/glfw3Targets-noconfig.cmake
-C:/Users/Simon/Desktop/glfw-3.3.2/build/../lib/lib/pkgconfig/glfw3.pc
-C:/Users/Simon/Desktop/glfw-3.3.2/build/../lib/lib/libglfw3.a
