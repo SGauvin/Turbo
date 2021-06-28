@@ -1,5 +1,4 @@
 #include <iostream>
-// #include <Turbo/Test.h>
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -8,8 +7,6 @@
 #include <Turbo/Core/Layers/ImGuiLayer.h>
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/States/State.h>
-#include <fmt/color.h>
-#include <fmt/core.h>
 
 class TriangleLayer : public Turbo::Layer
 {
