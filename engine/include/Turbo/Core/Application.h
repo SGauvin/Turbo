@@ -26,6 +26,8 @@ namespace Turbo
         void push(State* state);
         void pop();
 
+        void setTargetUps(double ups);
+        void setTargetFps(double fps);
         void start();
 
         Window<renderingApi>& getWindow() { return m_window; }

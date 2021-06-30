@@ -139,6 +139,16 @@ namespace Turbo
         }
     }
 
+    void Application::setTargetUps(double ups)
+    {
+        std::chrono::duration<double> m_timePerUpdate = std::chrono::nanoseconds(static_cast<std::uint32_t>(std::round(1000000000.f / ups)));
+    }
+
+    void Application::setTargetFps(double fps)
+    {
+        std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(static_cast<std::uint32_t>(std::round(1000000000.f / fps)));
+    }
+
     void Application::start()
     {
         Clock clock;
