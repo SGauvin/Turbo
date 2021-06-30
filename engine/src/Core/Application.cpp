@@ -219,6 +219,5 @@ namespace Turbo
                 m_drawLag -= std::floor(m_drawLag / m_timePerDraw) * m_timePerDraw;
             }
         }
-        m_window.destroy();
     }
 } // namespace Turbo
