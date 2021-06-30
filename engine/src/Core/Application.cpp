@@ -129,14 +129,7 @@ namespace Turbo
         delete m_states.back();
         m_states.pop_back();
 
-        if (m_states.empty())
-        {
-            m_inputManager.onStateChange(nullptr);
-        }
-        else
-        {
-            m_inputManager.onStateChange(m_states.back());
-        }
+        m_inputManager.onStateChange(m_states.empty() ? nullptr : m_states.back());
     }
 
     void Application::setTargetUps(double ups)
