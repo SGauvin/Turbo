@@ -65,8 +65,7 @@ namespace Turbo
         }
 
         std::uint32_t indices[] = {0, 1, 2};
-        std::span sheesh = std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t));
-        m_indexBuffer = std::make_unique<IndexBuffer<renderingApi>>(sheesh);
+        m_indexBuffer = std::make_unique<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
 
         std::string vertexSource = R"(
             #version 330 core
