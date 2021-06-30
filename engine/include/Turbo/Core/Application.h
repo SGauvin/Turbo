@@ -20,7 +20,7 @@ namespace Turbo
     class Application
     {
     public:
-        Application(const WindowAttributes& windowAttributes, InputManager& inputManager);
+        Application(const WindowAttributes& windowAttributes);
         ~Application();
 
         void push(State* state);
@@ -34,16 +34,16 @@ namespace Turbo
         InputManager& getInputManager() { return m_inputManager; }
 
     private:
+        InputManager m_inputManager;
         Window<renderingApi> m_window;
-        InputManager& m_inputManager;
-        Shader<renderingApi> m_shader;
 
         std::vector<State*> m_states;
 
+        Shader<renderingApi> m_shader;
         std::unique_ptr<VertexBuffer<renderingApi>> m_vertexBuffer;
         std::unique_ptr<IndexBuffer<renderingApi>> m_indexBuffer;
-
         std::uint32_t m_vertexArray;
+
 
         std::chrono::duration<double> m_timePerUpdate = std::chrono::nanoseconds(1000000000 / 60);
         std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(1000000000 / 144);

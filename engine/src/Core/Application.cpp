@@ -39,9 +39,9 @@ namespace Turbo
         }
     };
 
-    Application::Application(const WindowAttributes& windowAttributes, InputManager& inputManager)
-        : m_window(windowAttributes, inputManager)
-        , m_inputManager(inputManager)
+    Application::Application(const WindowAttributes& windowAttributes)
+        : m_inputManager()
+        , m_window(windowAttributes, m_inputManager)
     {
         glGenVertexArrays(1, &m_vertexArray);
         glBindVertexArray(m_vertexArray);
@@ -152,7 +152,7 @@ namespace Turbo
     void Application::start()
     {
         Clock clock;
-        while (m_window.isOpen() && !m_states.empty())
+        while (m_window.isOpen() && !m_states.empty()) [[likely]]
         {
             {
                 auto elapsed = clock.restart();
@@ -189,7 +189,7 @@ namespace Turbo
                 m_updateLag -= m_timePerUpdate;
             }
 
-            if (m_states.empty())
+            if (m_states.empty()) [[unlikely]]
             {
                 m_drawLag = std::chrono::nanoseconds(0);
                 m_updateLag = std::chrono::nanoseconds(0);

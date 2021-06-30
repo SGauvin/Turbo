@@ -91,8 +91,7 @@ private:
 
 int main()
 {
-    Turbo::InputManager inputManager;
-    Turbo::Application app({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered}, inputManager);
+    Turbo::Application app({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered});
     app.setTargetFps(144.f);
     app.setTargetUps(60.f);
     app.push(new TestState(app));
