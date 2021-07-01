@@ -139,6 +139,11 @@ namespace Turbo
         destroy();
         glfwInit();
 
+
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         m_mode = windowAttributes.mode;
         m_size = {windowAttributes.size.x, windowAttributes.size.y};
@@ -158,21 +163,20 @@ namespace Turbo
         if (m_window == nullptr)
         {
             TURBO_ENGINE_ERROR("Error creating the window");
+            return;
         }
-        else
-        {
-            TURBO_ENGINE_INFO("Window created");
-        }
+
 
         m_context = std::make_unique<OpenGLContext>(m_window);
         m_context->init();
 
+        TURBO_ENGINE_INFO("Window created");
+        const std::uint8_t* version = glGetString(GL_VERSION);
+        TURBO_ENGINE_INFO("OpenGL version: {}", version);
+
         setIsVSyncEnabled(m_isVsyncEnabled);
-
         setCallbacks();
-
         setIsResizable(m_isResizable);
-
         glfwGetCursorPos(m_window, &m_inputManager.m_mousePosition.x, &m_inputManager.m_mousePosition.y);
     }
 
