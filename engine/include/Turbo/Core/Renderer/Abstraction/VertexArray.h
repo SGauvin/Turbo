@@ -14,8 +14,6 @@ namespace Turbo
         VertexArray();
         ~VertexArray();
 
-        void 
-
         void bind() const;
     };
 } // namespace Turbo
