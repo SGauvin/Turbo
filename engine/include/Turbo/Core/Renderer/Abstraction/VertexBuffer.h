@@ -17,7 +17,6 @@ namespace Turbo
         ~VertexBuffer();
 
         void bind() const;
-        void unbind() const;
     };
 } // namespace Turbo
 

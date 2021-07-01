@@ -120,6 +120,4 @@ namespace Turbo
     }
 
     void Shader<RenderingApi::OpenGL>::bind() const { glUseProgram(m_programId); }
-
-    void Shader<RenderingApi::OpenGL>::unbind() const { glUseProgram(0); }
 } // namespace Turbo

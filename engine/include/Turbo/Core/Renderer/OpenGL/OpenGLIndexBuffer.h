@@ -14,7 +14,6 @@ namespace Turbo
         ~IndexBuffer();
 
         void bind() const;
-        void unbind() const;
 
         std::uint32_t getCount() const;
 

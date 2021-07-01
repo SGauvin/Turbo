@@ -15,7 +15,6 @@ namespace Turbo
         VertexBuffer(std::span<float> vertices);
         ~VertexBuffer();
         void bind() const;
-        void unbind() const;
 
     private:
         std::uint32_t m_rendererId;

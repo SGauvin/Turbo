@@ -14,7 +14,6 @@ namespace Turbo
 
         bool load(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
         void bind() const;
-        void unbind() const;
     };
 
 } // namespace Turbo

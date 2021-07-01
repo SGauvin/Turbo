@@ -13,6 +13,4 @@ namespace Turbo
     VertexBuffer<RenderingApi::OpenGL>::~VertexBuffer() { glDeleteBuffers(1, &m_rendererId); }
 
     void VertexBuffer<RenderingApi::OpenGL>::bind() const { glBindBuffer(GL_ARRAY_BUFFER, m_rendererId); }
-
-    void VertexBuffer<RenderingApi::OpenGL>::unbind() const { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 } // namespace Turbo
