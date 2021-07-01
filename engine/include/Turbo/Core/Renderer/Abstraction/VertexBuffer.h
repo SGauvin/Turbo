@@ -1,11 +1,9 @@
 #ifndef INCLUDED_TURBO_VERTEXBUFFER_H
 #define INCLUDED_TURBO_VERTEXBUFFER_H
 
-#include <memory>
 #include <span>
-#include <glad/glad.h>
-#include "Turbo/Core/Log.h"
 #include "Turbo/Core/Renderer/RenderingApi.h"
+#include "Turbo/Core/Renderer/BufferLayout.h"
 
 namespace Turbo
 {
@@ -13,11 +11,13 @@ namespace Turbo
     class VertexBuffer
     {
     public:
-        VertexBuffer(std::span<float> vertices);
+        VertexBuffer(std::span<float> vertices, const BufferLayout& layout);
         ~VertexBuffer();
 
         void bind() const;
     };
 } // namespace Turbo
+
+#include "Turbo/Core/Renderer/OpenGL/OpenGLVertexBuffer.h"
 
 #endif // INCLUDED_TURBO_VERTEXBUFFER_H

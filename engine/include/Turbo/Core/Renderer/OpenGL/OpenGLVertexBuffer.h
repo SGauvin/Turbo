@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
 #include "Turbo/Core/Renderer/RenderingApi.h"
+#include "Turbo/Core/Renderer/BufferLayout.h"
 
 namespace Turbo
 {
@@ -12,12 +13,13 @@ namespace Turbo
     class VertexBuffer<RenderingApi::OpenGL>
     {
     public:
-        VertexBuffer(std::span<float> vertices);
+        VertexBuffer(std::span<float> vertices, const BufferLayout& layout);
         ~VertexBuffer();
         void bind() const;
 
     private:
         std::uint32_t m_rendererId;
+        BufferLayout m_layout;
     };
 } // namespace Turbo
 

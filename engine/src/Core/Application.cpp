@@ -1,6 +1,6 @@
+#include <glad/glad.h>
 #include "Turbo/Core/Application.h"
 #include <cmath>
-#include <glad/glad.h>
 #include "Turbo/Core/Log.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/States/State.h"
@@ -43,6 +43,10 @@ namespace Turbo
         : m_inputManager()
         , m_window(windowAttributes, m_inputManager)
     {
+        BufferLayout layout = {
+            { DataType::Float3, "position" },
+            { DataType::Float4, "color" },
+        };
         // MESH 1
         {
             glGenVertexArrays(1, &m_vertexArray);
@@ -53,12 +57,7 @@ namespace Turbo
                 0.5f, -0.5f, 0.0f, 0.f, 1.f, 0.f, 1.f,
                 0.0f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f
             };
-            m_vertexBuffer = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
-
-            BufferLayout layout = {
-                { DataType::Float3, "position" },
-                { DataType::Float4, "color" },
-            };
+            m_vertexBuffer = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)), layout);
 
             for (std::size_t i = 0; i < layout.size(); i++)
             {
@@ -81,16 +80,11 @@ namespace Turbo
                 0.5f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
                 -0.5f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f
             };
-            m_vertexBuffer2 = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            m_vertexBuffer2 = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)), layout);
 
             std::uint32_t indices[] = {0, 1, 2, 2, 3, 0};
             m_indexBuffer2 = std::make_unique<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
         }
-
-        BufferLayout layout = {
-            { DataType::Float3, "position" },
-            { DataType::Float4, "position2" },
-        };
 
         for (std::size_t i = 0; i < layout.size(); i++)
         {

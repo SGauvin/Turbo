@@ -6,9 +6,7 @@
 #include <vector>
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
-#include "Turbo/Core/Renderer/OpenGL/OpenGLIndexBuffer.h"
-#include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
-#include "Turbo/Core/Window/OpenGLWindow.h"
+#include "Turbo/Core/Renderer/Abstraction/Shader.h"
 #include "Turbo/Core/Window/Window.h"
 
 namespace Turbo

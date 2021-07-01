@@ -18,4 +18,6 @@ namespace Turbo
     };
 } // namespace Turbo
 
+#include "Turbo/Core/Renderer/OpenGL/OpenGLVertexArray.h"
+
 #endif // INCLUDED_TURBO_VERTEXARRAY_H

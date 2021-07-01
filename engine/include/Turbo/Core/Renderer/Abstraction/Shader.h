@@ -18,4 +18,6 @@ namespace Turbo
 
 } // namespace Turbo
 
+#include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
+
 #endif // INCLUDED_TURBO_SHADER_H

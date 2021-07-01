@@ -56,4 +56,6 @@ namespace Turbo
     };
 } // namespace Turbo
 
+#include "Turbo/Core/Window/OpenGLWindow.h"
+
 #endif // INCLUDED_TURBO_WINDOW_H

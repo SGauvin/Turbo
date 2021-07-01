@@ -19,4 +19,6 @@ namespace Turbo
     };
 } // namespace Turbo
 
+#include "Turbo/Core/Renderer/OpenGL/OpenGLIndexBuffer.h"
+
 #endif // INCLUDED_TURBO_INDEXBUFFER_H
