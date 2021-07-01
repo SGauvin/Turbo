@@ -43,15 +43,49 @@ namespace Turbo
         : m_inputManager()
         , m_window(windowAttributes, m_inputManager)
     {
-        glGenVertexArrays(1, &m_vertexArray);
-        glBindVertexArray(m_vertexArray);
+        // MESH 1
+        {
+            glGenVertexArrays(1, &m_vertexArray);
+            glBindVertexArray(m_vertexArray);
 
-        float vertices[] = {
-            -0.5f, -0.5f, 0.0f, 1.f, 0.f, 0.f, 1.f,
-            0.5f, -0.5f, 0.0f, 0.f, 1.f, 0.f, 1.f,
-            0.0f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f
-        };
-        m_vertexBuffer = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            float vertices[] = {
+                -0.5f, -0.5f, 0.0f, 1.f, 0.f, 0.f, 1.f,
+                0.5f, -0.5f, 0.0f, 0.f, 1.f, 0.f, 1.f,
+                0.0f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f
+            };
+            m_vertexBuffer = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+
+            BufferLayout layout = {
+                { DataType::Float3, "position" },
+                { DataType::Float4, "color" },
+            };
+
+            for (std::size_t i = 0; i < layout.size(); i++)
+            {
+                glEnableVertexAttribArray(i);
+                glVertexAttribPointer(i, layout[i].getComponentCount(), ::getOpenGLType(layout[i].getDataType()), layout[i].isNormalized(), layout.getStride(), reinterpret_cast<void*>(layout[i].getOffset()));
+            }
+
+            std::uint32_t indices[] = {0, 1, 2};
+            m_indexBuffer = std::make_unique<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+        }
+
+        // MESH 2
+        {
+            glGenVertexArrays(1, &m_vertexArray2);
+            glBindVertexArray(m_vertexArray2);
+
+            float vertices[] = {
+                -0.5f, -0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
+                0.5f, -0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
+                0.5f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
+                -0.5f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f
+            };
+            m_vertexBuffer2 = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+
+            std::uint32_t indices[] = {0, 1, 2, 2, 3, 0};
+            m_indexBuffer2 = std::make_unique<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+        }
 
         BufferLayout layout = {
             { DataType::Float3, "position" },
@@ -64,8 +98,7 @@ namespace Turbo
             glVertexAttribPointer(i, layout[i].getComponentCount(), ::getOpenGLType(layout[i].getDataType()), layout[i].isNormalized(), layout.getStride(), reinterpret_cast<void*>(layout[i].getOffset()));
         }
 
-        std::uint32_t indices[] = {0, 1, 2};
-        m_indexBuffer = std::make_unique<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+        // SHADERS
 
         std::string vertexSource = R"(
             #version 330 core
@@ -201,6 +234,10 @@ namespace Turbo
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
                 m_shader.bind();
+        
+                glBindVertexArray(m_vertexArray2);
+                glDrawElements(GL_TRIANGLES, m_indexBuffer2->getCount(), GL_UNSIGNED_INT, nullptr);
+
                 glBindVertexArray(m_vertexArray);
                 glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 

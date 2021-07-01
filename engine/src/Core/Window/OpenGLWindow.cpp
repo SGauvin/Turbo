@@ -166,7 +166,6 @@ namespace Turbo
             return;
         }
 
-
         m_context = std::make_unique<OpenGLContext>(m_window);
         m_context->init();
 

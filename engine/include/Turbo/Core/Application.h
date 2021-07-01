@@ -40,9 +40,13 @@ namespace Turbo
         std::vector<State*> m_states;
 
         Shader<renderingApi> m_shader;
+        
         std::unique_ptr<VertexBuffer<renderingApi>> m_vertexBuffer;
         std::unique_ptr<IndexBuffer<renderingApi>> m_indexBuffer;
         std::uint32_t m_vertexArray;
+        std::unique_ptr<VertexBuffer<renderingApi>> m_vertexBuffer2;
+        std::unique_ptr<IndexBuffer<renderingApi>> m_indexBuffer2;
+        std::uint32_t m_vertexArray2;
 
 
         std::chrono::duration<double> m_timePerUpdate = std::chrono::nanoseconds(1000000000 / 60);
