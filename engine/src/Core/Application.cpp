@@ -6,6 +6,11 @@
 #include "Turbo/Core/States/State.h"
 #include "Turbo/Core/Renderer/BufferLayout.h"
 
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_opengl3.h"
+#include "Turbo/Core/Window/OpenGLWindow.h"
+#include "imgui/backends/imgui_impl_glfw.h"
+
 namespace
 {
     GLenum getOpenGLType(Turbo::DataType dataType)
@@ -126,6 +131,8 @@ namespace Turbo
         )";
 
         m_shader.load(vertexSource, fragmentSource);
+
+        m_frameBuffer = std::make_unique<FrameBuffer<renderingApi>>(glm::ivec2{800, 600});
     }
 
     Application::~Application()
@@ -224,16 +231,10 @@ namespace Turbo
             // Draw
             if (m_drawLag >= m_timePerDraw)
             {
+                m_frameBuffer->unbind();
+
                 glClearColor(0.1f, 0.1f, 0.11f, 1.f);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-                m_shader.bind();
-        
-                glBindVertexArray(m_vertexArray2);
-                glDrawElements(GL_TRIANGLES, m_indexBuffer2->getCount(), GL_UNSIGNED_INT, nullptr);
-
-                glBindVertexArray(m_vertexArray);
-                glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 
                 // Calculate lag for draw interpolation
                 float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
@@ -246,6 +247,51 @@ namespace Turbo
                         layer->draw(lag);
                     }
                 }
+
+                ImGui_ImplOpenGL3_NewFrame();
+                ImGui_ImplGlfw_NewFrame();
+                ImGui::NewFrame();
+
+                // ImGui::SetNextWindowSize(ImVec2(810, 610));
+                ImGui::Begin("GameWindow");
+                ImGui::BeginChild("GameRender");
+                ImVec2 size = ImGui::GetWindowSize();
+
+                glViewport(0, 0, 800, 600);
+                m_frameBuffer->bind();
+                glClearColor(0.1f, 0.1f, 0.11f, 1.f);
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+                m_shader.bind();
+        
+                glBindVertexArray(m_vertexArray2);
+                glDrawElements(GL_TRIANGLES, m_indexBuffer2->getCount(), GL_UNSIGNED_INT, nullptr);
+
+                glBindVertexArray(m_vertexArray);
+                glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+                ImGui::Image(reinterpret_cast<void*>(m_frameBuffer->getTexture()), size, ImVec2(0, 1), ImVec2(1, 0));
+                ImGui::EndChild();
+                ImGui::End();
+
+
+                ImGui::Render();
+                ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+                ImGuiIO& io = ImGui::GetIO();
+                io.DisplaySize = {static_cast<float>(m_window.getSize().x), static_cast<float>(m_window.getSize().y)};
+                io.DeltaTime = (1.0f / 60.0f);
+
+                if (io.ConfigFlags | ImGuiConfigFlags_ViewportsEnable)
+                {
+                    GLFWwindow* backupCurrentContext = glfwGetCurrentContext();
+                    ImGui::UpdatePlatformWindows();
+                    ImGui::RenderPlatformWindowsDefault();
+                    glfwMakeContextCurrent(backupCurrentContext);
+                }
+
 
                 m_window.swapBuffers();
 

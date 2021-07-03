@@ -4,6 +4,7 @@
 #include <chrono>
 #include <numeric>
 #include <vector>
+#include "Turbo/Core/Renderer/Abstraction/FrameBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/Shader.h"
@@ -38,6 +39,8 @@ namespace Turbo
         std::vector<State*> m_states;
 
         Shader<renderingApi> m_shader;
+
+        std::unique_ptr<FrameBuffer<renderingApi>> m_frameBuffer;
         
         std::unique_ptr<VertexBuffer<renderingApi>> m_vertexBuffer;
         std::unique_ptr<IndexBuffer<renderingApi>> m_indexBuffer;
@@ -45,7 +48,6 @@ namespace Turbo
         std::unique_ptr<VertexBuffer<renderingApi>> m_vertexBuffer2;
         std::unique_ptr<IndexBuffer<renderingApi>> m_indexBuffer2;
         std::uint32_t m_vertexArray2;
-
 
         std::chrono::duration<double> m_timePerUpdate = std::chrono::nanoseconds(1000000000 / 60);
         std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(1000000000 / 144);
