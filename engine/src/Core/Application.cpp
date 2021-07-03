@@ -252,12 +252,19 @@ namespace Turbo
                 ImGui_ImplGlfw_NewFrame();
                 ImGui::NewFrame();
 
-                // ImGui::SetNextWindowSize(ImVec2(810, 610));
-                ImGui::Begin("GameWindow");
-                ImGui::BeginChild("GameRender");
-                ImVec2 size = ImGui::GetWindowSize();
+                // VIEWPORT
 
-                glViewport(0, 0, 800, 600);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
+                ImGui::Begin("GameWindow");
+                static ImVec2 viewportSize = ImVec2(0, 0);
+                ImVec2 currentViewportSize = ImGui::GetContentRegionAvail();
+                if (viewportSize.x != currentViewportSize.x || viewportSize.y != currentViewportSize.y)
+                {
+                    viewportSize = currentViewportSize;
+                    m_frameBuffer->resize(glm::ivec2(viewportSize.x, viewportSize.y));
+                    glViewport(0, 0, viewportSize.x, viewportSize.y);
+                }
+
                 m_frameBuffer->bind();
                 glClearColor(0.1f, 0.1f, 0.11f, 1.f);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -271,11 +278,9 @@ namespace Turbo
                 glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-                ImGui::Image(reinterpret_cast<void*>(m_frameBuffer->getTexture()), size, ImVec2(0, 1), ImVec2(1, 0));
-                ImGui::EndChild();
+                ImGui::Image(reinterpret_cast<void*>(m_frameBuffer->getTexture()), viewportSize, ImVec2(0, 1), ImVec2(1, 0));
                 ImGui::End();
-
+                ImGui::PopStyleVar();
 
                 ImGui::Render();
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

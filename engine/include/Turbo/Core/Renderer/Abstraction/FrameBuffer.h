@@ -11,9 +11,9 @@ namespace Turbo
     {
     public:
         FrameBuffer(glm::ivec2 size);
-        void create();
         void bind() const;
         void unbind() const;
+        void resize(glm::ivec2 size);
         std::uint32_t getTexture() const;
     };
 }
