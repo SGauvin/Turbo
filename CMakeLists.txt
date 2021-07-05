@@ -4,11 +4,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 if (MSVC)
-    message("MSVC not setup")
+    message(FATAL_ERROR "MSVC not setup")
 else()
     set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter")
     if (WIN32)
-        message("MinGW not setup")
+        message(FATAL_ERROR "MinGW not setup")
     endif()
 endif()
 
