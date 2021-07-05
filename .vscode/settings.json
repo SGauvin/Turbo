@@ -76,6 +76,18 @@
         "string_view": "cpp",
         "ranges": "cpp",
         "span": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "format": "cpp",
+        "any": "cpp",
+        "bit": "cpp",
+        "*.tcc": "cpp",
+        "compare": "cpp",
+        "complex": "cpp",
+        "csignal": "cpp",
+        "cwctype": "cpp",
+        "memory_resource": "cpp",
+        "stop_token": "cpp",
+        "cinttypes": "cpp",
+        "typeindex": "cpp"
     }
 }

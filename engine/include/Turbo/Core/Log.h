@@ -12,33 +12,30 @@
 #if defined TURBO_CLIENT_LOG
 #if defined _WIN32
 #define TURBO_INFO(...) \
-    ::fmt::print(__FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
-    ::fmt::print("Client info: "); \
+    ::fmt::print("{}:{}: Client info: ", __FILE__, __LINE__); \
     ::fmt::print(__VA_ARGS__); \
     ::fmt::print("\n")
 #define TURBO_WARNING(...) \
-    ::fmt::print(__FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
-    ::fmt::print("Client warning: "); \
+    ::fmt::print("{}:{}: Client warning: ", __FILE__, __LINE__); \
     ::fmt::print(__VA_ARGS__); \
     ::fmt::print("\n")
 #define TURBO_ERROR(...) \
-    ::fmt::print(__FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
-    ::fmt::print("Client error: "); \
+    ::fmt::print("{}:{}: Client error: ", __FILE__, __LINE__); \
     ::fmt::print(__VA_ARGS__); \
     ::fmt::print("\n")
 #else
 #define TURBO_INFO(...) \
-    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::green), "Client info: "); \
     ::fmt::print(fg(fmt::color::light_green), __VA_ARGS__); \
     ::fmt::print("\n")
 #define TURBO_WARNING(...) \
-    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::yellow), "Client warning: "); \
     ::fmt::print(fg(static_cast<fmt::color>(0XFFFF73)), __VA_ARGS__); \
     ::fmt::print("\n")
 #define TURBO_ERROR(...) \
-    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::red), "Client error: "); \
     ::fmt::print(fg(fmt::color::indian_red), __VA_ARGS__); \
     ::fmt::print("\n")
@@ -53,33 +50,30 @@
 #if defined TURBO_ENGINE_LOG
 #if defined _WIN32
 #define TURBO_ENGINE_INFO(...) \
-    ::fmt::print(__FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
-    ::fmt::print("Turbo info: "); \
+    ::fmt::print("{}:{}: Turbo info: ", __FILE__, __LINE__); \
     ::fmt::print(__VA_ARGS__); \
     ::fmt::print("\n")
 #define TURBO_ENGINE_WARNING(...) \
-    ::fmt::print(__FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
-    ::fmt::print("Turbo warning: "); \
+    ::fmt::print("{}:{}: Turbo warning: ", __FILE__, __LINE__); \
     ::fmt::print(__VA_ARGS__); \
     ::fmt::print("\n")
 #define TURBO_ENGINE_ERROR(...) \
-    ::fmt::print(__FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
-    ::fmt::print("Turbo error: "); \
+    ::fmt::print("{}:{}: Turbo error: ", __FILE__, __LINE__); \
     ::fmt::print(__VA_ARGS__); \
     ::fmt::print("\n")
 #else
 #define TURBO_ENGINE_INFO(...) \
-    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::green), "Turbo info: "); \
     ::fmt::print(fg(fmt::color::light_green), __VA_ARGS__); \
     ::fmt::print("\n")
 #define TURBO_ENGINE_WARNING(...) \
-    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::yellow), "Turbo warning: "); \
     ::fmt::print(fg(static_cast<fmt::color>(0XFFFF73)), __VA_ARGS__); \
     ::fmt::print("\n")
 #define TURBO_ENGINE_ERROR(...) \
-    ::fmt::print(fg(fmt::color::light_slate_gray), __FILE__ + std::string(":") + std::to_string(__LINE__) + std::string(": ")); \
+    ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::red), "Turbo error: "); \
     ::fmt::print(fg(fmt::color::indian_red), __VA_ARGS__); \
     ::fmt::print("\n")
