@@ -231,8 +231,6 @@ namespace Turbo
             // Draw
             if (m_drawLag >= m_timePerDraw)
             {
-                m_frameBuffer->unbind();
-
                 glClearColor(0.1f, 0.1f, 0.11f, 1.f);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -262,10 +260,10 @@ namespace Turbo
                 {
                     viewportSize = currentViewportSize;
                     m_frameBuffer->resize(glm::ivec2(viewportSize.x, viewportSize.y));
-                    glViewport(0, 0, viewportSize.x, viewportSize.y);
                 }
 
                 m_frameBuffer->bind();
+                glViewport(0, 0, viewportSize.x, viewportSize.y);
                 glClearColor(0.1f, 0.1f, 0.11f, 1.f);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -277,6 +275,7 @@ namespace Turbo
                 glBindVertexArray(m_vertexArray);
                 glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                m_frameBuffer->unbind();
 
                 ImGui::Image(reinterpret_cast<void*>(m_frameBuffer->getTexture()), viewportSize, ImVec2(0, 1), ImVec2(1, 0));
                 ImGui::End();
@@ -284,6 +283,7 @@ namespace Turbo
 
                 ImGui::Render();
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 
                 ImGuiIO& io = ImGui::GetIO();
                 io.DisplaySize = {static_cast<float>(m_window.getSize().x), static_cast<float>(m_window.getSize().y)};
@@ -296,7 +296,6 @@ namespace Turbo
                     ImGui::RenderPlatformWindowsDefault();
                     glfwMakeContextCurrent(backupCurrentContext);
                 }
-
 
                 m_window.swapBuffers();
 
