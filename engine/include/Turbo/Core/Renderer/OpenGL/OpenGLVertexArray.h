@@ -14,6 +14,9 @@ namespace Turbo
         ~VertexArray();
 
         void bind() const;
+
+    private:
+        std::uint32_t m_vertexArray;
     };
 } // namespace Turbo
 
