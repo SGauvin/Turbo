@@ -1,15 +1,12 @@
 #ifndef INCLUDED_TURBO_LOG_H
 #define INCLUDED_TURBO_LOG_H
 
+#include <assert.h>
 #include <fmt/color.h>
 #include <fmt/core.h>
 
-// Temp:
-#define TURBO_CLIENT_LOG
-#define TURBO_ENGINE_LOG
-
 // Client logs
-#if defined TURBO_CLIENT_LOG
+#if defined TURBO_ENABLE_CLIENT_LOG
 #if defined _WIN32
 #define TURBO_INFO(...) \
     ::fmt::print("{}:{}: Client info: ", __FILE__, __LINE__); \
@@ -41,13 +38,13 @@
     ::fmt::print("\n")
 #endif // _WIN32
 #else
-#define TURBO_INFO(...) ((void)(0))
-#define TURBO_WARNING(...) ((void)(0))
-#define TURBO_ERROR(...) ((void)(0))
+#define TURBO_INFO(...) ((void)(__VA_ARGS__))
+#define TURBO_WARNING(...) ((void)(__VA_ARGS__))
+#define TURBO_ERROR(...) ((void)(__VA_ARGS__))
 #endif // TURBO_CLIENT_LOG
 
 // Engine logs
-#if defined TURBO_ENGINE_LOG
+#if defined TURBO_ENABLE_ENGINE_LOG
 #if defined _WIN32
 #define TURBO_ENGINE_INFO(...) \
     ::fmt::print("{}:{}: Turbo info: ", __FILE__, __LINE__); \
@@ -79,9 +76,20 @@
     ::fmt::print("\n")
 #endif // _WIN32
 #else
-#define TURBO_ENGINE_INFO(...) ((void)(0))
-#define TURBO_ENGINE_WARNING(...) ((void)(0))
-#define TURBO_ENGINE_ERROR(...) ((void)(0))
+#define TURBO_ENGINE_INFO(...) ((void)(__VA_ARGS__))
+#define TURBO_ENGINE_WARNING(...) ((void)(__VA_ARGS__))
+#define TURBO_ENGINE_ERROR(...) ((void)(__VA_ARGS__))
 #endif // TURBO_ENGINE_LOG
+
+#if defined(TURBO_ENABLE_ASSERT) and !defined(NDEBUG)
+#define TURBO_ASSERT(condition, message) \
+    if (!condition) [[unlikely]] \
+    { \
+        TURBO_ENGINE_ERROR(message); \
+    } \
+    assert(condition)
+#else
+    #define TURBO_ASSERT(condition, message) (void)(condition); (void)(message)
+#endif
 
 #endif // INCLUDED_TURBO_LOG_H

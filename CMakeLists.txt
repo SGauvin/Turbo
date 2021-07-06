@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+add_compile_definitions(TURBO_ENABLE_CLIENT_LOG)
+add_compile_definitions(TURBO_ENABLE_ENGINE_LOG)
+add_compile_definitions(TURBO_ENABLE_ASSERT)
+
 if (MSVC)
     message(FATAL_ERROR "MSVC not setup")
 else()
