@@ -7,20 +7,6 @@
 
 // Client logs
 #if defined TURBO_ENABLE_CLIENT_LOG
-#if defined _WIN32
-#define TURBO_INFO(...) \
-    ::fmt::print("{}:{}: Client info: ", __FILE__, __LINE__); \
-    ::fmt::print(__VA_ARGS__); \
-    ::fmt::print("\n")
-#define TURBO_WARNING(...) \
-    ::fmt::print("{}:{}: Client warning: ", __FILE__, __LINE__); \
-    ::fmt::print(__VA_ARGS__); \
-    ::fmt::print("\n")
-#define TURBO_ERROR(...) \
-    ::fmt::print("{}:{}: Client error: ", __FILE__, __LINE__); \
-    ::fmt::print(__VA_ARGS__); \
-    ::fmt::print("\n")
-#else
 #define TURBO_INFO(...) \
     ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::green), "Client info: "); \
@@ -36,7 +22,6 @@
     ::fmt::print(fg(fmt::color::red), "Client error: "); \
     ::fmt::print(fg(fmt::color::indian_red), __VA_ARGS__); \
     ::fmt::print("\n")
-#endif // _WIN32
 #else
 #define TURBO_INFO(...) ((void)(__VA_ARGS__))
 #define TURBO_WARNING(...) ((void)(__VA_ARGS__))
@@ -45,20 +30,7 @@
 
 // Engine logs
 #if defined TURBO_ENABLE_ENGINE_LOG
-#if defined _WIN32
-#define TURBO_ENGINE_INFO(...) \
-    ::fmt::print("{}:{}: Turbo info: ", __FILE__, __LINE__); \
-    ::fmt::print(__VA_ARGS__); \
-    ::fmt::print("\n")
-#define TURBO_ENGINE_WARNING(...) \
-    ::fmt::print("{}:{}: Turbo warning: ", __FILE__, __LINE__); \
-    ::fmt::print(__VA_ARGS__); \
-    ::fmt::print("\n")
-#define TURBO_ENGINE_ERROR(...) \
-    ::fmt::print("{}:{}: Turbo error: ", __FILE__, __LINE__); \
-    ::fmt::print(__VA_ARGS__); \
-    ::fmt::print("\n")
-#else
+
 #define TURBO_ENGINE_INFO(...) \
     ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::green), "Turbo info: "); \
@@ -74,7 +46,6 @@
     ::fmt::print(fg(fmt::color::red), "Turbo error: "); \
     ::fmt::print(fg(fmt::color::indian_red), __VA_ARGS__); \
     ::fmt::print("\n")
-#endif // _WIN32
 #else
 #define TURBO_ENGINE_INFO(...) ((void)(__VA_ARGS__))
 #define TURBO_ENGINE_WARNING(...) ((void)(__VA_ARGS__))
