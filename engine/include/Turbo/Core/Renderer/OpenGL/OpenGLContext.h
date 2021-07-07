@@ -1,7 +1,7 @@
 #ifndef INCLUDED_TURBO_OPENGLCONTEXT_H
 #define INCLUDED_TURBO_OPENGLCONTEXT_H
 
-class GLFWwindow;
+struct GLFWwindow;
 
 namespace Turbo
 {

@@ -5,7 +5,7 @@
 #include "Turbo/Core/Input/InputManager.h"
 #include "Turbo/Core/Renderer/RenderingApi.h"
 
-class GLFWwindow;
+struct GLFWwindow;
 
 namespace Turbo
 {
