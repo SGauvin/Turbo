@@ -93,8 +93,13 @@ namespace Turbo
 
         for (std::size_t i = 0; i < layout.size(); i++)
         {
-            glEnableVertexAttribArray(i);
-            glVertexAttribPointer(i, layout[i].getComponentCount(), ::getOpenGLType(layout[i].getDataType()), layout[i].isNormalized(), layout.getStride(), reinterpret_cast<void*>(layout[i].getOffset()));
+            glEnableVertexAttribArray(static_cast<std::uint32_t>(i));
+            glVertexAttribPointer(static_cast<std::uint32_t>(i),
+                                  layout[i].getComponentCount(),
+                                  ::getOpenGLType(layout[i].getDataType()),
+                                  layout[i].isNormalized(),
+                                  layout.getStride(),
+                                  reinterpret_cast<void*>(layout[i].getOffset()));
         }
 
         // SHADERS
@@ -263,7 +268,7 @@ namespace Turbo
                 }
 
                 m_frameBuffer->bind();
-                glViewport(0, 0, viewportSize.x, viewportSize.y);
+                glViewport(0, 0, static_cast<std::int32_t>(viewportSize.x), static_cast<std::int32_t>(viewportSize.y));
                 glClearColor(0.1f, 0.1f, 0.11f, 1.f);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -172,7 +172,7 @@ namespace Turbo
                 if ((rangeEvent.second.modifiers & event.modifiers) == rangeEvent.second.modifiers)
                 {
                     rangeEvent.second.isDown = true;
-                    bool callbackHandledEvent = (rangeEvent.second.callable)(rangeEvent.second.direction == Direction::Negative ? -1 : 1);
+                    bool callbackHandledEvent = (rangeEvent.second.callable)(rangeEvent.second.direction == Direction::Negative ? -1.f : 1.f);
                     isEventHandled = isEventHandled || callbackHandledEvent;
                 }
             }
