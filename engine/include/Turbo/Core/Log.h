@@ -1,9 +1,30 @@
 #ifndef INCLUDED_TURBO_LOG_H
 #define INCLUDED_TURBO_LOG_H
 
+#pragma once
+
 #include <assert.h>
 #include <fmt/color.h>
 #include <fmt/core.h>
+
+#if defined(_WIN32)
+    #include <Windows.h>
+    namespace Turbo
+    {
+        static void initLogs()
+        {
+            HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+            DWORD dwMode = 0;
+            GetConsoleMode(hOut, &dwMode);
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+    }
+#else
+    static void initLogs()
+    {
+    }
+#endif
 
 // Client logs
 #if defined TURBO_ENABLE_CLIENT_LOG

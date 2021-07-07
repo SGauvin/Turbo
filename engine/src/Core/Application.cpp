@@ -46,7 +46,7 @@ namespace Turbo
 
     Application::Application(const WindowAttributes& windowAttributes)
         : m_inputManager()
-        , m_window(windowAttributes, m_inputManager)
+        , m_window((initLogs(), windowAttributes), m_inputManager)
     {
         BufferLayout layout = {
             { DataType::Float3, "position" },
