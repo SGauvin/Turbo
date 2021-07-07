@@ -21,8 +21,11 @@
         }
     }
 #else
-    static void initLogs()
+    namespace Turbo
     {
+        static void initLogs()
+        {
+        }
     }
 #endif
 
