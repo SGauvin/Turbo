@@ -77,14 +77,14 @@
 #endif // TURBO_ENGINE_LOG
 
 #if defined(TURBO_ENABLE_ASSERT) and !defined(NDEBUG)
-#define TURBO_ASSERT(condition, message) \
+#define TURBO_ASSERT(condition, ...) \
     if (!condition) [[unlikely]] \
     { \
-        TURBO_ENGINE_ERROR(message); \
+        TURBO_ENGINE_ERROR(__VA_ARGS__); \
     } \
     assert(condition)
 #else
-    #define TURBO_ASSERT(condition, message) (void)(condition); (void)(message)
+    #define TURBO_ASSERT(condition, ...) (void)(condition); (void)(__VA_ARGS__)
 #endif
 
 #endif // INCLUDED_TURBO_LOG_H
