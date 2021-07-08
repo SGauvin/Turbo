@@ -23,6 +23,7 @@ namespace Turbo
 
         std::uint32_t m_frameBuffer = 0;
         std::uint32_t m_texture = 0;
+        std::uint32_t m_depth = 0;
         glm::ivec2 m_size;
     };
 }

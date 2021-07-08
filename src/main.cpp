@@ -32,15 +32,33 @@ public:
         // MESH 1
         {
             float vertices[] = {
-                -0.5f, -0.5f, 0.0f, 1.f, 0.f, 0.f, 1.f,
-                0.5f, -0.5f, 0.0f, 0.f, 1.f, 0.f, 1.f,
-                0.0f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f
+                -1.0, -1.0,  1.0, 1.0, 0.0, 0.0, 1.0,
+                1.0, -1.0,  1.0, 0.0, 1.0, 0.0, 1.0,
+                1.0,  1.0,  1.0, 0.0, 0.0, 1.0, 1.0,
+                -1.0,  1.0,  1.0, 1.0, 1.0, 1.0, 1.0,
+                -1.0, -1.0, -1.0, 1.0, 0.0, 0.0, 1.0,
+                1.0, -1.0, -1.0, 0.0, 1.0, 0.0, 1.0,
+                1.0,  1.0, -1.0, 0.0, 0.0, 1.0, 1.0,
+                -1.0,  1.0, -1.0, 1.0, 1.0, 1.0, 1.0
             };
             std::shared_ptr<Turbo::VertexBuffer<Turbo::renderingApi>> vertexBuffer =
                 std::make_shared<Turbo::VertexBuffer<Turbo::renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
             vertexBuffer->setLayout(layout);
 
-            std::uint32_t indices[] = {0, 1, 2};
+            std::uint32_t indices[] = {
+                0, 1, 2,
+                2, 3, 0,
+                1, 5, 6,
+                6, 2, 1,
+                7, 6, 5,
+                5, 4, 7,
+                4, 0, 3,
+                3, 7, 4,
+                4, 5, 1,
+                1, 0, 4,
+                3, 2, 6,
+                6, 7, 3
+            };
             std::shared_ptr<Turbo::IndexBuffer<Turbo::renderingApi>> indexBuffer =
                 std::make_shared<Turbo::IndexBuffer<Turbo::renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
 
@@ -49,32 +67,23 @@ public:
             m_vertexArray->setIndexBuffer(indexBuffer);
         }
 
-        // MESH 2
-        {
-            float vertices[] = {
-                -0.7f, -0.7f, 0.0f, 0.3f, 1.f, 1.f, 1.f,
-                0.7f, -0.7f, 0.0f, 0.3f, 1.f, 1.f, 1.f,
-                0.7f, 0.7f, 0.0f, 0.3f, 1.f, 1.f, 1.f,
-                -0.7f, 0.7f, 0.0f, 0.3f, 1.f, 1.f, 1.f
-            };
-            std::shared_ptr<Turbo::VertexBuffer<Turbo::renderingApi>> vertexBuffer = std::make_shared<Turbo::VertexBuffer<Turbo::renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
-            vertexBuffer->setLayout(layout);
-
-            std::uint32_t indices[] = {0, 1, 2, 2, 3, 0};
-            std::shared_ptr<Turbo::IndexBuffer<Turbo::renderingApi>> indexBuffer = std::make_shared<Turbo::IndexBuffer<Turbo::renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
-
-            m_vertexArray2 = std::make_unique<Turbo::VertexArray<Turbo::renderingApi>>();
-            m_vertexArray2->setVertexBuffer(vertexBuffer);
-            m_vertexArray2->setIndexBuffer(indexBuffer);
-        }
-
         m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
     }
 
     virtual void onDetach() {}
 
-    virtual void handleInput() {}
-    virtual void update() {}
+    virtual void handleInput()
+    {
+        if(m_application.getInputManager().isKeyDown(Turbo::Keyboard::Key::Enter))
+        {
+            m_angle -= 1.f;
+        }
+    }
+
+    virtual void update()
+    {
+    }
+
     virtual void draw(float lag = 1.0)
     {
         Turbo::RenderCommand::setClearColor<Turbo::renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
@@ -83,20 +92,18 @@ public:
         m_shader.bind();
 
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f)); 
+        model = glm::rotate(model, glm::radians(m_angle), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(30.f), glm::vec3(0.0f, 1.0f, 0.0f));
 
         glm::mat4 view = glm::mat4(1.0f);
         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
 
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(45.0f), static_cast<float>(m_application.getViewportSize().x) / static_cast<float>(m_application.getViewportSize().y), 0.1f, 100.0f);
     
         m_shader.setMatrix4("model", model);
         m_shader.setMatrix4("view", view);
         m_shader.setMatrix4("projection", projection);
-
-        m_vertexArray2->bind();
-        Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray2.get());
 
         m_vertexArray->bind();
         Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray.get());
@@ -104,9 +111,9 @@ public:
 
 private:
     Turbo::Shader<Turbo::renderingApi> m_shader;
-    
     std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArray;
-    std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArray2;
+
+    float m_angle = 0;
 };
 
 class TestState : public Turbo::State

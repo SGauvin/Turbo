@@ -30,8 +30,12 @@ namespace Turbo
     Application::Application(const WindowAttributes& windowAttributes)
         : m_inputManager()
         , m_window((initLogs(), windowAttributes), m_inputManager)
-        , m_viewportFrameBuffer(std::make_unique<FrameBuffer<renderingApi>>(glm::ivec2(800, 600)))
-    {}
+    {
+        if constexpr (isEditorEnabled)
+        {
+            m_viewportFrameBuffer = std::make_unique<FrameBuffer<renderingApi>>(glm::ivec2(800, 600));
+        }
+    }
 
     Application::~Application()
     {
@@ -76,6 +80,8 @@ namespace Turbo
     void Application::start()
     {
         Clock clock;
+
+        RenderCommand::init<renderingApi>();
         while (m_window.isOpen() && !m_states.empty()) [[likely]]
         {
             {
@@ -135,7 +141,10 @@ namespace Turbo
                 // Calculate lag for draw interpolation
                 float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
 
-                RenderCommand::beginViewport<renderingApi>(m_viewportFrameBuffer.get());
+                if constexpr (isEditorEnabled)
+                {
+                    RenderCommand::beginViewport<renderingApi>(m_viewportFrameBuffer.get());
+                }
 
                 m_states.back()->draw(lag);
                 for (const auto& layer : m_states.back()->m_layers)
@@ -146,12 +155,24 @@ namespace Turbo
                     }
                 }
 
-                RenderCommand::endViewport<renderingApi>(m_viewportFrameBuffer.get(), m_window.getSize());
+                if constexpr (isEditorEnabled)
+                {
+                    RenderCommand::endViewport<renderingApi>(m_viewportFrameBuffer.get(), m_window.getSize());
+                }
 
                 m_window.swapBuffers();
 
                 m_drawLag -= std::floor(m_drawLag / m_timePerDraw) * m_timePerDraw;
             }
         }
+    }
+
+    glm::uvec2 Application::getViewportSize() const
+    {
+        if constexpr (isEditorEnabled)
+        {
+            return m_viewportFrameBuffer->getSize();
+        }
+        return m_window.getSize();
     }
 } // namespace Turbo

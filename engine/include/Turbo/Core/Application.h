@@ -16,6 +16,7 @@ namespace Turbo
     class State;
 
     static constexpr RenderingApi renderingApi = RenderingApi::OpenGL;
+    static constexpr bool isEditorEnabled = true;
 
     class Application
     {
@@ -29,6 +30,8 @@ namespace Turbo
         void setTargetUps(double ups);
         void setTargetFps(double fps);
         void start();
+
+        glm::uvec2 getViewportSize() const;
 
         Window<renderingApi>& getWindow() { return m_window; }
         InputManager& getInputManager() { return m_inputManager; }
