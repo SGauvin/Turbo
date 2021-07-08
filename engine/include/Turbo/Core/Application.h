@@ -37,14 +37,9 @@ namespace Turbo
         InputManager m_inputManager;
         Window<renderingApi> m_window;
 
+        std::unique_ptr<Turbo::FrameBuffer<Turbo::renderingApi>> m_viewportFrameBuffer;
+
         std::vector<State*> m_states;
-
-        Shader<renderingApi> m_shader;
-
-        std::unique_ptr<FrameBuffer<renderingApi>> m_frameBuffer;
-        
-        std::unique_ptr<VertexArray<renderingApi>> m_vertexArray;
-        std::unique_ptr<VertexArray<renderingApi>> m_vertexArray2;
 
         std::chrono::duration<double> m_timePerUpdate = std::chrono::nanoseconds(1000000000 / 60);
         std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(1000000000 / 144);

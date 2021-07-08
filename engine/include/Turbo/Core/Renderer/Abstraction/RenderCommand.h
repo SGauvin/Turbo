@@ -3,6 +3,7 @@
 
 #include "Turbo/Core/Renderer/RenderingApi.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexArray.h"
+#include "Turbo/Core/Renderer/Abstraction/FrameBuffer.h"
 
 namespace Turbo
 {
@@ -22,5 +23,11 @@ namespace Turbo
 
         template<RenderingApi api>
         void draw(VertexArray<api>* vertexArray);
+
+        template<RenderingApi api>
+        void beginViewport(FrameBuffer<api>* frameBuffer);
+
+        template<RenderingApi api>
+        void endViewport(FrameBuffer<api>* frameBuffer, glm::uvec2 windowSize);
     } // namspace RenderCommand
 } // namespace Turbo

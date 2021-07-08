@@ -14,6 +14,7 @@ namespace Turbo
         void bind() const;
         void unbind() const;
         void resize(glm::ivec2 size);
+        glm::ivec2 getSize() const;
         std::uint32_t getTexture() const;
     };
 }

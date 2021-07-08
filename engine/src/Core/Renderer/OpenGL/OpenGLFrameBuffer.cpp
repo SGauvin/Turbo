@@ -32,6 +32,11 @@ namespace Turbo
         create();
     }
 
+    glm::ivec2 FrameBuffer<RenderingApi::OpenGL>::getSize() const
+    {
+        return m_size;
+    }
+
     std::uint32_t FrameBuffer<RenderingApi::OpenGL>::getTexture() const
     {
         return m_texture;

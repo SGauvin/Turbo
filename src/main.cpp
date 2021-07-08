@@ -7,24 +7,125 @@
 #include <Turbo/Core/Layers/ImGuiLayer.h>
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/States/State.h>
+#include <Turbo/Core/Renderer/Abstraction/RenderCommand.h>
+#include <Turbo/Core/Renderer/Abstraction/Shader.h>
+#include <Turbo/Core/Renderer/Abstraction/VertexArray.h>
+#include <Turbo/Core/Renderer/Abstraction/VertexBuffer.h>
+#include <Turbo/Core/Renderer/Abstraction/IndexBuffer.h>
+#include <Turbo/Core/Renderer/BufferLayout.h>
 
 class TriangleLayer : public Turbo::Layer
 {
 public:
-    TriangleLayer(Turbo::Application& application, float a)
+    TriangleLayer(Turbo::Application& application)
         : Layer(application)
-        , a(a)
     {
     }
 
-    virtual void onAttach() {}
+    virtual void onAttach()
+    {
+        Turbo::BufferLayout layout = {
+            { Turbo::DataType::Float3, "position" },
+            { Turbo::DataType::Float4, "color" },
+        };
+        // MESH 1
+        {
+            float vertices[] = {
+                -0.5f, -0.5f, 0.0f, 1.f, 0.f, 0.f, 1.f,
+                0.5f, -0.5f, 0.0f, 0.f, 1.f, 0.f, 1.f,
+                0.0f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f
+            };
+            std::shared_ptr<Turbo::VertexBuffer<Turbo::renderingApi>> vertexBuffer =
+                std::make_shared<Turbo::VertexBuffer<Turbo::renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            vertexBuffer->setLayout(layout);
+
+            std::uint32_t indices[] = {0, 1, 2};
+            std::shared_ptr<Turbo::IndexBuffer<Turbo::renderingApi>> indexBuffer =
+                std::make_shared<Turbo::IndexBuffer<Turbo::renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+
+            m_vertexArray = std::make_unique<Turbo::VertexArray<Turbo::renderingApi>>();
+            m_vertexArray->setVertexBuffer(vertexBuffer);
+            m_vertexArray->setIndexBuffer(indexBuffer);
+        }
+
+        // MESH 2
+        {
+            float vertices[] = {
+                -0.7f, -0.7f, 0.0f, 0.3f, 1.f, 1.f, 1.f,
+                0.7f, -0.7f, 0.0f, 0.3f, 1.f, 1.f, 1.f,
+                0.7f, 0.7f, 0.0f, 0.3f, 1.f, 1.f, 1.f,
+                -0.7f, 0.7f, 0.0f, 0.3f, 1.f, 1.f, 1.f
+            };
+            std::shared_ptr<Turbo::VertexBuffer<Turbo::renderingApi>> vertexBuffer = std::make_shared<Turbo::VertexBuffer<Turbo::renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            vertexBuffer->setLayout(layout);
+
+            std::uint32_t indices[] = {0, 1, 2, 2, 3, 0};
+            std::shared_ptr<Turbo::IndexBuffer<Turbo::renderingApi>> indexBuffer = std::make_shared<Turbo::IndexBuffer<Turbo::renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+
+            m_vertexArray2 = std::make_unique<Turbo::VertexArray<Turbo::renderingApi>>();
+            m_vertexArray2->setVertexBuffer(vertexBuffer);
+            m_vertexArray2->setIndexBuffer(indexBuffer);
+        }
+
+        // SHADERS
+
+        std::string vertexSource = R"(
+            #version 330 core
+
+            layout(location = 0) in vec3 position;
+            layout(location = 1) in vec4 color;
+
+            out vec3 v_position;
+            out vec4 v_color;
+
+            void main()
+            {
+                v_position = position;
+                v_color = color;
+                gl_Position = vec4(position, 1.0);
+            }
+        )";
+
+        std::string fragmentSource = R"(
+            #version 330 core
+
+            layout(location = 0) out vec4 color;
+            in vec3 v_position;
+            in vec4 v_color;
+
+            void main()
+            {
+                color = vec4(v_position / 2 + 0.5, 1.0);
+                color = v_color;
+            }
+        )";
+
+        m_shader.load(vertexSource, fragmentSource);
+    }
+
     virtual void onDetach() {}
 
     virtual void handleInput() {}
     virtual void update() {}
-    virtual void draw(float lag = 1.0) {}
+    virtual void draw(float lag = 1.0)
+    {
+        Turbo::RenderCommand::setClearColor<Turbo::renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
+        Turbo::RenderCommand::clear<Turbo::renderingApi>();
 
-    float a;
+        m_shader.bind();
+
+        m_vertexArray2->bind();
+        Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray2.get());
+
+        m_vertexArray->bind();
+        Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray.get());
+    }
+
+private:
+    Turbo::Shader<Turbo::renderingApi> m_shader;
+    
+    std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArray;
+    std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArray2;
 };
 
 class TestState : public Turbo::State
@@ -84,7 +185,8 @@ private:
         };
 
         inputContext->bindKeyToAction(unbindAction, Turbo::Keyboard::Key::Insert, Turbo::Keyboard::Action::Release);
-        pushLayer(new TriangleLayer(m_application, 1.0f));
+
+        pushLayer(new TriangleLayer(m_application));
         pushLayer(new Turbo::ImGuiLayer(m_application));
     }
 };
