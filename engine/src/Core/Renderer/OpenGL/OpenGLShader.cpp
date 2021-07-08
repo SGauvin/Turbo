@@ -1,16 +1,38 @@
 #include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
-#include <vector>
+
 #include <glad/glad.h>
+#include <fstream>
+#include <sstream>
+#include <vector>
+
 #include "Turbo/Core/Log.h"
 
 namespace Turbo
 {
-    Shader<RenderingApi::OpenGL>::Shader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
-    {
-        load(vertexShaderSource, fragmentShaderSource);
-    }
-
     Shader<RenderingApi::OpenGL>::~Shader() { glDeleteProgram(m_programId); }
+
+    
+    bool Shader<RenderingApi::OpenGL>::loadFromFile(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
+    {
+        auto loadFile = [](const std::string& filepath, std::string& out) -> void
+        {
+            std::ifstream file(filepath);
+
+            TURBO_ASSERT(file, "Couldn't load shader {}", filepath);
+
+            std::stringstream shaderStream;
+            shaderStream << file.rdbuf();
+            out = shaderStream.str();
+        };
+
+        std::string vertexCode;
+        loadFile(vertexShaderFile, vertexCode);
+        
+        std::string fragmentCode;
+        loadFile(fragmentShaderFile, fragmentCode);
+
+        return load(vertexCode, fragmentCode);
+    }
 
     bool Shader<RenderingApi::OpenGL>::load(const std::string& vertexShaderSource, const std::string& fragmentShaderSource)
     {

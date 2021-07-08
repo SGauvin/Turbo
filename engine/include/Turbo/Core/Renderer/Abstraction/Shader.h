@@ -9,9 +9,10 @@ namespace Turbo
     class Shader
     {
     public:
-        Shader(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
+        Shader();
         ~Shader();
 
+        bool loadFromFile(const std::string& vertexShaderFile, const std::string& fragmentShaderFile);
         bool load(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
         void bind() const;
     };
