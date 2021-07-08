@@ -88,6 +88,10 @@
         "memory_resource": "cpp",
         "stop_token": "cpp",
         "cinttypes": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "unordered_set": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "shared_mutex": "cpp"
     }
 }

@@ -28,7 +28,7 @@ namespace Turbo
 
         DataType getDataType() const;
         std::uint8_t getSize() const;
-        std::uint32_t& getOffset();
+        const std::uint32_t& getOffset() const;
         std::uint8_t getComponentCount() const;
         bool isNormalized() const;
 
@@ -44,8 +44,9 @@ namespace Turbo
     class BufferLayout
     {
     public:
+        BufferLayout() = default;
         BufferLayout(std::initializer_list<BufferElement> elements);
-        BufferElement& operator[](std::size_t i);
+        const BufferElement& operator[](std::size_t i) const;
         std::size_t size() const;
         std::uint32_t getStride() const;
 

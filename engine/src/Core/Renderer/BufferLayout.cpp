@@ -50,7 +50,7 @@ namespace Turbo
 
     std::uint8_t BufferElement::getSize() const { return m_size; }
 
-    std::uint32_t& BufferElement::getOffset() { return m_offset; }
+    const std::uint32_t& BufferElement::getOffset() const { return m_offset; }
 
     std::uint8_t BufferElement::getComponentCount() const { return m_componentCount; }
 
@@ -69,7 +69,7 @@ namespace Turbo
         m_stride = currentOffset;
     }
 
-    BufferElement& BufferLayout::operator[](std::size_t i) { return m_elements[i]; }
+    const BufferElement& BufferLayout::operator[](std::size_t i) const { return m_elements[i]; }
 
     std::size_t BufferLayout::size() const { return m_elements.size(); }
 

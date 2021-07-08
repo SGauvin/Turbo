@@ -11,25 +11,6 @@
 #include "Turbo/Core/Window/OpenGLWindow.h"
 #include "imgui/backends/imgui_impl_glfw.h"
 
-namespace
-{
-    GLenum getOpenGLType(Turbo::DataType dataType)
-    {
-        static constexpr GLenum dataTypes[] = {
-            GL_FLOAT, // Float
-            GL_FLOAT, // Float2
-            GL_FLOAT, // Float3
-            GL_FLOAT, // Float4
-            GL_INT, // Int
-            GL_INT, // Int2
-            GL_INT, // Int3
-            GL_INT, // Int4
-            GL_BOOL, // Bool
-        };
-        return dataTypes[static_cast<std::uint8_t>(dataType)];
-    }
-}
-
 namespace Turbo
 {
     struct Clock
@@ -54,52 +35,39 @@ namespace Turbo
         };
         // MESH 1
         {
-            glGenVertexArrays(1, &m_vertexArray);
-            glBindVertexArray(m_vertexArray);
-
             float vertices[] = {
                 -0.5f, -0.5f, 0.0f, 1.f, 0.f, 0.f, 1.f,
                 0.5f, -0.5f, 0.0f, 0.f, 1.f, 0.f, 1.f,
                 0.0f, 0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f
             };
-            m_vertexBuffer = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)), layout);
-
-            for (std::size_t i = 0; i < layout.size(); i++)
-            {
-                glEnableVertexAttribArray(i);
-                glVertexAttribPointer(i, layout[i].getComponentCount(), ::getOpenGLType(layout[i].getDataType()), layout[i].isNormalized(), layout.getStride(), reinterpret_cast<void*>(layout[i].getOffset()));
-            }
+            std::shared_ptr<VertexBuffer<renderingApi>> vertexBuffer = std::make_shared<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            vertexBuffer->setLayout(layout);
 
             std::uint32_t indices[] = {0, 1, 2};
-            m_indexBuffer = std::make_unique<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+            std::shared_ptr<IndexBuffer<renderingApi>> indexBuffer = std::make_shared<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+
+            m_vertexArray = std::make_unique<VertexArray<renderingApi>>();
+            m_vertexArray->setVertexBuffer(vertexBuffer);
+            m_vertexArray->setIndexBuffer(indexBuffer);
         }
 
         // MESH 2
         {
-            glGenVertexArrays(1, &m_vertexArray2);
-            glBindVertexArray(m_vertexArray2);
-
             float vertices[] = {
                 -0.5f, -0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
                 0.5f, -0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
                 0.5f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
                 -0.5f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f
             };
-            m_vertexBuffer2 = std::make_unique<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)), layout);
+            std::shared_ptr<VertexBuffer<renderingApi>> vertexBuffer = std::make_shared<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            vertexBuffer->setLayout(layout);
 
             std::uint32_t indices[] = {0, 1, 2, 2, 3, 0};
-            m_indexBuffer2 = std::make_unique<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
-        }
+            std::shared_ptr<IndexBuffer<renderingApi>> indexBuffer = std::make_shared<IndexBuffer<renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
 
-        for (std::size_t i = 0; i < layout.size(); i++)
-        {
-            glEnableVertexAttribArray(static_cast<std::uint32_t>(i));
-            glVertexAttribPointer(static_cast<std::uint32_t>(i),
-                                  layout[i].getComponentCount(),
-                                  ::getOpenGLType(layout[i].getDataType()),
-                                  layout[i].isNormalized(),
-                                  layout.getStride(),
-                                  reinterpret_cast<void*>(layout[i].getOffset()));
+            m_vertexArray2 = std::make_unique<VertexArray<renderingApi>>();
+            m_vertexArray2->setVertexBuffer(vertexBuffer);
+            m_vertexArray2->setIndexBuffer(indexBuffer);
         }
 
         // SHADERS
@@ -274,12 +242,11 @@ namespace Turbo
 
                 m_shader.bind();
         
-                glBindVertexArray(m_vertexArray2);
-                glDrawElements(GL_TRIANGLES, m_indexBuffer2->getCount(), GL_UNSIGNED_INT, nullptr);
+                m_vertexArray2->bind();
+                glDrawElements(GL_TRIANGLES, m_vertexArray2->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 
-                glBindVertexArray(m_vertexArray);
-                glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
-                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                m_vertexArray->bind();
+                glDrawElements(GL_TRIANGLES, m_vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
                 m_frameBuffer->unbind();
 
                 ImGui::Image(reinterpret_cast<void*>(m_frameBuffer->getTexture()), viewportSize, ImVec2(0, 1), ImVec2(1, 0));

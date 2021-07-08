@@ -13,9 +13,11 @@ namespace Turbo
     class VertexBuffer<RenderingApi::OpenGL>
     {
     public:
-        VertexBuffer(std::span<float> vertices, const BufferLayout& layout);
+        VertexBuffer(std::span<float> vertices);
         ~VertexBuffer();
         void bind() const;
+        void setLayout(const BufferLayout& layout);
+        const BufferLayout& getLayout() const;
 
     private:
         std::uint32_t m_rendererId;
