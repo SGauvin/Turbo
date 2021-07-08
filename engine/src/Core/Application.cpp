@@ -1,16 +1,17 @@
-#include <glad/glad.h>
 #include "Turbo/Core/Application.h"
+
 #include <cmath>
+
 #include "Turbo/Core/Log.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/RenderCommand.h"
-#include "Turbo/Core/States/State.h"
 #include "Turbo/Core/Renderer/BufferLayout.h"
+#include "Turbo/Core/States/State.h"
 
-#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_glfw.h"
 #include "imgui/backends/imgui_impl_opengl3.h"
 #include "Turbo/Core/Window/OpenGLWindow.h"
-#include "imgui/backends/imgui_impl_glfw.h"
+#include "imgui/imgui.h"
 
 namespace Turbo
 {
