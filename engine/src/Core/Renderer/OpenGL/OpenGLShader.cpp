@@ -1,6 +1,8 @@
 #include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -18,7 +20,7 @@ namespace Turbo
         {
             std::ifstream file(filepath);
 
-            TURBO_ASSERT(file, "Couldn't load shader {}", filepath);
+            TURBO_ASSERT(file, "Couldn't load shader");
 
             std::stringstream shaderStream;
             shaderStream << file.rdbuf();
@@ -142,4 +144,11 @@ namespace Turbo
     }
 
     void Shader<RenderingApi::OpenGL>::bind() const { glUseProgram(m_programId); }
+
+    void Shader<RenderingApi::OpenGL>::setMatrix4(const std::string& name, const glm::mat4x4& value)
+    {
+        const auto location = glGetUniformLocation(m_programId, name.c_str());
+        TURBO_ASSERT((location != -1), "Uniform {} location not found", name);
+        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+    }
 } // namespace Turbo

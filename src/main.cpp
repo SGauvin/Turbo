@@ -13,6 +13,7 @@
 #include <Turbo/Core/Renderer/Abstraction/VertexBuffer.h>
 #include <Turbo/Core/Renderer/Abstraction/IndexBuffer.h>
 #include <Turbo/Core/Renderer/BufferLayout.h>
+#include <glm/gtx/transform.hpp>
 
 class TriangleLayer : public Turbo::Layer
 {
@@ -80,6 +81,19 @@ public:
         Turbo::RenderCommand::clear<Turbo::renderingApi>();
 
         m_shader.bind();
+
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f)); 
+
+        glm::mat4 view = glm::mat4(1.0f);
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
+
+        glm::mat4 projection;
+        projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    
+        m_shader.setMatrix4("model", model);
+        m_shader.setMatrix4("view", view);
+        m_shader.setMatrix4("projection", projection);
 
         m_vertexArray2->bind();
         Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray2.get());
