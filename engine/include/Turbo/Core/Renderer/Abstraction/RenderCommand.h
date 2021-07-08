@@ -1,0 +1,26 @@
+#include <cstdint>
+#include <glm/glm.hpp>
+
+#include "Turbo/Core/Renderer/RenderingApi.h"
+#include "Turbo/Core/Renderer/Abstraction/VertexArray.h"
+
+namespace Turbo
+{
+    namespace RenderCommand
+    {
+        template<RenderingApi>
+        void init();
+
+        template<RenderingApi>
+        void setViewport(const glm::uvec2& position, const glm::uvec2& size);
+
+        template<RenderingApi>
+        void setClearColor(const glm::vec4& color);
+
+        template<RenderingApi>
+        void clear();
+
+        template<RenderingApi api>
+        void draw(VertexArray<api>* vertexArray);
+    } // namspace RenderCommand
+} // namespace Turbo

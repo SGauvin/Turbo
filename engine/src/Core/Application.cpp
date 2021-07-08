@@ -3,6 +3,7 @@
 #include <cmath>
 #include "Turbo/Core/Log.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
+#include "Turbo/Core/Renderer/Abstraction/RenderCommand.h"
 #include "Turbo/Core/States/State.h"
 #include "Turbo/Core/Renderer/BufferLayout.h"
 
@@ -54,10 +55,10 @@ namespace Turbo
         // MESH 2
         {
             float vertices[] = {
-                -0.5f, -0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
-                0.5f, -0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
-                0.5f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f,
-                -0.5f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f
+                -0.7f, -0.7f, 0.0f, 0.6f, 1.f, 0.f, 1.f,
+                0.7f, -0.7f, 0.0f, 0.6f, 1.f, 0.f, 1.f,
+                0.7f, 0.7f, 0.0f, 0.6f, 1.f, 0.f, 1.f,
+                -0.7f, 0.7f, 0.0f, 0.6f, 1.f, 0.f, 1.f
             };
             std::shared_ptr<VertexBuffer<renderingApi>> vertexBuffer = std::make_shared<VertexBuffer<renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
             vertexBuffer->setLayout(layout);
@@ -192,7 +193,7 @@ namespace Turbo
             {
                 m_drawLag = std::chrono::nanoseconds(0);
                 m_updateLag = std::chrono::nanoseconds(0);
-                continue;
+                break;
             }
 
             {
@@ -204,8 +205,8 @@ namespace Turbo
             // Draw
             if (m_drawLag >= m_timePerDraw)
             {
-                glClearColor(0.1f, 0.1f, 0.11f, 1.f);
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                RenderCommand::setClearColor<renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
+                RenderCommand::clear<renderingApi>();
 
                 // Calculate lag for draw interpolation
                 float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
@@ -237,17 +238,17 @@ namespace Turbo
 
                 m_frameBuffer->bind();
                 
-                glViewport(0, 0, static_cast<std::int32_t>(viewportSize.x), static_cast<std::int32_t>(viewportSize.y));
-                glClearColor(0.1f, 0.1f, 0.11f, 1.f);
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                RenderCommand::setViewport<renderingApi>({0, 0}, {static_cast<std::int32_t>(viewportSize.x), static_cast<std::int32_t>(viewportSize.y)});
+                RenderCommand::setClearColor<renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
+                RenderCommand::clear<renderingApi>();
 
                 m_shader.bind();
         
                 m_vertexArray2->bind();
-                glDrawElements(GL_TRIANGLES, m_vertexArray2->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+                RenderCommand::draw<renderingApi>(m_vertexArray2.get());
 
                 m_vertexArray->bind();
-                glDrawElements(GL_TRIANGLES, m_vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+                RenderCommand::draw<renderingApi>(m_vertexArray.get());
 
                 m_frameBuffer->unbind();
 
@@ -257,7 +258,6 @@ namespace Turbo
 
                 ImGui::Render();
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
 
                 ImGuiIO& io = ImGui::GetIO();
                 io.DisplaySize = {static_cast<float>(m_window.getSize().x), static_cast<float>(m_window.getSize().y)};
