@@ -16,7 +16,7 @@ namespace Turbo
     class State;
 
     static constexpr RenderingApi renderingApi = RenderingApi::OpenGL;
-    static constexpr bool isEditorEnabled = true;
+    static constexpr bool isEditorEnabled = false;
 
     class Application
     {

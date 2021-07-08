@@ -21,10 +21,6 @@ public:
     TriangleLayer(Turbo::Application& application)
         : Layer(application)
     {
-    }
-
-    virtual void onAttach()
-    {
         Turbo::BufferLayout layout = {
             { Turbo::DataType::Float3, "position" },
             { Turbo::DataType::Float4, "color" },
@@ -68,15 +64,54 @@ public:
         }
 
         m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
+
+        m_window.setIsRawMouseEnabled(true);
+    }
+
+    virtual void onAttach()
+    {
+        m_inputContext = m_inputManager.createInputContext();
+
+        m_inputContext->bindMouseMoveEvents([this](const Turbo::Mouse::MoveEvent& moveEvent)
+        {
+            m_cameraYaw += moveEvent.movement.x / 500.f;
+            m_cameraPitch -= moveEvent.movement.y / 500.f;
+            return true;
+        });
     }
 
     virtual void onDetach() {}
 
     virtual void handleInput()
     {
-        if(m_application.getInputManager().isKeyDown(Turbo::Keyboard::Key::Enter))
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Enter))
         {
-            m_angle -= 1.f;
+            m_cubeAngle -= 1.f;
+        }
+
+        glm::vec3 cameraFront = glm::vec3(
+            glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch),
+            glm::sin(m_cameraPitch),
+            glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
+        );
+
+        static const float sensitivity = 0.05f;
+
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::W))
+        {
+            m_cameraPosition += cameraFront * sensitivity;
+        }
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::S))
+        {
+            m_cameraPosition -= cameraFront * sensitivity;
+        }
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::A))
+        {
+            m_cameraPosition -= glm::normalize(glm::cross(cameraFront, m_cameraUp)) * sensitivity;
+        }
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::D))
+        {
+            m_cameraPosition += glm::normalize(glm::cross(cameraFront, m_cameraUp)) * sensitivity;
         }
     }
 
@@ -92,11 +127,15 @@ public:
         m_shader.bind();
 
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::rotate(model, glm::radians(m_angle), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(m_cubeAngle), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::rotate(model, glm::radians(30.f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-        glm::mat4 view = glm::mat4(1.0f);
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
+        glm::vec3 cameraFront = glm::vec3(
+            glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch),
+            glm::sin(m_cameraPitch),
+            glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
+        );
+        glm::mat4 view = glm::lookAt(m_cameraPosition, m_cameraPosition + cameraFront, m_cameraUp);
 
         glm::mat4 projection;
         projection = glm::perspective(glm::radians(45.0f), static_cast<float>(m_application.getViewportSize().x) / static_cast<float>(m_application.getViewportSize().y), 0.1f, 100.0f);
@@ -113,7 +152,14 @@ private:
     Turbo::Shader<Turbo::renderingApi> m_shader;
     std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArray;
 
-    float m_angle = 0;
+    float m_cubeAngle = 0.f;
+
+    glm::vec3 m_cameraPosition = glm::vec3(0.f, 0.f, 3.f);
+    glm::vec3 m_cameraUp = glm::vec3(0.f, 1.f, 0.f);
+    float m_cameraYaw = 3.1416 * 1.5;
+    float m_cameraPitch = 0;
+
+    Turbo::InputContext* m_inputContext = nullptr;
 };
 
 class TestState : public Turbo::State
@@ -181,7 +227,7 @@ private:
 
 int main()
 {
-    Turbo::Application app({"Turbo", glm::vec2(1280, 720), Turbo::WindowMode::Bordered});
+    Turbo::Application app({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::FullScreen});
     app.setTargetFps(144.f);
     app.setTargetUps(60.f);
     app.push(new TestState(app));

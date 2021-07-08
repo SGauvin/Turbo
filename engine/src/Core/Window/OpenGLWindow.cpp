@@ -121,6 +121,7 @@ namespace Turbo
         if (!checkWindow(m_window))
             return;
 
+        glfwSetInputMode(m_window, GLFW_CURSOR, isRawMouseEnabled ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL);
         glfwSetInputMode(m_window, GLFW_RAW_MOUSE_MOTION, isRawMouseEnabled);
     }
 
