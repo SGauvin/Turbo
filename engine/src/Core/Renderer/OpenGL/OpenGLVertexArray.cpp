@@ -1,4 +1,5 @@
 #include "Turbo/Core/Renderer/OpenGL/OpenGLVertexArray.h"
+#include "Turbo/Core/Log.h"
 
 #include <glad/glad.h>
 
@@ -40,6 +41,8 @@ namespace Turbo
 
     void VertexArray<RenderingApi::OpenGL>::setVertexBuffer(std::shared_ptr<VertexBuffer<RenderingApi::OpenGL>> vertexBuffer)
     {
+        TURBO_ASSERT(vertexBuffer->getLayout().size() > 0, "Vertex buffer has no layout");
+
         bind();
         vertexBuffer->bind();
 

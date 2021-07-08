@@ -236,6 +236,7 @@ namespace Turbo
                 }
 
                 m_frameBuffer->bind();
+                
                 glViewport(0, 0, static_cast<std::int32_t>(viewportSize.x), static_cast<std::int32_t>(viewportSize.y));
                 glClearColor(0.1f, 0.1f, 0.11f, 1.f);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -247,6 +248,7 @@ namespace Turbo
 
                 m_vertexArray->bind();
                 glDrawElements(GL_TRIANGLES, m_vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+
                 m_frameBuffer->unbind();
 
                 ImGui::Image(reinterpret_cast<void*>(m_frameBuffer->getTexture()), viewportSize, ImVec2(0, 1), ImVec2(1, 0));
