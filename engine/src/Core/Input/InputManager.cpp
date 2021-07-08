@@ -38,6 +38,7 @@ namespace Turbo
             if (inputContext == *it)
             {
                 m_currentInputContextList->erase(it);
+                break;
             }
         }
     }
