@@ -110,8 +110,8 @@ public:
 
         m_inputContext->bindMouseMoveEvents([this](const Turbo::Mouse::MoveEvent& moveEvent)
         {
-            m_cameraYaw += moveEvent.movement.x / 500.f;
-            m_cameraPitch -= moveEvent.movement.y / 500.f;
+            m_cameraYaw += moveEvent.movement.x / 1000.f;
+            m_cameraPitch -= moveEvent.movement.y / 1000.f;
             return true;
         });
     }
