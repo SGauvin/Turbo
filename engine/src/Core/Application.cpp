@@ -132,35 +132,37 @@ namespace Turbo
                 m_drawLag += elapsed;
             }
 
-            // Draw
             if (m_drawLag >= m_timePerDraw)
             {
-                RenderCommand::setClearColor<renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
-                RenderCommand::clear<renderingApi>();
-
-                // Calculate lag for draw interpolation
-                float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
-
-                if constexpr (isEditorEnabled)
+                if (getViewportSize().x > 0.f)
                 {
-                    RenderCommand::beginViewport<renderingApi>(m_viewportFrameBuffer.get());
-                }
+                    RenderCommand::setClearColor<renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
+                    RenderCommand::clear<renderingApi>();
 
-                m_states.back()->draw(lag);
-                for (const auto& layer : m_states.back()->m_layers)
-                {
-                    if (layer->enableDraw)
+                    // Calculate lag for draw interpolation
+                    float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
+
+                    if constexpr (isEditorEnabled)
                     {
-                        layer->draw(lag);
+                        RenderCommand::beginViewport<renderingApi>(m_viewportFrameBuffer.get());
                     }
-                }
 
-                if constexpr (isEditorEnabled)
-                {
-                    RenderCommand::endViewport<renderingApi>(m_viewportFrameBuffer.get(), m_window.getSize());
-                }
+                    m_states.back()->draw(lag);
+                    for (const auto& layer : m_states.back()->m_layers)
+                    {
+                        if (layer->enableDraw)
+                        {
+                            layer->draw(lag);
+                        }
+                    }
 
-                m_window.swapBuffers();
+                    if constexpr (isEditorEnabled)
+                    {
+                        RenderCommand::endViewport<renderingApi>(m_viewportFrameBuffer.get(), m_window.getSize());
+                    }
+
+                    m_window.swapBuffers();
+                }
 
                 m_drawLag -= std::floor(m_drawLag / m_timePerDraw) * m_timePerDraw;
             }
