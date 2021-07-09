@@ -17,6 +17,7 @@ namespace Turbo
         bool load(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
         void bind() const;
 
+        void setFloat3(const std::string& name, const glm::vec3& value);
         void setMatrix4(const std::string& name, const glm::mat4x4& value);
 
     private:

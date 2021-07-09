@@ -23,47 +23,83 @@ public:
     {
         Turbo::BufferLayout layout = {
             { Turbo::DataType::Float3, "position" },
+            { Turbo::DataType::Float3, "normal" },
             { Turbo::DataType::Float4, "color" },
         };
+
+        #define COLOR 1.0f, 0.0f, 0.0f, 1.0f
+            float vertices[] = {
+                -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
+                0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
+                0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
+                0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
+                -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
+                -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
+                -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
+                0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
+                0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
+                0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
+                -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
+                -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
+                -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
+                -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
+                -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
+                -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
+                -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
+                -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
+                0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
+                0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
+                0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
+                0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
+                0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
+                0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
+                -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
+                0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
+                0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
+                0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
+                -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
+                -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
+                -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR,
+                0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR,
+                0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
+                0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
+                -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
+                -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR
+            };
+
+            std::uint32_t indices[] = {
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 , 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
+            };
+
         // MESH 1
         {
-            float vertices[] = {
-                -1.0, -1.0,  1.0, 1.0, 0.0, 0.0, 1.0,
-                1.0, -1.0,  1.0, 0.0, 1.0, 0.0, 1.0,
-                1.0,  1.0,  1.0, 0.0, 0.0, 1.0, 1.0,
-                -1.0,  1.0,  1.0, 1.0, 1.0, 1.0, 1.0,
-                -1.0, -1.0, -1.0, 1.0, 0.0, 0.0, 1.0,
-                1.0, -1.0, -1.0, 0.0, 1.0, 0.0, 1.0,
-                1.0,  1.0, -1.0, 0.0, 0.0, 1.0, 1.0,
-                -1.0,  1.0, -1.0, 1.0, 1.0, 1.0, 1.0
-            };
             std::shared_ptr<Turbo::VertexBuffer<Turbo::renderingApi>> vertexBuffer =
                 std::make_shared<Turbo::VertexBuffer<Turbo::renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
             vertexBuffer->setLayout(layout);
 
-            std::uint32_t indices[] = {
-                0, 1, 2,
-                2, 3, 0,
-                1, 5, 6,
-                6, 2, 1,
-                7, 6, 5,
-                5, 4, 7,
-                4, 0, 3,
-                3, 7, 4,
-                4, 5, 1,
-                1, 0, 4,
-                3, 2, 6,
-                6, 7, 3
-            };
             std::shared_ptr<Turbo::IndexBuffer<Turbo::renderingApi>> indexBuffer =
                 std::make_shared<Turbo::IndexBuffer<Turbo::renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
 
             m_vertexArray = std::make_unique<Turbo::VertexArray<Turbo::renderingApi>>();
             m_vertexArray->setVertexBuffer(vertexBuffer);
             m_vertexArray->setIndexBuffer(indexBuffer);
+            m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
         }
 
-        m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
+        // MESH 1
+        {
+            std::shared_ptr<Turbo::VertexBuffer<Turbo::renderingApi>> vertexBuffer =
+                std::make_shared<Turbo::VertexBuffer<Turbo::renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            vertexBuffer->setLayout(layout);
+
+            std::shared_ptr<Turbo::IndexBuffer<Turbo::renderingApi>> indexBuffer =
+                std::make_shared<Turbo::IndexBuffer<Turbo::renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+
+            m_vertexArrayLightCube = std::make_unique<Turbo::VertexArray<Turbo::renderingApi>>();
+            m_vertexArrayLightCube->setVertexBuffer(vertexBuffer);
+            m_vertexArrayLightCube->setIndexBuffer(indexBuffer);
+            m_shaderLightCube.loadFromFile("../assets/shader.vert", "../assets/shader2.frag");
+        }
 
         m_window.setIsRawMouseEnabled(true);
     }
@@ -124,33 +160,65 @@ public:
         Turbo::RenderCommand::setClearColor<Turbo::renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
         Turbo::RenderCommand::clear<Turbo::renderingApi>();
 
-        m_shader.bind();
+        {
+            m_shader.bind();
 
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::rotate(model, glm::radians(m_cubeAngle), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(30.f), glm::vec3(0.0f, 1.0f, 0.0f));
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::rotate(model, glm::radians(m_cubeAngle), glm::vec3(1.0f, 0.0f, 0.0f));
+            model = glm::rotate(model, glm::radians(30.f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-        glm::vec3 cameraFront = glm::vec3(
-            glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch),
-            glm::sin(m_cameraPitch),
-            glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
-        );
-        glm::mat4 view = glm::lookAt(m_cameraPosition, m_cameraPosition + cameraFront, m_cameraUp);
+            glm::vec3 cameraFront = glm::vec3(
+                glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch),
+                glm::sin(m_cameraPitch),
+                glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
+            );
+            glm::mat4 view = glm::lookAt(m_cameraPosition, m_cameraPosition + cameraFront, m_cameraUp);
 
-        glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), static_cast<float>(m_application.getViewportSize().x) / static_cast<float>(m_application.getViewportSize().y), 0.1f, 100.0f);
-    
-        m_shader.setMatrix4("model", model);
-        m_shader.setMatrix4("view", view);
-        m_shader.setMatrix4("projection", projection);
+            glm::mat4 projection;
+            projection = glm::perspective(glm::radians(45.0f), static_cast<float>(m_application.getViewportSize().x) / static_cast<float>(m_application.getViewportSize().y), 0.1f, 100.0f);
+        
+            m_shader.setMatrix4("model", model);
+            m_shader.setMatrix4("view", view);
+            m_shader.setMatrix4("projection", projection);
+            m_shader.setFloat3("lightPosition", m_lightPos);
+            m_shader.setFloat3("cameraPosition", m_cameraPosition);
 
-        m_vertexArray->bind();
-        Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray.get());
+            m_vertexArray->bind();
+            Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray.get());
+        }
+
+        {
+            m_shaderLightCube.bind();
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
+            model = glm::translate(model, m_lightPos);
+
+            glm::vec3 cameraFront = glm::vec3(
+                glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch),
+                glm::sin(m_cameraPitch),
+                glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
+            );
+            glm::mat4 view = glm::lookAt(m_cameraPosition, m_cameraPosition + cameraFront, m_cameraUp);
+
+            glm::mat4 projection;
+            projection = glm::perspective(glm::radians(45.0f), static_cast<float>(m_application.getViewportSize().x) / static_cast<float>(m_application.getViewportSize().y), 0.1f, 100.0f);
+        
+            m_shaderLightCube.setMatrix4("model", model);
+            m_shaderLightCube.setMatrix4("view", view);
+            m_shaderLightCube.setMatrix4("projection", projection);
+
+            m_vertexArrayLightCube->bind();
+            Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray.get());
+        }
     }
 
 private:
     Turbo::Shader<Turbo::renderingApi> m_shader;
     std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArray;
+
+    Turbo::Shader<Turbo::renderingApi> m_shaderLightCube;
+    std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArrayLightCube;
 
     float m_cubeAngle = 0.f;
 
@@ -159,6 +227,7 @@ private:
     float m_cameraYaw = 3.1416 * 1.5;
     float m_cameraPitch = 0;
 
+    glm::vec3 m_lightPos = glm::vec3(2.f, 1.2f, 4.f);
     Turbo::InputContext* m_inputContext = nullptr;
 };
 
