@@ -35,8 +35,9 @@ public:
 
         m_inputContext->bindMouseMoveEvents([this](const Turbo::Mouse::MoveEvent& moveEvent)
         {
-            m_camera.addPitch(-moveEvent.movement.y / 1000.f);
-            m_camera.addYaw(moveEvent.movement.x / 1000.f);
+            static constexpr float sens = 1.f / 1000.f;
+            m_camera.addPitch(-moveEvent.movement.y * sens);
+            m_camera.addYaw(moveEvent.movement.x * sens);
             return true;
         });
     }
@@ -47,7 +48,7 @@ public:
     {
         if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Enter))
         {
-            m_cubeAngle -= 1.f;
+            m_cubeAngle -= 0.1f;
         }
 
         m_camera.handleInput(m_inputManager);
@@ -185,7 +186,9 @@ int main()
 {
     Turbo::Application app({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::FullScreen});
     app.setTargetFps(144.f);
-    app.setTargetUps(60.f);
+    app.setTargetUps(144.f);
+    app.getWindow().setIsVSyncEnabled(true);
+
     app.push(new TestState(app));
     app.start();
 }

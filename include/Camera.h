@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cmath>
 #include <glm/gtx/transform.hpp>
+#include <limits>
 #include <Turbo/Core/Input/InputManager.h>
 
 class Camera
@@ -14,7 +16,7 @@ public:
             glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
         );
 
-        static const float sensitivity = 0.05f;
+        static const float sensitivity = 0.02f;
 
         if (inputManager.isKeyDown(Turbo::Keyboard::Key::W))
         {
@@ -31,6 +33,14 @@ public:
         if (inputManager.isKeyDown(Turbo::Keyboard::Key::D))
         {
             m_cameraPosition += glm::normalize(glm::cross(cameraFront, m_cameraUp)) * sensitivity;
+        }
+        if (inputManager.isKeyDown(Turbo::Keyboard::Key::LShift) || inputManager.isKeyDown(Turbo::Keyboard::Key::Space))
+        {
+            m_cameraPosition += m_cameraUp * sensitivity;
+        }
+        if (inputManager.isKeyDown(Turbo::Keyboard::Key::LControl))
+        {
+            m_cameraPosition -= m_cameraUp * sensitivity;
         }
     }
 
@@ -57,6 +67,8 @@ public:
     void addPitch(float pitchToAdd)
     {
         m_cameraPitch += pitchToAdd;
+        static constexpr float maxAngle = M_PI / 2.f - 5 * std::numeric_limits<float>::epsilon();
+        m_cameraPitch = std::max(-maxAngle, std::min(maxAngle, m_cameraPitch));
     }
 private:
     glm::vec3 m_cameraPosition = glm::vec3(0.f, 0.f, 3.f);

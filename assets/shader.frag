@@ -13,8 +13,8 @@ void main()
 {
     vec3 lightColor = vec3(1.0, 1.0, 1.0);
     float ambientStrength = 0.1;
-    float specularStrength = 0.5;
-    float shininess = 32;
+    float specularStrength = 0.3;
+    float shininess = 128;
 
     vec3 ambientColor = ambientStrength * lightColor;
     
