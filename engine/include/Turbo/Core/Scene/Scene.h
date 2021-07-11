@@ -3,6 +3,8 @@
 
 #include <entt/entt.hpp>
 
+#include "Turbo/Core/Scene/Components/TransformComponent.h"
+
 namespace Turbo
 {
     class Entity;

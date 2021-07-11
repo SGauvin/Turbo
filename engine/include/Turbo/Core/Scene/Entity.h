@@ -44,6 +44,6 @@ namespace Turbo
         entt::entity m_entity;
         Scene* m_scene;
     };
-} // Turbo
+} // namespace Turbo
 
 #endif // INCLUDED_TURBO_ENTITY_H
