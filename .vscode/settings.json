@@ -92,6 +92,8 @@
         "unordered_set": "cpp",
         "numbers": "cpp",
         "semaphore": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "*.inc": "cpp",
+        "*.def": "cpp"
     }
 }
