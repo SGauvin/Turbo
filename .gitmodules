@@ -11,3 +11,6 @@
 [submodule "engine/libs/glm"]
 	path = engine/libs/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "engine/libs/entt"]
+	path = engine/libs/entt
+	url = https://github.com/skypjack/entt.git
