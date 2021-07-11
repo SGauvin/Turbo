@@ -22,7 +22,7 @@ namespace Turbo
         void clear();
 
         template<RenderingApi>
-        void draw(VertexArray* vertexArray);
+        void draw(VertexArray const * vertexArray);
 
         template<RenderingApi api>
         void beginViewport(FrameBuffer<api>* frameBuffer);

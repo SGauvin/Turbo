@@ -65,7 +65,7 @@ namespace Turbo
         }
 
         template<>
-        void draw<RenderingApi::OpenGL>(VertexArray* vertexArray)
+        void draw<RenderingApi::OpenGL>(VertexArray const * vertexArray)
         {
             glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
         }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <thread>
 #include <utility>
+#include <Turbo/Core/Scene/Components/MeshComponent.h>
 #include <Turbo/Core/Application.h>
 #include <Turbo/Core/Layers/ImGuiLayer.h>
 #include <Turbo/Core/Log.h>
@@ -21,86 +22,8 @@ public:
     TriangleLayer(Turbo::Application& application)
         : Layer(application)
     {
-        Turbo::BufferLayout layout = {
-            { Turbo::DataType::Float3, "position" },
-            { Turbo::DataType::Float3, "normal" },
-            { Turbo::DataType::Float4, "color" },
-        };
-
-        #define COLOR 1.0f, 0.0f, 0.0f, 1.0f
-            float vertices[] = {
-                -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR
-            };
-
-            std::uint32_t indices[] = {
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 , 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
-            };
-
-        // MESH 1
-        {
-            std::shared_ptr<Turbo::VertexBuffer> vertexBuffer =
-                std::make_shared<Turbo::VertexBuffer>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
-            vertexBuffer->setLayout(layout);
-
-            std::shared_ptr<Turbo::IndexBuffer> indexBuffer =
-                std::make_shared<Turbo::IndexBuffer>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
-
-            m_vertexArray = std::make_unique<Turbo::VertexArray>();
-            m_vertexArray->setVertexBuffer(vertexBuffer);
-            m_vertexArray->setIndexBuffer(indexBuffer);
-            m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
-        }
-
-        // MESH 1
-        {
-            std::shared_ptr<Turbo::VertexBuffer> vertexBuffer =
-                std::make_shared<Turbo::VertexBuffer>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
-            vertexBuffer->setLayout(layout);
-
-            std::shared_ptr<Turbo::IndexBuffer> indexBuffer =
-                std::make_shared<Turbo::IndexBuffer>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
-
-            m_vertexArrayLightCube = std::make_unique<Turbo::VertexArray>();
-            m_vertexArrayLightCube->setVertexBuffer(vertexBuffer);
-            m_vertexArrayLightCube->setIndexBuffer(indexBuffer);
-            m_shaderLightCube.loadFromFile("../assets/shader.vert", "../assets/shader2.frag");
-        }
-
+        m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
+        m_shaderLightCube.loadFromFile("../assets/shader.vert", "../assets/shader2.frag");
         m_window.setIsRawMouseEnabled(true);
     }
 
@@ -183,8 +106,8 @@ public:
             m_shader.setFloat3("lightPosition", m_lightPos);
             m_shader.setFloat3("cameraPosition", m_cameraPosition);
 
-            m_vertexArray->bind();
-            Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray.get());
+            m_mesh.getVertexArray()->bind();
+            Turbo::RenderCommand::draw<Turbo::renderingApi>(m_mesh.getVertexArray());
         }
 
         {
@@ -208,17 +131,17 @@ public:
             m_shaderLightCube.setMatrix4("view", view);
             m_shaderLightCube.setMatrix4("projection", projection);
 
-            m_vertexArrayLightCube->bind();
-            Turbo::RenderCommand::draw<Turbo::renderingApi>(m_vertexArray.get());
+            m_meshLightCube.getVertexArray()->bind();
+            Turbo::RenderCommand::draw<Turbo::renderingApi>(m_meshLightCube.getVertexArray());
         }
     }
 
 private:
     Turbo::Shader<Turbo::renderingApi> m_shader;
-    std::unique_ptr<Turbo::VertexArray> m_vertexArray;
-
     Turbo::Shader<Turbo::renderingApi> m_shaderLightCube;
-    std::unique_ptr<Turbo::VertexArray> m_vertexArrayLightCube;
+
+    Turbo::MeshComponent m_mesh;
+    Turbo::MeshComponent m_meshLightCube;
 
     float m_cubeAngle = 0.f;
 
