@@ -191,8 +191,8 @@ public:
             m_shaderLightCube.bind();
 
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
             model = glm::translate(model, m_lightPos);
+            model = glm::scale(model, glm::vec3(0.2, 0.2, 0.2));
 
             glm::vec3 cameraFront = glm::vec3(
                 glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch),
