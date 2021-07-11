@@ -53,6 +53,23 @@ public:
     virtual void handleInput()
     {
         m_camera.handleInput(m_inputManager);
+
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Up))
+        {
+            m_cube.getComponent<Turbo::TransformComponent>().rotation.x -= 0.01f;
+        }
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Down))
+        {
+            m_cube.getComponent<Turbo::TransformComponent>().rotation.x += 0.01f;
+        }
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Left))
+        {
+            m_cube.getComponent<Turbo::TransformComponent>().rotation.y -= 0.01f;
+        }
+        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Right))
+        {
+            m_cube.getComponent<Turbo::TransformComponent>().rotation.y += 0.01f;
+        }
     }
 
     virtual void update()
