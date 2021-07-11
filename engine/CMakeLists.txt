@@ -50,5 +50,8 @@ set(TURBO_PUBLIC_LIBS ${TURBO_PUBLIC_LIBS} imgui)
 add_subdirectory(libs/entt)
 set(TURBO_PUBLIC_LIBS ${TURBO_PUBLIC_LIBS} EnTT)
 
+# STB
+target_include_directories(turbo PRIVATE libs/stb)
+
 target_link_libraries(turbo PUBLIC ${TURBO_PUBLIC_LIBS})
 target_link_libraries(turbo PRIVATE glfw glad)

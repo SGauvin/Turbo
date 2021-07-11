@@ -14,3 +14,6 @@
 [submodule "engine/libs/entt"]
 	path = engine/libs/entt
 	url = https://github.com/skypjack/entt.git
+[submodule "engine/libs/stb"]
+	path = engine/libs/stb
+	url = https://github.com/nothings/stb.git
