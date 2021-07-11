@@ -18,17 +18,24 @@ void main()
 
     vec3 ambientColor = ambientStrength * lightColor;
     
+    vec3 result = ambientColor;
+
     vec3 normal = normalize(v_normal);
     vec3 lightDirection = normalize(lightPosition - v_position);
 
-    float diffuseImpact = max(dot(lightDirection, normal), 0.0);
-    vec3 diffuseColor = diffuseImpact * lightColor;
+    float diffuseImpact = dot(lightDirection, normal);
 
-    vec3 viewDirection = normalize(cameraPosition - v_position);
-    vec3 reflectionDirection = reflect(-lightDirection, normal);
 
-    vec3 specularColor = specularStrength * pow(max(dot(viewDirection, reflectionDirection), 0.0), shininess) * lightColor;
+    if (diffuseImpact > 0.0)
+    {
+        vec3 diffuseColor = diffuseImpact * lightColor;
 
-    vec3 result = (ambientColor + diffuseColor + specularColor) * vec3(v_color);
-    color = vec4(result, 1.0);
+        vec3 viewDirection = normalize(cameraPosition - v_position);
+        vec3 reflectionDirection = reflect(-lightDirection, normal);
+        vec3 specularColor = specularStrength * pow(max(dot(viewDirection, reflectionDirection), 0.0), shininess) * lightColor;
+
+        result += diffuseColor + specularColor;
+    }
+
+    color = vec4(result * vec3(v_color), 1.0);
 }
