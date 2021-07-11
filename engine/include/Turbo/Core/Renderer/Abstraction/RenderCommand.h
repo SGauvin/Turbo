@@ -21,8 +21,8 @@ namespace Turbo
         template<RenderingApi>
         void clear();
 
-        template<RenderingApi api>
-        void draw(VertexArray<api>* vertexArray);
+        template<RenderingApi>
+        void draw(VertexArray* vertexArray);
 
         template<RenderingApi api>
         void beginViewport(FrameBuffer<api>* frameBuffer);

@@ -24,22 +24,22 @@ namespace
 
 namespace Turbo
 {
-    VertexArray<RenderingApi::OpenGL>::VertexArray()
+    VertexArrayTemplate<RenderingApi::OpenGL>::VertexArrayTemplate()
     {
         glGenVertexArrays(1, &m_vertexArray);
     }
 
-    VertexArray<RenderingApi::OpenGL>::~VertexArray()
+    VertexArrayTemplate<RenderingApi::OpenGL>::~VertexArrayTemplate()
     {
         glDeleteVertexArrays(1, &m_vertexArray);
     }
 
-    void VertexArray<RenderingApi::OpenGL>::bind() const
+    void VertexArrayTemplate<RenderingApi::OpenGL>::bind() const
     {
         glBindVertexArray(m_vertexArray);
     }
 
-    void VertexArray<RenderingApi::OpenGL>::setVertexBuffer(std::shared_ptr<VertexBuffer<RenderingApi::OpenGL>> vertexBuffer)
+    void VertexArrayTemplate<RenderingApi::OpenGL>::setVertexBuffer(std::shared_ptr<VertexBuffer> vertexBuffer)
     {
         TURBO_ASSERT(vertexBuffer->getLayout().size() > 0, "Vertex buffer has no layout");
 
@@ -61,7 +61,7 @@ namespace Turbo
         m_vertexBuffer = vertexBuffer;
     }
 
-    void VertexArray<RenderingApi::OpenGL>::setIndexBuffer(std::shared_ptr<IndexBuffer<RenderingApi::OpenGL>> indexBuffer)
+    void VertexArrayTemplate<RenderingApi::OpenGL>::setIndexBuffer(std::shared_ptr<IndexBuffer> indexBuffer)
     {
         bind();
         indexBuffer->bind();
@@ -69,7 +69,7 @@ namespace Turbo
         m_indexBuffer = indexBuffer;
     }
 
-    IndexBuffer<RenderingApi::OpenGL>* VertexArray<RenderingApi::OpenGL>::getIndexBuffer() const
+    IndexBuffer* VertexArrayTemplate<RenderingApi::OpenGL>::getIndexBuffer() const
     {
         return m_indexBuffer.get();
     }

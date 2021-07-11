@@ -10,11 +10,11 @@
 namespace Turbo
 {
     template<>
-    class VertexBuffer<RenderingApi::OpenGL>
+    class VertexBufferTemplate<RenderingApi::OpenGL>
     {
     public:
-        VertexBuffer(std::span<float> vertices);
-        ~VertexBuffer();
+        VertexBufferTemplate(std::span<float> vertices);
+        ~VertexBufferTemplate();
         void bind() const;
         void setLayout(const BufferLayout& layout);
         const BufferLayout& getLayout() const;

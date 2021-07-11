@@ -73,14 +73,14 @@ public:
 
         // MESH 1
         {
-            std::shared_ptr<Turbo::VertexBuffer<Turbo::renderingApi>> vertexBuffer =
-                std::make_shared<Turbo::VertexBuffer<Turbo::renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            std::shared_ptr<Turbo::VertexBuffer> vertexBuffer =
+                std::make_shared<Turbo::VertexBuffer>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
             vertexBuffer->setLayout(layout);
 
-            std::shared_ptr<Turbo::IndexBuffer<Turbo::renderingApi>> indexBuffer =
-                std::make_shared<Turbo::IndexBuffer<Turbo::renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+            std::shared_ptr<Turbo::IndexBuffer> indexBuffer =
+                std::make_shared<Turbo::IndexBuffer>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
 
-            m_vertexArray = std::make_unique<Turbo::VertexArray<Turbo::renderingApi>>();
+            m_vertexArray = std::make_unique<Turbo::VertexArray>();
             m_vertexArray->setVertexBuffer(vertexBuffer);
             m_vertexArray->setIndexBuffer(indexBuffer);
             m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
@@ -88,14 +88,14 @@ public:
 
         // MESH 1
         {
-            std::shared_ptr<Turbo::VertexBuffer<Turbo::renderingApi>> vertexBuffer =
-                std::make_shared<Turbo::VertexBuffer<Turbo::renderingApi>>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
+            std::shared_ptr<Turbo::VertexBuffer> vertexBuffer =
+                std::make_shared<Turbo::VertexBuffer>(std::span<float>(vertices, sizeof(vertices) / sizeof(float)));
             vertexBuffer->setLayout(layout);
 
-            std::shared_ptr<Turbo::IndexBuffer<Turbo::renderingApi>> indexBuffer =
-                std::make_shared<Turbo::IndexBuffer<Turbo::renderingApi>>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
+            std::shared_ptr<Turbo::IndexBuffer> indexBuffer =
+                std::make_shared<Turbo::IndexBuffer>(std::span<std::uint32_t>(indices, sizeof(indices) / sizeof(std::uint32_t)));
 
-            m_vertexArrayLightCube = std::make_unique<Turbo::VertexArray<Turbo::renderingApi>>();
+            m_vertexArrayLightCube = std::make_unique<Turbo::VertexArray>();
             m_vertexArrayLightCube->setVertexBuffer(vertexBuffer);
             m_vertexArrayLightCube->setIndexBuffer(indexBuffer);
             m_shaderLightCube.loadFromFile("../assets/shader.vert", "../assets/shader2.frag");
@@ -215,10 +215,10 @@ public:
 
 private:
     Turbo::Shader<Turbo::renderingApi> m_shader;
-    std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArray;
+    std::unique_ptr<Turbo::VertexArray> m_vertexArray;
 
     Turbo::Shader<Turbo::renderingApi> m_shaderLightCube;
-    std::unique_ptr<Turbo::VertexArray<Turbo::renderingApi>> m_vertexArrayLightCube;
+    std::unique_ptr<Turbo::VertexArray> m_vertexArrayLightCube;
 
     float m_cubeAngle = 0.f;
 

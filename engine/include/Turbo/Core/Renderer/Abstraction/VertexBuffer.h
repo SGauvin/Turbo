@@ -4,20 +4,23 @@
 #include <span>
 #include "Turbo/Core/Renderer/RenderingApi.h"
 #include "Turbo/Core/Renderer/BufferLayout.h"
+#include "Turbo/Core/Settings.h"
 
 namespace Turbo
 {
     template<RenderingApi>
-    class VertexBuffer
+    class VertexBufferTemplate
     {
     public:
-        VertexBuffer(std::span<float> vertices);
-        ~VertexBuffer();
+        VertexBufferTemplate(std::span<float> vertices);
+        ~VertexBufferTemplate();
 
         void bind() const;
         void setLayout(const BufferLayout& layout);
         const BufferLayout& getLayout() const;
     };
+
+    using VertexBuffer = VertexBufferTemplate<renderingApi>;
 } // namespace Turbo
 
 #include "Turbo/Core/Renderer/OpenGL/OpenGLVertexBuffer.h"

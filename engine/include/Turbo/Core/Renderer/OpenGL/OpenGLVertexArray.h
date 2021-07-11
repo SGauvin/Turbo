@@ -11,23 +11,23 @@
 namespace Turbo
 {
     template<>
-    class VertexArray<RenderingApi::OpenGL>
+    class VertexArrayTemplate<RenderingApi::OpenGL>
     {
     public:
-        VertexArray();
-        ~VertexArray();
+        VertexArrayTemplate();
+        ~VertexArrayTemplate();
 
         void bind() const;
 
-        void setVertexBuffer(std::shared_ptr<VertexBuffer<RenderingApi::OpenGL>> vertexBuffer);
-        void setIndexBuffer(std::shared_ptr<IndexBuffer<RenderingApi::OpenGL>> indexBuffer);
+        void setVertexBuffer(std::shared_ptr<VertexBuffer> vertexBuffer);
+        void setIndexBuffer(std::shared_ptr<IndexBuffer> indexBuffer);
 
-        IndexBuffer<RenderingApi::OpenGL>* getIndexBuffer() const;
+        IndexBuffer* getIndexBuffer() const;
 
     private:
         std::uint32_t m_vertexArray;
-        std::shared_ptr<VertexBuffer<RenderingApi::OpenGL>> m_vertexBuffer;
-        std::shared_ptr<IndexBuffer<RenderingApi::OpenGL>> m_indexBuffer;
+        std::shared_ptr<VertexBuffer> m_vertexBuffer;
+        std::shared_ptr<IndexBuffer> m_indexBuffer;
     };
 } // namespace Turbo
 

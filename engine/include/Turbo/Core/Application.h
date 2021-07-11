@@ -9,14 +9,12 @@
 #include "Turbo/Core/Renderer/Abstraction/VertexArray.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/Shader.h"
+#include "Turbo/Core/Settings.h"
 #include "Turbo/Core/Window/Window.h"
 
 namespace Turbo
 {
     class State;
-
-    static constexpr RenderingApi renderingApi = RenderingApi::OpenGL;
-    static constexpr bool isEditorEnabled = false;
 
     class Application
     {
