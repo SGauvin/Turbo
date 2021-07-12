@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
+add_compile_definitions(STB_IMAGE_IMPLEMENTATION)
+
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 add_library(turbo ${SOURCES})
 

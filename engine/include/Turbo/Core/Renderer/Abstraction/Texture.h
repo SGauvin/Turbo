@@ -19,5 +19,6 @@ namespace Turbo
     using Texture = TextureTemplate<renderingApi>;
 } // namespace Turbo
 
+#include "Turbo/Core/Renderer/OpenGL/OpenGLTexture.h"
 
 #endif // INCLUDED_TURBO_TEXTURE_H

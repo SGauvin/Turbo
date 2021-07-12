@@ -4,10 +4,11 @@ layout(location = 0) out vec4 color;
 
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
+uniform sampler2D texture1;
 
 in vec3 v_position;
 in vec3 v_normal;
-in vec4 v_color;
+in vec2 v_textCoord;
 
 void main()
 {
@@ -37,5 +38,6 @@ void main()
         result += diffuseColor + specularColor;
     }
 
-    color = vec4(result * vec3(v_color), 1.0);
+    vec4 texelColor = texture(texture1, v_textCoord);
+    color = vec4(texelColor.rgb * result, texelColor.a);
 }

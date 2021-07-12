@@ -9,6 +9,7 @@ namespace Turbo
     Scene::Scene()
     {
         m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
+        m_texture.load("../assets/wood.png");
     }
         
     void Scene::update()
@@ -18,6 +19,7 @@ namespace Turbo
     {
         auto view = m_registry.view<TransformComponent, MeshComponent>();
         m_shader.bind();
+        m_texture.bind();
 
         for (auto entity : view)
         {

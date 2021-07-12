@@ -22,53 +22,22 @@ namespace Turbo
         MeshComponent()
         {
             Turbo::BufferLayout layout = {
-                { Turbo::DataType::Float3, "position" },
-                { Turbo::DataType::Float3, "normal" },
-                { Turbo::DataType::Float4, "color" },
+                { Turbo::DataType::Float3, "a_position" },
+                { Turbo::DataType::Float3, "a_color" },
+                { Turbo::DataType::Float2, "a_textCoord" },
             };
 
-            #define COLOR 1.0f, 0.0f, 0.0f, 1.0f
             float vertices[] = {
-                -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, COLOR,
-                -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, COLOR,
-                -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, COLOR,
-                -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, COLOR,
-                -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, COLOR,
-                -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, COLOR
+                // positions          // normals           // texture coords
+                0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+                0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+                -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // bottom left
+                -0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   0.0f, 1.0f    // top left 
             };
 
             std::uint32_t indices[] = {
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 , 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
+                0, 1, 3, // first triangle
+                1, 2, 3  // second triangle
             };
 
             std::shared_ptr<Turbo::VertexBuffer> vertexBuffer =
