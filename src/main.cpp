@@ -28,7 +28,7 @@ public:
     TriangleLayer(Turbo::Application& application)
         : Layer(application)
     {
-        m_window.setIsRawMouseEnabled(true);
+        m_window.setIsRawMouseEnabled(false);
     }
 
     virtual void onAttach()
@@ -38,8 +38,8 @@ public:
         m_inputContext->bindMouseMoveEvents([this](const Turbo::Mouse::MoveEvent& moveEvent)
         {
             static constexpr float sens = 1.f / 1000.f;
-            m_camera.addPitch(-moveEvent.movement.y * sens);
-            m_camera.addYaw(moveEvent.movement.x * sens);
+            // m_camera.addPitch(-moveEvent.movement.y * sens);
+            // m_camera.addYaw(moveEvent.movement.x * sens);
             return true;
         });
 
@@ -81,7 +81,9 @@ public:
         Turbo::RenderCommand::setClearColor<Turbo::renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
         Turbo::RenderCommand::clear<Turbo::renderingApi>();
 
-        m_scene.draw(m_camera.getLookAt(), m_camera.getPosition(), lag);
+        const float aspectRatio = static_cast<float>(m_application.getViewportSize().x) / m_application.getViewportSize().y;
+        m_scene.draw(m_camera.getLookAt(), m_camera.getPosition(), aspectRatio, lag);
+        TURBO_INFO("{}", aspectRatio);
     }
 
 private:
@@ -133,7 +135,7 @@ private:
 
 int main()
 {
-    Turbo::Application app({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::FullScreen});
+    Turbo::Application app({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered});
     app.setTargetFps(144.f);
     app.setTargetUps(144.f);
     app.getWindow().setIsVSyncEnabled(true);

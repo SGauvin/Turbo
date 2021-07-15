@@ -15,7 +15,7 @@ namespace Turbo
     void Scene::update()
     {}
 
-    void Scene::draw(const glm::mat4& viewMatrix, const glm::vec3& cameraPosition, float lag)
+    void Scene::draw(const glm::mat4& viewMatrix, const glm::vec3& cameraPosition, float aspectRatio, float lag)
     {
         auto view = m_registry.view<TransformComponent, MeshComponent>();
         m_shader.bind();
@@ -24,7 +24,7 @@ namespace Turbo
         for (auto entity : view)
         {
             auto [transform, mesh] = view.get(entity);
-            glm::mat4 projection = glm::perspective(glm::radians(45.0f), 16.f / 9.f, 0.1f, 100.0f);
+            glm::mat4 projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
 
             m_shader.setMatrix4("model", transform.getTransform());
             m_shader.setMatrix4("view", viewMatrix);

@@ -16,7 +16,7 @@ namespace Turbo
         Scene();
         
         void update();
-        void draw(const glm::mat4& viewMatrix, const glm::vec3& cameraPosition, float lag = 1.0f);
+        void draw(const glm::mat4& viewMatrix, const glm::vec3& cameraPosition, float aspectRatio, float lag = 1.0f);
 
         Entity createEntity();
         void deleteEntity(const Entity& entity);
