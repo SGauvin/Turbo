@@ -20,6 +20,15 @@ namespace Turbo
         auto view = m_registry.view<TransformComponent, MeshComponent>();
         m_shader.bind();
         m_texture.bind();
+        m_shader.setFloat3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+        m_shader.setFloat3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+        m_shader.setFloat3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+        m_shader.setFloat("material.shininess", 32.0f);
+
+        m_shader.setFloat3("light.position", m_lightPos);
+        m_shader.setFloat3("light.ambient",  glm::vec3(0.2f, 0.2f, 0.2f));
+        m_shader.setFloat3("light.diffuse",  glm::vec3(0.5f, 0.5f, 0.5f));
+        m_shader.setFloat3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f)); 
 
         for (auto entity : view)
         {
@@ -30,7 +39,7 @@ namespace Turbo
             m_shader.setMatrix4("view", viewMatrix);
             m_shader.setMatrix4("projection", projection);
             m_shader.setFloat3("cameraPosition", cameraPosition);
-            m_shader.setFloat3("lightPosition", m_lightPos);
+            
 
             Turbo::RenderCommand::draw<Turbo::renderingApi>(mesh.getVertexArray());
         }

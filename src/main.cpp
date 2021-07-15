@@ -83,7 +83,6 @@ public:
 
         const float aspectRatio = static_cast<float>(m_application.getViewportSize().x) / m_application.getViewportSize().y;
         m_scene.draw(m_camera.getLookAt(), m_camera.getPosition(), aspectRatio, lag);
-        TURBO_INFO("{}", aspectRatio);
     }
 
 private:
