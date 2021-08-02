@@ -27,22 +27,14 @@ class TriangleLayer : public Turbo::Layer
 public:
     TriangleLayer(Turbo::Application& application)
         : Layer(application)
+        , m_inputContext(m_inputManager.createInputContext())
+        , m_camera(m_inputManager)
     {
         m_window.setIsRawMouseEnabled(true);
     }
 
     virtual void onAttach()
     {
-        m_inputContext = m_inputManager.createInputContext();
-
-        m_inputContext->bindMouseMoveEvents([this](const Turbo::Mouse::MoveEvent& moveEvent)
-        {
-            static constexpr float sens = 1.f / 1000.f;
-            m_camera.addPitch(-moveEvent.movement.y * sens);
-            m_camera.addYaw(moveEvent.movement.x * sens);
-            return true;
-        });
-
         m_cube = m_scene.createEntity();
         m_cube.addComponent<Turbo::MeshComponent>();
         m_cube.addComponent<Turbo::TransformComponent>();
@@ -52,8 +44,6 @@ public:
 
     virtual void handleInput()
     {
-        m_camera.handleInput(m_inputManager);
-
         if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Up))
         {
             m_cube.getComponent<Turbo::TransformComponent>().rotation.x -= 0.01f;
@@ -74,6 +64,7 @@ public:
 
     virtual void update()
     {
+        m_camera.update();
     }
 
     virtual void draw(float lag = 1.0)
@@ -86,7 +77,7 @@ public:
     }
 
 private:
-    Turbo::InputContext* m_inputContext = nullptr;
+    Turbo::InputContext* m_inputContext;
 
     Camera m_camera;
     Turbo::Entity m_cube;
