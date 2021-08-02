@@ -28,7 +28,7 @@ public:
     TriangleLayer(Turbo::Application& application)
         : Layer(application)
     {
-        m_window.setIsRawMouseEnabled(false);
+        m_window.setIsRawMouseEnabled(true);
     }
 
     virtual void onAttach()
@@ -38,8 +38,8 @@ public:
         m_inputContext->bindMouseMoveEvents([this](const Turbo::Mouse::MoveEvent& moveEvent)
         {
             static constexpr float sens = 1.f / 1000.f;
-            // m_camera.addPitch(-moveEvent.movement.y * sens);
-            // m_camera.addYaw(moveEvent.movement.x * sens);
+            m_camera.addPitch(-moveEvent.movement.y * sens);
+            m_camera.addYaw(moveEvent.movement.x * sens);
             return true;
         });
 
@@ -139,6 +139,6 @@ int main()
     app.setTargetUps(144.f);
     app.getWindow().setIsVSyncEnabled(true);
 
-    app.push(new TestState(app));
+    app.push<TestState>(app);
     app.start();
 }

@@ -45,13 +45,6 @@ namespace Turbo
         }
     }
 
-    void Application::push(State* state)
-    {
-        m_states.push_back(state);
-        m_inputManager.onStateChange(state);
-        state->onAttach();
-    }
-
     void Application::pop()
     {
         if (m_states.empty())
@@ -176,5 +169,11 @@ namespace Turbo
             return m_viewportFrameBuffer->getSize();
         }
         return m_window.getSize();
+    }
+
+    
+    void Application::onStatePushed()
+    {
+        m_states.back()->onAttach();
     }
 } // namespace Turbo

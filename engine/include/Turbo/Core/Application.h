@@ -14,15 +14,24 @@
 
 namespace Turbo
 {
-    class State;
-
     class Application
     {
     public:
         Application(const WindowAttributes& windowAttributes);
         ~Application();
 
-        void push(State* state);
+        template<typename T, typename... Args>
+        T* push(Args&... args)
+        {
+            static_assert(std::is_base_of<State, T>::value);
+            std::uint8_t* alloc = new std::uint8_t[sizeof(T)];
+            m_inputManager.onStateChange(reinterpret_cast<State*>(alloc));
+            T* state = new(alloc) T(args...);
+            m_states.push_back(state);
+            onStatePushed();
+            return state;
+        }
+
         void pop();
 
         void setTargetUps(double ups);
@@ -46,6 +55,8 @@ namespace Turbo
         std::chrono::duration<double> m_timePerDraw = std::chrono::nanoseconds(1000000000 / 144);
         std::chrono::duration<double> m_updateLag{0};
         std::chrono::duration<double> m_drawLag{0};
+
+        void onStatePushed();
     };
 } // namespace Turbo
 
