@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_OPENGLTEXTURE_H
-#define INCLUDED_TURBO_OPENGLTEXTURE_H
+#pragma once
 
 #include <string>
 
@@ -22,5 +21,3 @@ namespace Turbo
         std::uint32_t m_texture;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_OPENGLTEXTURE_H

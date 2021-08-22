@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_OPENGLWINDOW_H
-#define INCLUDED_TURBO_OPENGLWINDOW_H
+#pragma once
 
 #include <memory>
 #include <GLFW/glfw3.h>
@@ -73,5 +72,3 @@ namespace Turbo
     };
 
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_OPENGLWINDOW_H

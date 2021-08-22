@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_ENTITY_H
-#define INCLUDED_TURBO_ENTITY_H
+#pragma once
 
 #include <entt/entt.hpp>
 #include <glm/glm.hpp>
@@ -45,5 +44,3 @@ namespace Turbo
         Scene* m_scene;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_ENTITY_H

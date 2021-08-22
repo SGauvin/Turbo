@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_TEXTURE_H
-#define INCLUDED_TURBO_TEXTURE_H
+#pragma once
 
 #include "Turbo/Core/Renderer/RenderingApi.h"
 #include "Turbo/Core/Settings.h"
@@ -20,5 +19,3 @@ namespace Turbo
 } // namespace Turbo
 
 #include "Turbo/Core/Renderer/OpenGL/OpenGLTexture.h"
-
-#endif // INCLUDED_TURBO_TEXTURE_H
