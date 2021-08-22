@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 
-add_compile_definitions(STB_IMAGE_IMPLEMENTATION)
-
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 add_library(turbo ${SOURCES})
 
@@ -53,7 +51,21 @@ add_subdirectory(libs/entt)
 set(TURBO_PUBLIC_LIBS ${TURBO_PUBLIC_LIBS} EnTT)
 
 # STB
+add_compile_definitions(STB_IMAGE_IMPLEMENTATION)
+add_compile_definitions(STB_IMAGE_WRITE_IMPLEMENTATION)
 target_include_directories(turbo PRIVATE libs/stb)
+
+# NLOHMANN JSON
+add_compile_definitions(JSON_NOEXCEPTION)
+set (JSON_BuildTests OFF CACHE INTERNAL "" FORCE)
+add_subdirectory(libs/json)
+set(TURBO_PUBLIC_LIBS ${TURBO_PUBLIC_LIBS} nlohmann_json::nlohmann_json)
+
+# TINY GLTF
+add_compile_definitions(TINYGLTF_NOEXCEPTION)
+set(TINYGLTF_HEADER_ONLY ON CACHE INTERNAL "" FORCE)
+set(TINYGLTF_INSTALL OFF CACHE INTERNAL "" FORCE)
+add_subdirectory(libs/tinygltf)
 
 target_link_libraries(turbo PUBLIC ${TURBO_PUBLIC_LIBS})
 target_link_libraries(turbo PRIVATE glfw glad)

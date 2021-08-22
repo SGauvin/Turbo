@@ -17,3 +17,9 @@
 [submodule "engine/libs/stb"]
 	path = engine/libs/stb
 	url = https://github.com/nothings/stb.git
+[submodule "engine/libs/json"]
+	path = engine/libs/json
+	url = https://github.com/nlohmann/json.git
+[submodule "engine/libs/tinygltf"]
+	path = engine/libs/tinygltf
+	url = https://github.com/syoyo/tinygltf.git
