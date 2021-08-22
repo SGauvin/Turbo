@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_INDEXBUFFER_H
-#define INCLUDED_TURBO_INDEXBUFFER_H
+#pragma once
 
 #include <memory>
 #include <span>
@@ -23,5 +22,3 @@ namespace Turbo
 } // namespace Turbo
 
 #include "Turbo/Core/Renderer/OpenGL/OpenGLIndexBuffer.h"
-
-#endif // INCLUDED_TURBO_INDEXBUFFER_H

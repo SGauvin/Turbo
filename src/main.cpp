@@ -18,7 +18,6 @@
 #include <Turbo/Core/Renderer/Abstraction/VertexBuffer.h>
 #include <Turbo/Core/Renderer/Abstraction/IndexBuffer.h>
 #include <Turbo/Core/Renderer/BufferLayout.h>
-#include <glm/gtx/transform.hpp>
 
 #include "Camera.h"
 
@@ -69,8 +68,8 @@ public:
 
     virtual void draw(float lag = 1.0)
     {
-        Turbo::RenderCommand::setClearColor<Turbo::renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
-        Turbo::RenderCommand::clear<Turbo::renderingApi>();
+        Turbo::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.f});
+        Turbo::RenderCommand::clear();
 
         const float aspectRatio = static_cast<float>(m_application.getViewportSize().x) / m_application.getViewportSize().y;
         m_scene.draw(m_camera.getLookAt(), m_camera.getPosition(), aspectRatio, lag);

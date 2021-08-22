@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_CALLABLE_H
-#define INCLUDED_TURBO_CALLABLE_H
+#pragma once
 
 #include <functional>
 
@@ -32,5 +31,3 @@ namespace Turbo
         std::function<R(Args...)> m_callback;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_CALLABLE_H

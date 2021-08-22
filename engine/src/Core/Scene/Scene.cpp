@@ -40,8 +40,7 @@ namespace Turbo
             m_shader.setMatrix4("projection", projection);
             m_shader.setFloat3("cameraPosition", cameraPosition);
             
-
-            Turbo::RenderCommand::draw<Turbo::renderingApi>(mesh.getVertexArray());
+            Turbo::RenderCommand::drawImpl<Turbo::renderingApi>(mesh.getVertexArray());
         }
     }
 

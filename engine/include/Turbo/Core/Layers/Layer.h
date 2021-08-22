@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_LAYER_H
-#define INCLUDED_TURBO_LAYER_H
+#pragma once
 
 #include "Turbo/Core/Application.h"
 
@@ -28,5 +27,3 @@ namespace Turbo
         Window<renderingApi>& m_window;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_LAYER_H

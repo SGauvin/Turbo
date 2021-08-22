@@ -35,7 +35,7 @@ namespace Turbo
     namespace RenderCommand
     {
         template<>
-        void init<RenderingApi::OpenGL>()
+        void initImpl<RenderingApi::OpenGL>()
         {
 #if !defined(NDEBUG)
             glEnable(GL_DEBUG_OUTPUT);
@@ -47,32 +47,32 @@ namespace Turbo
         }
 
         template<>
-        void setViewport<RenderingApi::OpenGL>(const glm::uvec2& position, const glm::uvec2& size)
+        void setViewportImpl<RenderingApi::OpenGL>(const glm::uvec2& position, const glm::uvec2& size)
         {
             glViewport(position.x, position.y, size.x, size.y);
         }
 
         template<>
-        void setClearColor<RenderingApi::OpenGL>(const glm::vec4& color)
+        void setClearColorImpl<RenderingApi::OpenGL>(const glm::vec4& color)
         {
             glClearColor(color.r, color.g, color.b, color.a);
         }
 
         template<>
-        void clear<RenderingApi::OpenGL>()
+        void clearImpl<RenderingApi::OpenGL>()
         {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
         template<>
-        void draw<RenderingApi::OpenGL>(VertexArray const * vertexArray)
+        void drawImpl<RenderingApi::OpenGL>(VertexArray const * vertexArray)
         {
             vertexArray->bind();
             glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
         }
 
         template<>
-        void beginViewport<RenderingApi::OpenGL>(FrameBuffer<RenderingApi::OpenGL>* frameBuffer)
+        void beginViewportImpl<RenderingApi::OpenGL>(FrameBuffer<RenderingApi::OpenGL>* frameBuffer)
         {
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
@@ -92,11 +92,11 @@ namespace Turbo
 
             frameBuffer->bind();
             
-            setViewport<RenderingApi::OpenGL>({0, 0}, {static_cast<std::int32_t>(viewportSize.x), static_cast<std::int32_t>(viewportSize.y)});
+            setViewport({0, 0}, {static_cast<std::int32_t>(viewportSize.x), static_cast<std::int32_t>(viewportSize.y)});
         }
 
         template<>
-        void endViewport<RenderingApi::OpenGL>(FrameBuffer<RenderingApi::OpenGL>* frameBuffer, glm::uvec2 windowSize)
+        void endViewportImpl<RenderingApi::OpenGL>(FrameBuffer<RenderingApi::OpenGL>* frameBuffer, glm::uvec2 windowSize)
         {
             frameBuffer->unbind();
 

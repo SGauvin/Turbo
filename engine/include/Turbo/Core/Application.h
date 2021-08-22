@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_APPLICATION_H
-#define INCLUDED_TURBO_APPLICATION_H
+#pragma once
 
 #include <chrono>
 #include <numeric>
@@ -59,5 +58,3 @@ namespace Turbo
         void onStatePushed();
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_APPLICATION_H

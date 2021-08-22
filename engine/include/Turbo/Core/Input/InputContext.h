@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_INPUTCONTEXT_H
-#define INCLUDED_TURBO_INPUTCONTEXT_H
+#pragma once
 
 #include <array>
 #include <iostream>
@@ -188,5 +187,3 @@ namespace Turbo
         std::vector<std::pair<std::uint32_t, Callable<bool, const Mouse::ButtonEvent&>>> m_mouseReleaseCallbacks{};
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_INPUTCONTEXT_H

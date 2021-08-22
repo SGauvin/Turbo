@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_INPUTMANAGER_H
-#define INCLUDED_TURBO_INPUTMANAGER_H
+#pragma once
 
 #include <array>
 #include <memory>
@@ -70,5 +69,3 @@ namespace Turbo
         // -- ~Mouse --
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_INPUTMANAGER_H

@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_OPENGLFRAMEBUFFER_H
-#define INCLUDED_TURBO_OPENGLFRAMEBUFFER_H
+#pragma once
 
 #include "Turbo/Core/Renderer/Abstraction/FrameBuffer.h"
 
@@ -27,5 +26,3 @@ namespace Turbo
         glm::ivec2 m_size;
     };
 }
-
-#endif // INCLUDED_TURBO_FRAMEBUFFER_H

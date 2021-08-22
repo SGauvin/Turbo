@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_FRAMEBUFFER_H
-#define INCLUDED_TURBO_FRAMEBUFFER_H
+#pragma once
 
 #include "Turbo/Core/Renderer/RenderingApi.h"
 #include <glm/glm.hpp>
@@ -20,5 +19,3 @@ namespace Turbo
 }
 
 #include "Turbo/Core/Renderer/OpenGL/OpenGLFrameBuffer.h"
-
-#endif // INCLUDED_TURBO_FRAMEBUFFER_H

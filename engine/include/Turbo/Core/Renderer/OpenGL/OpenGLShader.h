@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_OPENGLSHADER_H
-#define INCLUDED_TURBO_OPENGLSHADER_H
+#pragma once
 
 #include <string>
 #include "Turbo/Core/Renderer/Abstraction/Shader.h"
@@ -25,5 +24,3 @@ namespace Turbo
         std::uint32_t m_programId;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_OPENGLSHADER_H

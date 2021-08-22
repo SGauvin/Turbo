@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_BUFFERLAYOUT_H
-#define INCLUDED_TURBO_BUFFERLAYOUT_H
+#pragma once
 
 #include <initializer_list>
 #include <string>
@@ -55,5 +54,3 @@ namespace Turbo
         std::uint32_t m_stride;
     };
 } // namespace Turbo
-
-#endif

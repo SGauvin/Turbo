@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_MOUSE_H
-#define INCLUDED_TURBO_MOUSE_H
+#pragma once
 
 #include <cstdint>
 #include <glm/glm.hpp>
@@ -58,5 +57,3 @@ namespace Turbo
         };
     } // namespace Mouse
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_MOUSE_H

@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_OPENGLVERTEXARRAY_H
-#define INCLUDED_TURBO_OPENGLVERTEXARRAY_H
+#pragma once
 
 #include <memory>
 
@@ -30,5 +29,3 @@ namespace Turbo
         std::shared_ptr<IndexBuffer> m_indexBuffer;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_OPENGLVERTEXARRAY_H

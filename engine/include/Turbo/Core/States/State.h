@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_STATE_H
-#define INCLUDED_TURBO_STATE_H
+#pragma once
 
 #include "Turbo/Core/Application.h"
 #include "Turbo/Core/Input/InputManager.h"
@@ -34,5 +33,3 @@ namespace Turbo
         virtual void onAttach() = 0;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_STATE_H

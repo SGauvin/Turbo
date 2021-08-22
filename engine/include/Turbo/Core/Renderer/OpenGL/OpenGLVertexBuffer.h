@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_OPENGLVERTEXBUFFER_H
-#define INCLUDED_TURBO_OPENGLVERTEXBUFFER_H
+#pragma once
 
 #include <span>
 #include <glad/glad.h>
@@ -24,5 +23,3 @@ namespace Turbo
         BufferLayout m_layout;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_OPENGLVERTEXBUFFER_H

@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_OPENGLCONTEXT_H
-#define INCLUDED_TURBO_OPENGLCONTEXT_H
+#pragma once
 
 struct GLFWwindow;
 
@@ -17,5 +16,3 @@ namespace Turbo
         GLFWwindow* m_windowHandle;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_OPENGLCONTEXT_H

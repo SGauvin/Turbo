@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_VERTEXARRAY_H
-#define INCLUDED_TURBO_VERTEXARRAY_H
+#pragma once
 
 #include "Turbo/Core/Renderer/RenderingApi.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
@@ -22,5 +21,3 @@ namespace Turbo
 } // namespace Turbo
 
 #include "Turbo/Core/Renderer/OpenGL/OpenGLVertexArray.h"
-
-#endif // INCLUDED_TURBO_VERTEXARRAY_H

@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_MESHCOMPONENT_H
-#define INCLUDED_TURBO_MESHCOMPONENT_H
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -102,5 +101,3 @@ namespace Turbo
         std::unique_ptr<VertexArray> m_vertexArray;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_MESHCOMPONENT_H

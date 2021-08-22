@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_IMGGUILAYER_H
-#define INCLUDED_TURBO_IMGGUILAYER_H
+#pragma once
 
 #include "Turbo/Core/Input/InputContext.h"
 #include "Turbo/Core/Layers/Layer.h"
@@ -23,5 +22,3 @@ namespace Turbo
         InputContext* m_inputContext = nullptr;
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_IMGGUILAYER_H

@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_WINDOW_H
-#define INCLUDED_TURBO_WINDOW_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include "Turbo/Core/Input/InputManager.h"
@@ -57,5 +56,3 @@ namespace Turbo
 } // namespace Turbo
 
 #include "Turbo/Core/Window/OpenGLWindow.h"
-
-#endif // INCLUDED_TURBO_WINDOW_H

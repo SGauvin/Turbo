@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_SHADER_H
-#define INCLUDED_TURBO_SHADER_H
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -24,5 +23,3 @@ namespace Turbo
 } // namespace Turbo
 
 #include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
-
-#endif // INCLUDED_TURBO_SHADER_H

@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_TRANSFORMCOMPONENT_H
-#define INCLUDED_TURBO_TRANSFORMCOMPONENT_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
@@ -22,5 +21,3 @@ namespace Turbo
         }
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_TRANSFORMCOMPONENT_H

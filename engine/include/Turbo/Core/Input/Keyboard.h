@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_KEYBOARD_H
-#define INCLUDED_TURBO_KEYBOARD_H
+#pragma once
 
 #include <cstdint>
 
@@ -159,5 +158,3 @@ namespace Turbo
         };
     } // namespace Keyboard
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_KEYBOARD_H

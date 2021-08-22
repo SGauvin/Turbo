@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_SCENE_H
-#define INCLUDED_TURBO_SCENE_H
+#pragma once
 
 #include <entt/entt.hpp>
 #include "Turbo/Core/Renderer/Abstraction/Shader.h"
@@ -30,5 +29,3 @@ namespace Turbo
         friend class Entity;
     };
 } // Turbo
-
-#endif // INCLUDED_TURBO_SCENE_H

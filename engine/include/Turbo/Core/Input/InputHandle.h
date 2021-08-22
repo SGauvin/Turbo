@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_INPUTHANDLE_H
-#define INCLUDED_TURBO_INPUTHANDLE_H
+#pragma once
 
 #include <algorithm>
 #include <cstddef>
@@ -177,5 +176,3 @@ namespace Turbo
         void removeFromVector() { reinterpret_cast<InputHandleHolder*>(m_buffer)->unbind(); }
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_INPUTHANDLE_H

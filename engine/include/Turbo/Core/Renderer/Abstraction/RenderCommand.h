@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cstdint>
 #include <glm/glm.hpp>
 
@@ -10,24 +12,43 @@ namespace Turbo
     namespace RenderCommand
     {
         template<RenderingApi>
-        void init();
+        void initImpl();
 
         template<RenderingApi>
-        void setViewport(const glm::uvec2& position, const glm::uvec2& size);
+        void setViewportImpl(const glm::uvec2& position, const glm::uvec2& size);
 
         template<RenderingApi>
-        void setClearColor(const glm::vec4& color);
+        void setClearColorImpl(const glm::vec4& color);
 
         template<RenderingApi>
-        void clear();
+        void clearImpl();
 
         template<RenderingApi>
-        void draw(VertexArray const * vertexArray);
+        void drawImpl(VertexArray const * vertexArray);
 
         template<RenderingApi api>
-        void beginViewport(FrameBuffer<api>* frameBuffer);
+        void beginViewportImpl(FrameBuffer<api>* frameBuffer);
 
         template<RenderingApi api>
-        void endViewport(FrameBuffer<api>* frameBuffer, glm::uvec2 windowSize);
+        void endViewportImpl(FrameBuffer<api>* frameBuffer, glm::uvec2 windowSize);
     } // namspace RenderCommand
+    
+    
 } // namespace Turbo
+
+#include "Turbo/Core/Renderer/OpenGL/OpenGLRenderCommand.h"
+
+namespace Turbo
+{
+
+    namespace RenderCommand
+    {
+        static constexpr auto init = initImpl<renderingApi>;
+        static constexpr auto setViewport = setViewportImpl<renderingApi>;
+        static constexpr auto setClearColor = setClearColorImpl<renderingApi>;
+        static constexpr auto clear = clearImpl<renderingApi>;
+        static constexpr auto draw = drawImpl<renderingApi>;
+        static constexpr auto beginViewport = beginViewportImpl<renderingApi>;
+        static constexpr auto endViewport = endViewportImpl<renderingApi>;
+    } // namspace RenderCommand
+}

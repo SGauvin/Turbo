@@ -1,5 +1,4 @@
-#ifndef INCLUDED_TURBO_RENDERINGAPI_H
-#define INCLUDED_TURBO_RENDERINGAPI_H
+#pragma once
 
 namespace Turbo
 {
@@ -12,5 +11,3 @@ namespace Turbo
         Metal,
     };
 } // namespace Turbo
-
-#endif // INCLUDED_TURBO_RENDERINGAPI_H

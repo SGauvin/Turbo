@@ -74,7 +74,7 @@ namespace Turbo
     {
         Clock clock;
 
-        RenderCommand::init<renderingApi>();
+        RenderCommand::init();
         while (m_window.isOpen() && !m_states.empty()) [[likely]]
         {
             {
@@ -129,15 +129,15 @@ namespace Turbo
             {
                 if (getViewportSize().x > 0.f)
                 {
-                    RenderCommand::setClearColor<renderingApi>({0.1f, 0.1f, 0.1f, 1.f});
-                    RenderCommand::clear<renderingApi>();
+                    RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.f});
+                    RenderCommand::clear();
 
                     // Calculate lag for draw interpolation
                     float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
 
                     if constexpr (isEditorEnabled)
                     {
-                        RenderCommand::beginViewport<renderingApi>(m_viewportFrameBuffer.get());
+                        RenderCommand::beginViewport(m_viewportFrameBuffer.get());
                     }
 
                     m_states.back()->draw(lag);
@@ -151,7 +151,7 @@ namespace Turbo
 
                     if constexpr (isEditorEnabled)
                     {
-                        RenderCommand::endViewport<renderingApi>(m_viewportFrameBuffer.get(), m_window.getSize());
+                        RenderCommand::endViewport(m_viewportFrameBuffer.get(), m_window.getSize());
                     }
 
                     m_window.swapBuffers();

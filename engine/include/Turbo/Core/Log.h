@@ -1,6 +1,3 @@
-#ifndef INCLUDED_TURBO_LOG_H
-#define INCLUDED_TURBO_LOG_H
-
 #pragma once
 
 #include <assert.h>
@@ -86,5 +83,3 @@
 #else
     #define TURBO_ASSERT(condition, ...) (void)(0)
 #endif
-
-#endif // INCLUDED_TURBO_LOG_H
