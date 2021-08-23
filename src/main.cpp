@@ -34,10 +34,7 @@ public:
 
     virtual void onAttach()
     {
-        m_cube = m_scene.createEntity();
-        m_cube.addComponent<Turbo::MeshComponent>();
-        m_cube.addComponent<Turbo::TransformComponent>();
-        m_cube.addComponent<Turbo::TestMeshComponent>("../assets/Cube/glTF/Cube.gltf");
+        m_cube = m_scene.loadGlTF("../assets/FlightHelmet/glTF/FlightHelmet.gltf");
     }
 
     virtual void onDetach() {}

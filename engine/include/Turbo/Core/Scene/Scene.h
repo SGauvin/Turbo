@@ -20,10 +20,12 @@ namespace Turbo
         Entity createEntity();
         void deleteEntity(const Entity& entity);
 
+        Entity loadGlTF(const std::string& path);
+
     private:
         entt::registry m_registry;
         Turbo::Shader<Turbo::renderingApi> m_shader;
-        glm::vec3 m_lightPos = glm::vec3(2.f, 1.2f, 4.f);
+        glm::vec3 m_lightPos = glm::vec3(20.f, 10.2f, 40.f);
         Texture m_texture;
 
         friend class Entity;

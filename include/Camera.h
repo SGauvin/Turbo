@@ -64,7 +64,7 @@ public:
             glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
         );
 
-        static const float sensitivity = 0.02f;
+        static const float sensitivity = 0.05f;
 
         if (m_isForwardKeyDown && !m_isBackwardKeyDown)
         {

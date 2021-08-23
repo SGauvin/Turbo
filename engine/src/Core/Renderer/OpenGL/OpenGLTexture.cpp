@@ -1,7 +1,7 @@
 #include "Turbo/Core/Renderer/OpenGL/OpenGLTexture.h"
 
-#include <stb_image.h>
 #include <glad/glad.h>
+#include <stb_image.h>
 
 #include "Turbo/Core/Log.h"
 
@@ -44,5 +44,21 @@ namespace Turbo
         }
 
         stbi_image_free(data);
+    }
+
+    void TextureTemplate<RenderingApi::OpenGL>::load(const tinygltf::Image& image)
+    {
+        bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        const GLenum format =
+            image.component == 1 ? GL_RED :
+            image.component == 2 ? GL_RG :
+            image.component == 3 ? GL_RGB :
+            GL_RGBA;
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width, image.height, 0, format, GL_UNSIGNED_BYTE, image.image.data());
+        glGenerateMipmap(GL_TEXTURE_2D);
     }
 } // namespace Turbo
