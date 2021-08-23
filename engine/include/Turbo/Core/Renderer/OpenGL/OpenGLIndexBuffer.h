@@ -9,7 +9,7 @@ namespace Turbo
     class IndexBufferTemplate<RenderingApi::OpenGL>
     {
     public:
-        IndexBufferTemplate(std::span<std::uint32_t> indices);
+        IndexBufferTemplate(std::span<const std::uint32_t> indices);
         ~IndexBufferTemplate();
 
         void bind() const;

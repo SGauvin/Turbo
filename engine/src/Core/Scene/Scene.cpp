@@ -17,7 +17,7 @@ namespace Turbo
 
     void Scene::draw(const glm::mat4& viewMatrix, const glm::vec3& cameraPosition, float aspectRatio, float lag)
     {
-        auto view = m_registry.view<TransformComponent, MeshComponent>();
+        auto view = m_registry.view<TransformComponent, TestMeshComponent>();
         m_shader.bind();
         m_texture.bind();
         m_shader.setFloat3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
@@ -40,7 +40,7 @@ namespace Turbo
             m_shader.setMatrix4("projection", projection);
             m_shader.setFloat3("cameraPosition", cameraPosition);
             
-            Turbo::RenderCommand::drawImpl<Turbo::renderingApi>(mesh.getVertexArray());
+            Turbo::RenderCommand::draw(mesh.m_vertexArray.get());
         }
     }
 

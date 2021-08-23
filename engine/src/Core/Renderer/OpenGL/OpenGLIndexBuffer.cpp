@@ -3,7 +3,7 @@
 
 namespace Turbo
 {
-    IndexBufferTemplate<RenderingApi::OpenGL>::IndexBufferTemplate(std::span<std::uint32_t> indices)
+    IndexBufferTemplate<RenderingApi::OpenGL>::IndexBufferTemplate(std::span<const std::uint32_t> indices)
     {
         glCreateBuffers(1, &m_rendererId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererId);

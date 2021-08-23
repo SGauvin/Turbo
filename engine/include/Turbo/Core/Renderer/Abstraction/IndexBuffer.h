@@ -11,7 +11,7 @@ namespace Turbo
     class IndexBufferTemplate
     {
     public:
-        IndexBufferTemplate(std::span<std::uint32_t> indices);
+        IndexBufferTemplate(std::span<const std::uint32_t> indices);
         ~IndexBufferTemplate();
 
         void bind() const;
