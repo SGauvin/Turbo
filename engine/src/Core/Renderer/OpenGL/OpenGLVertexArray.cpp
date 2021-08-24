@@ -37,6 +37,14 @@ namespace Turbo
     void VertexArrayTemplate<RenderingApi::OpenGL>::bind() const
     {
         glBindVertexArray(m_vertexArray);
+        if (m_vertexBuffer != nullptr)
+        {
+            m_vertexBuffer->bind();
+        }
+        if (m_indexBuffer != nullptr)
+        {
+            m_indexBuffer->bind();
+        }
     }
 
     void VertexArrayTemplate<RenderingApi::OpenGL>::setVertexBuffer(std::shared_ptr<VertexBuffer> vertexBuffer)

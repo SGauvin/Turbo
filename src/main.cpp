@@ -34,7 +34,7 @@ public:
 
     virtual void onAttach()
     {
-        m_cube = m_scene.loadGlTF("../assets/FlightHelmet/glTF/FlightHelmet.gltf");
+        m_scene.loadGlTF("../assets/FlightHelmet/glTF/FlightHelmet.gltf");
     }
 
     virtual void onDetach() {}
