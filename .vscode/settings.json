@@ -94,6 +94,10 @@
         "semaphore": "cpp",
         "shared_mutex": "cpp",
         "*.inc": "cpp",
-        "*.def": "cpp"
+        "*.def": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "codecvt": "cpp",
+        "forward_list": "cpp"
     }
 }

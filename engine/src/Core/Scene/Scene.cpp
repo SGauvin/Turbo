@@ -1,7 +1,11 @@
+#include <glm/glm.hpp>
+#include <algorithm>
+
 #include "Turbo/Core/Scene/Components/TransformComponent.h"
 #include "Turbo/Core/Scene/Components/MeshComponent.h"
 #include "Turbo/Core/Scene/Entity.h"
 #include "Turbo/Core/Scene/Scene.h"
+#include "Turbo/Core/Scene/GlTFLoader.h"
 #include "Turbo/Core/Renderer/Abstraction/RenderCommand.h"
 
 namespace Turbo
@@ -67,31 +71,8 @@ namespace Turbo
         };
 
         tinygltf::Model model;
-        tinygltf::TinyGLTF loader;
-        std::string errors;
-        std::string warnings;
-
-        bool hasLoaded = loader.LoadASCIIFromFile(&model, &errors, &warnings, path);
-
-        if (errors.empty() == false)
+        if (!GlTFLoader::loadModel(path, model))
         {
-            TURBO_ENGINE_WARNING(errors);
-        }
-
-        if (warnings.empty() == false)
-        {
-            TURBO_ENGINE_ERROR(warnings);
-        }
-
-        if (hasLoaded == false)
-        {
-            TURBO_ENGINE_ERROR("Failed to load {}", path);
-            return;
-        }
-
-        if (model.meshes.empty())
-        {
-            TURBO_ENGINE_ERROR("No meshes in file {}", path);
             return;
         }
 
@@ -101,13 +82,6 @@ namespace Turbo
             std::unique_ptr<VertexArray> vertexArray;
             std::unique_ptr<Texture> texture;
             
-            std::vector<float> data;
-
-            if (mesh.primitives.size() > 1)
-            {
-                TURBO_ENGINE_ERROR("NOT SUPPORTING MORE THAN 1 PRIMITIVE ATM");
-                continue;
-            }
             for (tinygltf::Primitive& primitive : mesh.primitives)
             {
                 if (primitive.mode != 4)
@@ -116,63 +90,23 @@ namespace Turbo
                     continue;
                 }
 
-                const tinygltf::Accessor& positionAccessor = model.accessors[primitive.attributes["POSITION"]];
-                const tinygltf::BufferView& positionBufferView = model.bufferViews[positionAccessor.bufferView];
-                const tinygltf::Buffer& positionBuffer = model.buffers[positionBufferView.buffer];
-                const float* positions = reinterpret_cast<const float*>(&positionBuffer.data[positionBufferView.byteOffset + positionAccessor.byteOffset]);
+                std::span<const float> positions, normals, texCoords;
+                GlTFLoader::getVertexPositions(model, primitive, positions);
+                GlTFLoader::getVertexNormals(model, primitive, normals);
+                GlTFLoader::getVertexTexCoords(model, primitive, texCoords);
 
-                const tinygltf::Accessor& normalAccessor = model.accessors[primitive.attributes["NORMAL"]];
-                const tinygltf::BufferView& normalBufferView = model.bufferViews[normalAccessor.bufferView];
-                const tinygltf::Buffer& normalBuffer = model.buffers[normalBufferView.buffer];
-                const float* normals = reinterpret_cast<const float*>(&normalBuffer.data[normalBufferView.byteOffset + normalAccessor.byteOffset]);
-
-                const tinygltf::Accessor& texCoord0Accessor = model.accessors[primitive.attributes["TEXCOORD_0"]];
-                const tinygltf::BufferView& texCoord0BufferView = model.bufferViews[texCoord0Accessor.bufferView];
-                const tinygltf::Buffer& texCoord0Buffer = model.buffers[texCoord0BufferView.buffer];
-                const float* texCoord0 = reinterpret_cast<const float*>(&texCoord0Buffer.data[texCoord0BufferView.byteOffset + texCoord0Accessor.byteOffset]);
-
-                if (positionAccessor.count != normalAccessor.count || texCoord0Accessor.count != positionAccessor.count)
+                if (positions.size() != normals.size() || positions.size() != texCoords.size())
                 {
                     TURBO_ENGINE_ERROR("Not the same count???");
                     continue;
                 }
                 
-                data.reserve(data.size() + positionAccessor.count * 8);
+                std::vector<float> data;
+                GlTFLoader::createVertexData(positions, normals, texCoords, data);
 
-                for (std::size_t i = 0; i < positionAccessor.count; i++)
-                {
-                    data.push_back(positions[i * 3]);
-                    data.push_back(positions[i * 3 + 1]);
-                    data.push_back(positions[i * 3 + 2]);
-                    data.push_back(normals[i * 3]);
-                    data.push_back(normals[i * 3 + 1]);
-                    data.push_back(normals[i * 3 + 2]);
-                    data.push_back(texCoord0[i * 2]);
-                    data.push_back(texCoord0[i * 2 + 1]);
-                }
-
-                const tinygltf::Accessor& indicesAccessor = model.accessors[primitive.indices];
-                const tinygltf::BufferView& indicesBufferView = model.bufferViews[indicesAccessor.bufferView];
-                const tinygltf::Buffer& indicesBuffer = model.buffers[indicesBufferView.buffer];
-                const std::uint16_t* indices = reinterpret_cast<const std::uint16_t*>(&indicesBuffer.data[indicesBufferView.byteOffset + indicesAccessor.byteOffset]);
 
                 std::vector<std::uint32_t> indices32Bits;
-                if (indicesAccessor.count == 0)
-                {
-                    indices32Bits.reserve(positionAccessor.count);
-                    for (std::size_t i = 0; i < positionAccessor.count; i++)
-                    {
-                        indices32Bits.push_back(i);
-                    }
-                }
-                else
-                {
-                    indices32Bits.reserve(indicesAccessor.count);
-                    for (std::size_t i = 0; i < indicesAccessor.count; i++)
-                    {
-                        indices32Bits.push_back(indices[i]);
-                    }
-                }
+                GlTFLoader::getVertexIndices(model, primitive, indices32Bits);
 
                 std::shared_ptr<Turbo::VertexBuffer> vertexBuffer = std::make_shared<Turbo::VertexBuffer>(std::span<float>(data.data(), data.size()));
                 vertexBuffer->setLayout(layout);

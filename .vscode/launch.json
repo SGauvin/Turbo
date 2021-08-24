@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/game",
+            "program": "${workspaceFolder}/build/game.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

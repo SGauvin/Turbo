@@ -171,8 +171,8 @@ namespace Turbo
         m_context->init();
 
         TURBO_ENGINE_INFO("Window created");
-        const std::uint8_t* version = glGetString(GL_VERSION);
-        TURBO_ENGINE_INFO("OpenGL version: {}", version);
+        // const std::uint8_t* version = glGetString(GL_VERSION);
+        // TURBO_ENGINE_INFO("OpenGL version: {}", version);
 
         setIsVSyncEnabled(m_isVsyncEnabled);
         setCallbacks();

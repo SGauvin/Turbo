@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <Turbo/Core/Application.h>
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/Scene/Scene.h>
@@ -23,7 +24,15 @@ public:
 
     virtual void onAttach()
     {
-        m_scene.loadGlTF("../assets/DamagedHelmet/glTF/DamagedHelmet.gltf");
+        std::ifstream file("../assets/to_load.txt");
+        if (file)
+        {
+            std::string line;
+            while (std::getline(file, line))
+            {
+                m_scene.loadGlTF(line);
+            }
+        }
     }
 
     virtual void onDetach() {}
@@ -113,7 +122,7 @@ int main()
     Turbo::Application app({"Turbo", glm::vec2(2560, 1440), Turbo::WindowMode::Bordered});
     app.setTargetFps(144.f);
     app.setTargetUps(144.f);
-    app.getWindow().setIsVSyncEnabled(true);
+    app.getWindow().setIsVSyncEnabled(false);
 
     app.push<TestState>(app);
     app.start();
