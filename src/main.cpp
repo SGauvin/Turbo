@@ -1,23 +1,12 @@
 #include <iostream>
-#include <chrono>
-#include <iostream>
-#include <thread>
-#include <utility>
-#include <Turbo/Core/Scene/Components/MeshComponent.h>
 #include <Turbo/Core/Application.h>
-#include <Turbo/Core/Layers/ImGuiLayer.h>
 #include <Turbo/Core/Log.h>
 #include <Turbo/Core/Scene/Scene.h>
-#include <Turbo/Core/Scene/Entity.h>
 #include <Turbo/Core/Scene/Components/MeshComponent.h>
 #include <Turbo/Core/Scene/Components/TransformComponent.h>
 #include <Turbo/Core/States/State.h>
+#include <Turbo/Core/Scene/Entity.h>
 #include <Turbo/Core/Renderer/Abstraction/RenderCommand.h>
-#include <Turbo/Core/Renderer/Abstraction/Shader.h>
-#include <Turbo/Core/Renderer/Abstraction/VertexArray.h>
-#include <Turbo/Core/Renderer/Abstraction/VertexBuffer.h>
-#include <Turbo/Core/Renderer/Abstraction/IndexBuffer.h>
-#include <Turbo/Core/Renderer/BufferLayout.h>
 
 #include "Camera.h"
 
@@ -34,7 +23,7 @@ public:
 
     virtual void onAttach()
     {
-        m_scene.loadGlTF("../assets/FlightHelmet/glTF/FlightHelmet.gltf");
+        m_scene.loadGlTF("../assets/DamagedHelmet/glTF/DamagedHelmet.gltf");
     }
 
     virtual void onDetach() {}
@@ -116,7 +105,6 @@ private:
             Turbo::Keyboard::Action::Press);
 
         pushLayer(new TriangleLayer(m_application));
-        pushLayer(new Turbo::ImGuiLayer(m_application));
     }
 };
 
