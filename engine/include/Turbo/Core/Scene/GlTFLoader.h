@@ -5,6 +5,7 @@
 #include <tiny_gltf.h>
 
 #include "Turbo/Core/Log.h"
+#include "Turbo/Core/Renderer/Abstraction/Texture.h"
 
 namespace Turbo
 {
@@ -93,22 +94,21 @@ namespace Turbo
             const tinygltf::Buffer& indicesBuffer = model.buffers[indicesBufferView.buffer];
             const std::uint16_t* indices = reinterpret_cast<const std::uint16_t*>(&indicesBuffer.data[indicesBufferView.byteOffset + indicesAccessor.byteOffset]);
 
-            std::vector<std::uint32_t> indices32Bits;
             if (indicesAccessor.count == 0)
             {
                 const tinygltf::Accessor& positionAccessor = model.accessors[primitive.attributes["POSITION"]];
-                indices32Bits.reserve(positionAccessor.count);
+                outData.reserve(positionAccessor.count);
                 for (std::size_t i = 0; i < positionAccessor.count; i++)
                 {
-                    indices32Bits.push_back(i);
+                    outData.push_back(i);
                 }
             }
             else
             {
-                indices32Bits.reserve(indicesAccessor.count);
+                outData.reserve(indicesAccessor.count);
                 for (std::size_t i = 0; i < indicesAccessor.count; i++)
                 {
-                    indices32Bits.push_back(indices[i]);
+                    outData.push_back(indices[i]);
                 }
             }
 
@@ -130,6 +130,69 @@ namespace Turbo
                 outVertexData.push_back(texCoords[i * 2]);
                 outVertexData.push_back(texCoords[i * 2 + 1]);
             }
+            return true;
+        }
+
+        bool getVertexArray(tinygltf::Model& model, tinygltf::Primitive& primitive, std::unique_ptr<VertexArray>& outVertexArray)
+        {
+            if (primitive.mode != TINYGLTF_MODE_TRIANGLES)
+            {
+                TURBO_ENGINE_ERROR("Must be triangles");
+                return false;
+            }
+
+            std::span<const float> positions, normals, texCoords;
+            GlTFLoader::getVertexPositions(model, primitive, positions);
+            GlTFLoader::getVertexNormals(model, primitive, normals);
+            GlTFLoader::getVertexTexCoords(model, primitive, texCoords);
+
+            if (positions.size() != normals.size() || positions.size() != texCoords.size())
+            {
+                TURBO_ENGINE_ERROR("Not the same count???");
+                return false;
+            }
+            
+            std::vector<float> data;
+            GlTFLoader::createVertexData(positions, normals, texCoords, data);
+
+            std::vector<std::uint32_t> indices;
+            GlTFLoader::getVertexIndices(model, primitive, indices);
+
+            std::shared_ptr<Turbo::VertexBuffer> vertexBuffer = std::make_shared<Turbo::VertexBuffer>(std::span<float>(data));
+            
+            Turbo::BufferLayout layout = {
+                { Turbo::DataType::Float3, "a_position" },
+                { Turbo::DataType::Float3, "a_color" },
+                { Turbo::DataType::Float2, "a_textCoord" },
+            };
+            vertexBuffer->setLayout(layout);
+
+            std::shared_ptr<Turbo::IndexBuffer> indexBuffer = std::make_shared<Turbo::IndexBuffer>(std::span<std::uint32_t>(indices));
+
+            outVertexArray = std::make_unique<Turbo::VertexArray>();
+            outVertexArray->setVertexBuffer(vertexBuffer);
+            outVertexArray->setIndexBuffer(indexBuffer);
+
+            return true;
+        }
+
+        bool getTexture(tinygltf::Model& model, tinygltf::Primitive& primitive, std::unique_ptr<Texture>& outTexture)
+        {
+            int emissiveTextureIndex = model.materials[primitive.material].pbrMetallicRoughness.baseColorTexture.index;
+            if (emissiveTextureIndex < 0)
+            {
+                return false;
+            }
+
+            tinygltf::Texture tinytexture = model.textures[emissiveTextureIndex];
+            if (tinytexture.source < 0)
+            {
+                return false;
+            }
+
+            outTexture = std::make_unique<Texture>();
+            outTexture->load(model.images[tinytexture.source]);
+
             return true;
         }
 
