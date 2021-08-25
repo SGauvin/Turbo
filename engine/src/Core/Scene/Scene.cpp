@@ -82,6 +82,13 @@ namespace Turbo
             std::unique_ptr<VertexArray> vertexArray;
             std::unique_ptr<Texture> texture;
             
+            std::vector<float> data;
+
+            if (mesh.primitives.size() > 1)
+            {
+                TURBO_ENGINE_ERROR("NOT SUPPORTING MORE THAN 1 PRIMITIVE ATM");
+                continue;
+            }
             for (tinygltf::Primitive& primitive : mesh.primitives)
             {
                 if (primitive.mode != 4)
@@ -101,12 +108,30 @@ namespace Turbo
                     continue;
                 }
                 
-                std::vector<float> data;
                 GlTFLoader::createVertexData(positions, normals, texCoords, data);
 
+                const tinygltf::Accessor& indicesAccessor = model.accessors[primitive.indices];
+                const tinygltf::BufferView& indicesBufferView = model.bufferViews[indicesAccessor.bufferView];
+                const tinygltf::Buffer& indicesBuffer = model.buffers[indicesBufferView.buffer];
+                const std::uint16_t* indices = reinterpret_cast<const std::uint16_t*>(&indicesBuffer.data[indicesBufferView.byteOffset + indicesAccessor.byteOffset]);
 
                 std::vector<std::uint32_t> indices32Bits;
-                GlTFLoader::getVertexIndices(model, primitive, indices32Bits);
+                if (indicesAccessor.count == 0)
+                {
+                    indices32Bits.reserve(positions.size());
+                    for (std::size_t i = 0; i < positions.size(); i++)
+                    {
+                        indices32Bits.push_back(i);
+                    }
+                }
+                else
+                {
+                    indices32Bits.reserve(indicesAccessor.count);
+                    for (std::size_t i = 0; i < indicesAccessor.count; i++)
+                    {
+                        indices32Bits.push_back(indices[i]);
+                    }
+                }
 
                 std::shared_ptr<Turbo::VertexBuffer> vertexBuffer = std::make_shared<Turbo::VertexBuffer>(std::span<float>(data.data(), data.size()));
                 vertexBuffer->setLayout(layout);
