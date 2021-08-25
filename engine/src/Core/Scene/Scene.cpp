@@ -29,7 +29,7 @@ namespace Turbo
         m_shader.setFloat("material.shininess", 256.0f);
 
         m_shader.setFloat3("light.position", m_lightPos);
-        m_shader.setFloat3("light.ambient",  glm::vec3(0.4f, 0.4f, 0.4f));
+        m_shader.setFloat3("light.ambient",  glm::vec3(0.2f, 0.2f, 0.2f));
         m_shader.setFloat3("light.diffuse",  glm::vec3(0.9f, 0.9f, 0.9f));
         m_shader.setFloat3("light.specular", glm::vec3(0.5f, 0.5f, 0.5f)); 
 
@@ -61,33 +61,39 @@ namespace Turbo
         m_registry.destroy(entity);
     }
 
-
-    void Scene::loadGlTF(const std::string& path)
+    std::vector<Entity> Scene::loadGlTF(const std::string& path)
     {
         tinygltf::Model model;
         if (!GlTFLoader::loadModel(path, model))
         {
-            return;
+            return {};
         }
 
-        for (std::size_t i = 0; i < model.meshes.size(); i++)
+        std::vector<Entity> entitiesCreated;
+        entitiesCreated.reserve(GlTFLoader::getPrimitiveCount(model));
+
+        for (auto& mesh : model.meshes)
         {
-            tinygltf::Mesh& mesh = model.meshes[i];
             std::unique_ptr<VertexArray> vertexArray;
             std::unique_ptr<Texture> texture;
             
             for (tinygltf::Primitive& primitive : mesh.primitives)
             {
-                GlTFLoader::getVertexArray(model, primitive, vertexArray);
-                GlTFLoader::getTexture(model, primitive, texture);
+                bool vertexSuccess = GlTFLoader::getVertexArray(model, primitive, vertexArray);
+                bool textureSuccess = GlTFLoader::getTexture(model, primitive, texture);
 
-                auto entity = createEntity();
-                entity.addComponent<TransformComponent>();
-                MeshComponent& meshComp = entity.addComponent<MeshComponent>();
+                if (!vertexSuccess || !textureSuccess)
+                {
+                    continue;
+                }
+
+                entitiesCreated.push_back(createEntity());
+                entitiesCreated.back().addComponent<TransformComponent>();
+                auto& meshComp = entitiesCreated.back().addComponent<MeshComponent>();
                 meshComp.m_vertexArray = std::move(vertexArray);
                 meshComp.m_texture = std::move(texture);
             }
-
         }
+        return entitiesCreated;
     }
 } // namespace Turbo

@@ -20,7 +20,7 @@ namespace Turbo
         Entity createEntity();
         void deleteEntity(const Entity& entity);
 
-        void loadGlTF(const std::string& path);
+        std::vector<Entity> loadGlTF(const std::string& path);
 
     private:
         entt::registry m_registry;

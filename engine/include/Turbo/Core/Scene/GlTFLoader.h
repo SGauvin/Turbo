@@ -60,6 +60,16 @@ namespace Turbo
             return true;
         }
 
+        std::size_t getPrimitiveCount(const tinygltf::Model& model)
+        {
+            std::size_t primitiveCount = 0;
+            for (std::size_t i = 0; i < model.meshes.size(); i++)
+            {
+                primitiveCount += model.meshes[i].primitives.size();
+            }
+            return primitiveCount;
+        }
+
         template<typename T>
         bool getPrimitiveAttribute(tinygltf::Model& model, tinygltf::Primitive& primitive, const std::string& attributeName, std::span<T>& outData)
         {
@@ -96,6 +106,7 @@ namespace Turbo
 
             if (indicesAccessor.count == 0)
             {
+                TURBO_WARNING("No indices found!");
                 const tinygltf::Accessor& positionAccessor = model.accessors[primitive.attributes["POSITION"]];
                 outData.reserve(positionAccessor.count);
                 for (std::size_t i = 0; i < positionAccessor.count; i++)

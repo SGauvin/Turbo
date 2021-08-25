@@ -30,7 +30,7 @@ public:
             std::string line;
             while (std::getline(file, line))
             {
-                m_scene.loadGlTF(line);
+                m_entities = m_scene.loadGlTF(line);
             }
         }
     }
@@ -39,21 +39,24 @@ public:
 
     virtual void handleInput()
     {
-        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Up))
+        for (auto& entity : m_entities)
         {
-            m_cube.getComponent<Turbo::TransformComponent>().rotation.x -= 0.01f;
-        }
-        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Down))
-        {
-            m_cube.getComponent<Turbo::TransformComponent>().rotation.x += 0.01f;
-        }
-        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Left))
-        {
-            m_cube.getComponent<Turbo::TransformComponent>().rotation.y -= 0.01f;
-        }
-        if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Right))
-        {
-            m_cube.getComponent<Turbo::TransformComponent>().rotation.y += 0.01f;
+            if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Up))
+            {
+                entity.getComponent<Turbo::TransformComponent>().rotation.x -= 0.01f;
+            }
+            if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Down))
+            {
+                entity.getComponent<Turbo::TransformComponent>().rotation.x += 0.01f;
+            }
+            if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Left))
+            {
+                entity.getComponent<Turbo::TransformComponent>().rotation.y -= 0.01f;
+            }
+            if (m_inputManager.isKeyDown(Turbo::Keyboard::Key::Right))
+            {
+                entity.getComponent<Turbo::TransformComponent>().rotation.y += 0.01f;
+            }
         }
     }
 
@@ -75,7 +78,7 @@ private:
     Turbo::InputContext* m_inputContext;
 
     Camera m_camera;
-    Turbo::Entity m_cube;
+    std::vector<Turbo::Entity> m_entities;
     Turbo::Scene m_scene;
 };
 
