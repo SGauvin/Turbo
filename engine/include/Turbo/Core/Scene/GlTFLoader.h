@@ -203,6 +203,7 @@ namespace Turbo
 
             outTexture = std::make_unique<Texture>();
             outTexture->load(model.images[tinytexture.source]);
+            outTexture->setTextureType(TextureType::Emissive);
 
             return true;
         }

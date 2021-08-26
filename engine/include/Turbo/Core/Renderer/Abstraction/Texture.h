@@ -5,6 +5,10 @@
 
 namespace Turbo
 {
+    enum class TextureType
+    {
+        Emissive = 0,
+    };
     template<RenderingApi>
     class TextureTemplate
     {
@@ -13,6 +17,7 @@ namespace Turbo
         ~TextureTemplate();
 
         void bind() const;
+        void setTextureType(TextureType textureType);
     };
 
     using Texture = TextureTemplate<renderingApi>;

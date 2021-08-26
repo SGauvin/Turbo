@@ -16,10 +16,13 @@ namespace Turbo
         ~TextureTemplate();
 
         void bind() const;
+        void setTextureType(TextureType textureType);
+
         void load(const std::string& file);
         void load(const tinygltf::Image& image);
 
     private:
         std::uint32_t m_texture;
+        TextureType m_textureType;
     };
 } // namespace Turbo

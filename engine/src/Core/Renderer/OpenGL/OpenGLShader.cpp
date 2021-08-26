@@ -145,6 +145,13 @@ namespace Turbo
 
     void Shader<RenderingApi::OpenGL>::bind() const { glUseProgram(m_programId); }
 
+    void Shader<RenderingApi::OpenGL>::setInt(const std::string& name, std::int32_t value)
+    {
+        const auto location = glGetUniformLocation(m_programId, name.c_str());
+        TURBO_ASSERT((location != -1), "Uniform {} location not found", name);
+        glUniform1iv(location, 1, &value);
+    }
+
     void Shader<RenderingApi::OpenGL>::setFloat(const std::string& name, float value)
     {
         const auto location = glGetUniformLocation(m_programId, name.c_str());
