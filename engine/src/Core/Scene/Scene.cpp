@@ -13,6 +13,7 @@ namespace Turbo
     Scene::Scene()
     {
         m_shader.loadFromFile("../assets/shader.vert", "../assets/shader.frag");
+        m_shader.bind();
         m_shader.setInt("texture1", static_cast<std::int32_t>(TextureType::Emissive));
         m_texture.load("../assets/wood.png");
     }
