@@ -73,14 +73,16 @@ namespace Turbo
         std::vector<Entity> entitiesCreated;
         entitiesCreated.reserve(GlTFLoader::getPrimitiveCount(model));
 
-        for (auto& mesh : model.meshes)
+        for (auto& node : model.nodes)
         {
-            std::unique_ptr<VertexArray> vertexArray;
-            std::unique_ptr<Texture> texture;
+            auto& mesh = model.meshes[node.mesh];
             
             for (tinygltf::Primitive& primitive : mesh.primitives)
             {
+                std::unique_ptr<VertexArray> vertexArray;
                 bool vertexSuccess = GlTFLoader::getVertexArray(model, primitive, vertexArray);
+
+                std::unique_ptr<Texture> texture;
                 bool textureSuccess = GlTFLoader::getTexture(model, primitive, texture);
 
                 if (!vertexSuccess || !textureSuccess)
