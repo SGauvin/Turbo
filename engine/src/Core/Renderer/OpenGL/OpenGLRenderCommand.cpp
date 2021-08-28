@@ -100,7 +100,9 @@ namespace Turbo
         {
             frameBuffer->unbind();
 
-            ImGui::Image(reinterpret_cast<void*>(frameBuffer->getTexture()), ImVec2(frameBuffer->getSize().x, frameBuffer->getSize().y), ImVec2(0, 1), ImVec2(1, 0));
+            ImGui::Image(reinterpret_cast<void*>(frameBuffer->getTexture()),
+                         ImVec2(frameBuffer->getSize().x, frameBuffer->getSize().y),
+                         ImVec2(0, 1), ImVec2(1, 0));
             ImGui::End();
             ImGui::PopStyleVar();
 
