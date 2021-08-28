@@ -3,7 +3,7 @@
 #include <memory>
 #include <span>
 #include "Turbo/Core/Renderer/RenderingApi.h"
-#include "Turbo/Core/Settings.h"
+#include "Turbo/Core/Application/CompileTimeSettings.h"
 
 namespace Turbo
 {

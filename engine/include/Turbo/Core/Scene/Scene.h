@@ -2,7 +2,7 @@
 
 #include <entt/entt.hpp>
 #include "Turbo/Core/Renderer/Abstraction/Shader.h"
-#include "Turbo/Core/Settings.h"
+#include "Turbo/Core/Application/CompileTimeSettings.h"
 #include "Turbo/Core/Renderer/Abstraction/Texture.h"
 
 namespace Turbo

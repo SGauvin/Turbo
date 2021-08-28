@@ -3,7 +3,7 @@
 #include "Turbo/Core/Renderer/RenderingApi.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
-#include "Turbo/Core/Settings.h"
+#include "Turbo/Core/Application/CompileTimeSettings.h"
 
 namespace Turbo
 {
