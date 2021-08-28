@@ -9,10 +9,6 @@
 #include "Turbo/Core/States/State.h"
 #include "Turbo/Core/Window/OpenGLWindow.h"
 
-#include "imgui/backends/imgui_impl_glfw.h"
-#include "imgui/backends/imgui_impl_opengl3.h"
-#include "imgui/imgui.h"
-
 namespace Turbo
 {
     struct Clock
@@ -160,7 +156,7 @@ namespace Turbo
 
     float Application::getViewportAspectRatio() const
     {
-        return m_applicationModeHandler.getViewportSize().x / m_applicationModeHandler.getViewportSize().y;
+        return static_cast<float>(m_applicationModeHandler.getViewportSize().x) / m_applicationModeHandler.getViewportSize().y;
     }
     
     void Application::onStatePushed()

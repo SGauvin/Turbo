@@ -13,7 +13,26 @@ namespace Turbo
     ApplicationModeHandlerImpl<ApplicationMode::Editor>::ApplicationModeHandlerImpl(Application& application)
         : m_application(application)
         , m_frameBuffer(glm::ivec2(1280, 720))
-    {}
+    {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        (void)io;
+        io.ConfigFlags |=
+            ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad | ImGuiConfigFlags_DockingEnable | ImGuiConfigFlags_ViewportsEnable;
+        ImGui::StyleColorsDark();
+        auto& window = application.getWindow();
+        auto handle = window.getHandle();
+        ImGui_ImplGlfw_InitForOpenGL(handle, true);
+        ImGui_ImplOpenGL3_Init("#version 430");
+    }
+
+    ApplicationModeHandlerImpl<ApplicationMode::Editor>::~ApplicationModeHandlerImpl()
+    {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
 
     void ApplicationModeHandlerImpl<ApplicationMode::Editor>::begin()
     {
@@ -24,16 +43,18 @@ namespace Turbo
 
     void ApplicationModeHandlerImpl<ApplicationMode::Editor>::end()
     {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         ImGuiIO& io = ImGui::GetIO();
         const glm::uvec2 windowSize = m_application.getWindow().getSize();
         io.DisplaySize = {static_cast<float>(windowSize.x), static_cast<float>(windowSize.y)};
-
-        if (io.ConfigFlags | ImGuiConfigFlags_ViewportsEnable)
+    	
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            GLFWwindow* backupCurrentContext = glfwGetCurrentContext();
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
-            glfwMakeContextCurrent(backupCurrentContext);
+            glfwMakeContextCurrent(backup_current_context);
         }
     }
 

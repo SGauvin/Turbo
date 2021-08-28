@@ -19,7 +19,7 @@ public:
         , m_inputContext(m_inputManager.createInputContext())
         , m_camera(m_inputManager)
     {
-        m_window.setIsRawMouseEnabled(true);
+        m_window.setIsRawMouseEnabled(false);
     }
 
     virtual void onAttach()
@@ -69,7 +69,6 @@ public:
     {
         Turbo::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.f});
         Turbo::RenderCommand::clear();
-
         m_scene.draw(m_camera.getLookAt(), m_camera.getPosition(), m_application.getViewportAspectRatio(), lag);
     }
 

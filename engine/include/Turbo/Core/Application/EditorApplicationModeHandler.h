@@ -10,6 +10,7 @@ namespace Turbo
     {
     public:
         ApplicationModeHandlerImpl(Application& application);
+        ~ApplicationModeHandlerImpl();
 
         void begin();
         void end();

@@ -13,7 +13,7 @@ namespace Turbo
     class TextureTemplate
     {
     public:
-        TextureTemplate();
+        TextureTemplate(TextureType textureType);
         ~TextureTemplate();
 
         void bind() const;

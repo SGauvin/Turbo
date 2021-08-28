@@ -49,6 +49,7 @@ public:
 
         m_inputContext->bindMouseMoveEvents([this](const Turbo::Mouse::MoveEvent& moveEvent)
         {
+            return false;
             static constexpr float sens = 1.f / 1000.f;
             addPitch(-moveEvent.movement.y * sens);
             addYaw(moveEvent.movement.x * sens);
