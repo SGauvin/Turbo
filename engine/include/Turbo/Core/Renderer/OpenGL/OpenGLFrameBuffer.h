@@ -5,11 +5,11 @@
 namespace Turbo
 {
     template<>
-    class FrameBuffer<RenderingApi::OpenGL>
+    class FrameBufferTemplate<RenderingApi::OpenGL>
     {
     public:
-        FrameBuffer(glm::ivec2 size);
-        ~FrameBuffer();
+        FrameBufferTemplate(glm::ivec2 size);
+        ~FrameBufferTemplate();
         void bind() const;
         void unbind() const;
         void resize(glm::ivec2 size);

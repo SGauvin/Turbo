@@ -26,11 +26,5 @@ namespace Turbo
 
         template<>
         void drawImpl<RenderingApi::OpenGL>(VertexArray const * vertexArray);
-
-        template<>
-        void beginViewportImpl<RenderingApi::OpenGL>(FrameBuffer<RenderingApi::OpenGL>* frameBuffer);
-
-        template<>
-        void endViewportImpl<RenderingApi::OpenGL>(FrameBuffer<RenderingApi::OpenGL>* frameBuffer, glm::uvec2 windowSize);
     } // namspace RenderCommand
 } // namespace Turbo

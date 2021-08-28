@@ -70,56 +70,5 @@ namespace Turbo
             vertexArray->bind();
             glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
         }
-
-        template<>
-        void beginViewportImpl<RenderingApi::OpenGL>(FrameBuffer<RenderingApi::OpenGL>* frameBuffer)
-        {
-            ImGui_ImplOpenGL3_NewFrame();
-            ImGui_ImplGlfw_NewFrame();
-            ImGui::NewFrame();
-
-            // VIEWPORT
-
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
-            ImGui::Begin("Viewport");
-            static ImVec2 viewportSize = ImVec2(0, 0);
-            ImVec2 currentViewportSize = ImGui::GetContentRegionAvail();
-            if (viewportSize.x != currentViewportSize.x || viewportSize.y != currentViewportSize.y)
-            {
-                viewportSize = currentViewportSize;
-                frameBuffer->resize(glm::ivec2(viewportSize.x, viewportSize.y));
-            }
-
-            frameBuffer->bind();
-            
-            setViewport({0, 0}, {static_cast<std::int32_t>(viewportSize.x), static_cast<std::int32_t>(viewportSize.y)});
-        }
-
-        template<>
-        void endViewportImpl<RenderingApi::OpenGL>(FrameBuffer<RenderingApi::OpenGL>* frameBuffer, glm::uvec2 windowSize)
-        {
-            frameBuffer->unbind();
-
-            ImGui::Image(reinterpret_cast<void*>(frameBuffer->getTexture()),
-                         ImVec2(frameBuffer->getSize().x, frameBuffer->getSize().y),
-                         ImVec2(0, 1), ImVec2(1, 0));
-            ImGui::End();
-            ImGui::PopStyleVar();
-
-            ImGui::Render();
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-            ImGuiIO& io = ImGui::GetIO();
-            io.DisplaySize = {static_cast<float>(windowSize.x), static_cast<float>(windowSize.y)};
-            io.DeltaTime = (1.0f / 60.0f);
-
-            if (io.ConfigFlags | ImGuiConfigFlags_ViewportsEnable)
-            {
-                GLFWwindow* backupCurrentContext = glfwGetCurrentContext();
-                ImGui::UpdatePlatformWindows();
-                ImGui::RenderPlatformWindowsDefault();
-                glfwMakeContextCurrent(backupCurrentContext);
-            }
-        }
-    } // namspace RenderCommand
+    } // namespace RenderCommand
 } // namespace Turbo

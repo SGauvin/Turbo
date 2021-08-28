@@ -25,12 +25,6 @@ namespace Turbo
 
         template<RenderingApi>
         void drawImpl(VertexArray const * vertexArray);
-
-        template<RenderingApi api>
-        void beginViewportImpl(FrameBuffer<api>* frameBuffer);
-
-        template<RenderingApi api>
-        void endViewportImpl(FrameBuffer<api>* frameBuffer, glm::uvec2 windowSize);
     } // namspace RenderCommand
     
     
@@ -48,7 +42,5 @@ namespace Turbo
         static constexpr auto setClearColor = setClearColorImpl<renderingApi>;
         static constexpr auto clear = clearImpl<renderingApi>;
         static constexpr auto draw = drawImpl<renderingApi>;
-        static constexpr auto beginViewport = beginViewportImpl<renderingApi>;
-        static constexpr auto endViewport = endViewportImpl<renderingApi>;
     } // namspace RenderCommand
-}
+} // namespace Turbo

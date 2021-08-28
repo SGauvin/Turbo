@@ -30,11 +30,8 @@ namespace Turbo
     Application::Application(const WindowAttributes& windowAttributes)
         : m_inputManager()
         , m_window((initLogs(), windowAttributes), m_inputManager)
+        , m_applicationModeHandler((RenderCommand::init(), *this))
     {
-        if constexpr (isEditorEnabled)
-        {
-            m_viewportFrameBuffer = std::make_unique<FrameBuffer<renderingApi>>(glm::ivec2(800, 600));
-        }
     }
 
     Application::~Application()
@@ -74,7 +71,6 @@ namespace Turbo
     {
         Clock clock;
 
-        RenderCommand::init();
         while (m_window.isOpen() && !m_states.empty()) [[likely]]
         {
             {
@@ -127,19 +123,16 @@ namespace Turbo
 
             if (m_drawLag >= m_timePerDraw)
             {
-                if (getViewportSize().x > 0.f)
+                if (m_applicationModeHandler.getViewportSize().x > 0.f)
                 {
                     RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.f});
                     RenderCommand::clear();
 
+                    m_applicationModeHandler.begin();
+                    m_applicationModeHandler.beginViewport();
+
                     // Calculate lag for draw interpolation
                     float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
-
-                    if constexpr (isEditorEnabled)
-                    {
-                        RenderCommand::beginViewport(m_viewportFrameBuffer.get());
-                    }
-
                     m_states.back()->draw(lag);
                     for (const auto& layer : m_states.back()->m_layers)
                     {
@@ -149,10 +142,8 @@ namespace Turbo
                         }
                     }
 
-                    if constexpr (isEditorEnabled)
-                    {
-                        RenderCommand::endViewport(m_viewportFrameBuffer.get(), m_window.getSize());
-                    }
+                    m_applicationModeHandler.endViewport();
+                    m_applicationModeHandler.end();
 
                     m_window.swapBuffers();
                 }
@@ -164,13 +155,13 @@ namespace Turbo
 
     glm::uvec2 Application::getViewportSize() const
     {
-        if constexpr (isEditorEnabled)
-        {
-            return m_viewportFrameBuffer->getSize();
-        }
-        return m_window.getSize();
+        return m_applicationModeHandler.getViewportSize();
     }
 
+    float Application::getViewportAspectRatio() const
+    {
+        return m_applicationModeHandler.getViewportSize().x / m_applicationModeHandler.getViewportSize().y;
+    }
     
     void Application::onStatePushed()
     {

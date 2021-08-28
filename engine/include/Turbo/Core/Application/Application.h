@@ -3,6 +3,7 @@
 #include <chrono>
 #include <numeric>
 #include <vector>
+#include "Turbo/Core/Application/ApplicationModeHandler.h"
 #include "Turbo/Core/Renderer/Abstraction/FrameBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexArray.h"
@@ -38,6 +39,7 @@ namespace Turbo
         void start();
 
         glm::uvec2 getViewportSize() const;
+        float getViewportAspectRatio() const;
 
         Window<renderingApi>& getWindow() { return m_window; }
         InputManager& getInputManager() { return m_inputManager; }
@@ -45,8 +47,7 @@ namespace Turbo
     private:
         InputManager m_inputManager;
         Window<renderingApi> m_window;
-
-        std::unique_ptr<Turbo::FrameBuffer<Turbo::renderingApi>> m_viewportFrameBuffer;
+        ApplicationModeHandler m_applicationModeHandler;
 
         std::vector<State*> m_states;
 

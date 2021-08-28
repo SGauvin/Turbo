@@ -70,8 +70,7 @@ public:
         Turbo::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.f});
         Turbo::RenderCommand::clear();
 
-        const float aspectRatio = static_cast<float>(m_application.getViewportSize().x) / m_application.getViewportSize().y;
-        m_scene.draw(m_camera.getLookAt(), m_camera.getPosition(), aspectRatio, lag);
+        m_scene.draw(m_camera.getLookAt(), m_camera.getPosition(), m_application.getViewportAspectRatio(), lag);
     }
 
 private:

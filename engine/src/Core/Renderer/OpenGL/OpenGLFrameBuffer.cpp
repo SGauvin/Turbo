@@ -4,45 +4,45 @@
 
 namespace Turbo
 {
-    FrameBuffer<RenderingApi::OpenGL>::FrameBuffer(glm::ivec2 size)
+    FrameBufferTemplate<RenderingApi::OpenGL>::FrameBufferTemplate(glm::ivec2 size)
         : m_size(size)
     {
         create();
     }
 
-    FrameBuffer<RenderingApi::OpenGL>::~FrameBuffer()
+    FrameBufferTemplate<RenderingApi::OpenGL>::~FrameBufferTemplate()
     {
         release();
     }
 
-    void FrameBuffer<RenderingApi::OpenGL>::bind() const
+    void FrameBufferTemplate<RenderingApi::OpenGL>::bind() const
     {
         glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
     }
 
-    void FrameBuffer<RenderingApi::OpenGL>::unbind() const
+    void FrameBufferTemplate<RenderingApi::OpenGL>::unbind() const
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void FrameBuffer<RenderingApi::OpenGL>::resize(glm::ivec2 size)
+    void FrameBufferTemplate<RenderingApi::OpenGL>::resize(glm::ivec2 size)
     {
         m_size = size;
         release();
         create();
     }
 
-    glm::ivec2 FrameBuffer<RenderingApi::OpenGL>::getSize() const
+    glm::ivec2 FrameBufferTemplate<RenderingApi::OpenGL>::getSize() const
     {
         return m_size;
     }
 
-    std::uint32_t FrameBuffer<RenderingApi::OpenGL>::getTexture() const
+    std::uint32_t FrameBufferTemplate<RenderingApi::OpenGL>::getTexture() const
     {
         return m_texture;
     }
 
-    void FrameBuffer<RenderingApi::OpenGL>::create()
+    void FrameBufferTemplate<RenderingApi::OpenGL>::create()
     {
         glGenFramebuffers(1, &m_frameBuffer);
         glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
@@ -70,7 +70,7 @@ namespace Turbo
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
     
-    void FrameBuffer<RenderingApi::OpenGL>::release() const
+    void FrameBufferTemplate<RenderingApi::OpenGL>::release() const
     {
         glDeleteTextures(1, &m_depth);
         glDeleteTextures(1, &m_texture);

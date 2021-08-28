@@ -4,6 +4,11 @@
 
 namespace Turbo
 {
+    enum class ApplicationMode
+    {
+        Editor,
+        Runtime
+    };
+    static constexpr ApplicationMode applicationMode = ApplicationMode::Editor;
     static constexpr RenderingApi renderingApi = RenderingApi::OpenGL;
-    static constexpr bool isEditorEnabled = false;
 } // namespace Turbo
