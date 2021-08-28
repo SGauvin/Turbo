@@ -17,7 +17,6 @@ namespace Turbo
         ~TextureTemplate();
 
         void bind() const;
-        void setTextureType(TextureType textureType);
     };
 
     using Texture = TextureTemplate<renderingApi>;

@@ -7,7 +7,8 @@
 
 namespace Turbo
 {
-    TextureTemplate<RenderingApi::OpenGL>::TextureTemplate()
+    TextureTemplate<RenderingApi::OpenGL>::TextureTemplate(TextureType textureType)
+        : m_textureType(textureType)
     {
         glGenTextures(1, &m_texture);
     }
@@ -19,14 +20,9 @@ namespace Turbo
 
     void TextureTemplate<RenderingApi::OpenGL>::bind() const
     {
-        // glActiveTexture(GL_TEXTURE0 + static_cast<std::uint32_t>(m_textureType));
+        glActiveTexture(GL_TEXTURE0 + static_cast<std::uint32_t>(m_textureType));
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_texture);
-    }
-
-    void TextureTemplate<RenderingApi::OpenGL>::setTextureType(TextureType textureType)
-    {
-        m_textureType = textureType;
     }
 
     void TextureTemplate<RenderingApi::OpenGL>::load(const std::string& file)

@@ -26,7 +26,6 @@ namespace Turbo
         entt::registry m_registry;
         Turbo::Shader<Turbo::renderingApi> m_shader;
         glm::vec3 m_lightPos = glm::vec3(20.f, 10.2f, 40.f);
-        Texture m_texture;
 
         friend class Entity;
     };

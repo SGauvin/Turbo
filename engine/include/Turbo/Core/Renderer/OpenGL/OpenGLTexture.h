@@ -12,11 +12,10 @@ namespace Turbo
     class TextureTemplate<RenderingApi::OpenGL>
     {
     public:
-        TextureTemplate();
+        TextureTemplate(TextureType textureType);
         ~TextureTemplate();
 
         void bind() const;
-        void setTextureType(TextureType textureType);
 
         void load(const std::string& file);
         void load(const tinygltf::Image& image);
