@@ -14,6 +14,7 @@ namespace Turbo
     {
         for (const auto& layer : m_layers)
         {
+            layer->onDetach();
             delete layer;
         }
     }
@@ -39,6 +40,7 @@ namespace Turbo
     {
         if (!m_layers.empty())
         {
+            m_layers.back()->onDetach();
             delete m_layers.back();
             m_layers.pop_back();
         }

@@ -34,7 +34,8 @@ namespace Turbo
     {
         for (const auto& state : m_states)
         {
-            delete state;
+            state->~State();
+            delete[] reinterpret_cast<std::uint8_t*>(state);
         }
     }
 
