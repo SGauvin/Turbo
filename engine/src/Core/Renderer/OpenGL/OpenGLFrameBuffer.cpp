@@ -4,8 +4,34 @@
 
 namespace Turbo
 {
-    FrameBufferTemplate<RenderingApi::OpenGL>::FrameBufferTemplate(glm::ivec2 size)
+    namespace
+    {
+        constexpr GLuint getOpenGLFilter(FrameBufferSettings::TextureFilter textureFilter)
+        {
+            switch (textureFilter)
+            {
+            case FrameBufferSettings::TextureFilter::Nearest:
+                return GL_NEAREST;
+            case FrameBufferSettings::TextureFilter::Linear:
+                return GL_LINEAR;
+            case FrameBufferSettings::TextureFilter::NearestMipmapNearest:
+                return GL_NEAREST_MIPMAP_NEAREST;
+            case FrameBufferSettings::TextureFilter::LinearMipmapNearest:
+                return GL_LINEAR_MIPMAP_NEAREST;
+            case FrameBufferSettings::TextureFilter::NearestMipmapLinear:
+                return GL_NEAREST_MIPMAP_LINEAR;
+            case FrameBufferSettings::TextureFilter::LinearMipmapLinear:
+                return GL_LINEAR_MIPMAP_LINEAR;
+            }
+            
+            TURBO_ASSERT(true, "Texture filter not supported");
+            return 0;
+        }
+    } // namespace
+
+    FrameBufferTemplate<RenderingApi::OpenGL>::FrameBufferTemplate(glm::ivec2 size, FrameBufferSettings settings)
         : m_size(size)
+        , m_settings(settings)
     {
         create();
     }
@@ -51,8 +77,8 @@ namespace Turbo
         glBindTexture(GL_TEXTURE_2D, m_texture);
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_size.x, m_size.y, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, getOpenGLFilter(m_settings.minFilter));
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, getOpenGLFilter(m_settings.magFilter));
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
 

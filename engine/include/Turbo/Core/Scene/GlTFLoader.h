@@ -73,6 +73,11 @@ namespace Turbo
         template<typename T>
         bool getPrimitiveAttribute(tinygltf::Model& model, tinygltf::Primitive& primitive, const std::string& attributeName, std::span<T>& outData)
         {
+            if (primitive.attributes.find(attributeName) == primitive.attributes.end())
+            {
+                return false;
+            }
+
             const tinygltf::Accessor& accessor = model.accessors[primitive.attributes[attributeName]];
             const tinygltf::BufferView& bufferView = model.bufferViews[accessor.bufferView];
             const tinygltf::Buffer& buffer = model.buffers[bufferView.buffer];
@@ -126,7 +131,8 @@ namespace Turbo
             return true;
         }
 
-        bool createVertexData(const std::span<const float>& positions, const std::span<const float>& normals, const std::span<const float>& texCoords, std::vector<float>& outVertexData)
+        bool createVertexData(const std::span<const float>& positions, const std::span<const float>& normals,
+                              const std::span<const float>& texCoords, std::vector<float>& outVertexData)
         {
             outVertexData.clear();
             outVertexData.reserve(positions.size() * 8);

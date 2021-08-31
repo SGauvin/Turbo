@@ -6,11 +6,27 @@
 
 namespace Turbo
 {
+    struct FrameBufferSettings
+    {
+        enum class TextureFilter
+        {
+            Nearest,
+            Linear,
+            NearestMipmapNearest,
+            LinearMipmapNearest,
+            NearestMipmapLinear,
+            LinearMipmapLinear,
+        };
+
+        TextureFilter minFilter = TextureFilter::Linear;
+        TextureFilter magFilter = TextureFilter::Linear;
+    };
+
     template<RenderingApi>
     class FrameBufferTemplate
     {
     public:
-        FrameBufferTemplate(glm::ivec2 size);
+        FrameBufferTemplate(glm::ivec2 size, FrameBufferSettings settings = {});
         void bind() const;
         void unbind() const;
         void resize(glm::ivec2 size);

@@ -8,7 +8,7 @@ namespace Turbo
     class FrameBufferTemplate<RenderingApi::OpenGL>
     {
     public:
-        FrameBufferTemplate(glm::ivec2 size);
+        FrameBufferTemplate(glm::ivec2 size, FrameBufferSettings settings = {});
         ~FrameBufferTemplate();
         void bind() const;
         void unbind() const;
@@ -24,5 +24,7 @@ namespace Turbo
         std::uint32_t m_texture = 0;
         std::uint32_t m_depth = 0;
         glm::ivec2 m_size;
+
+        FrameBufferSettings m_settings;
     };
 }
