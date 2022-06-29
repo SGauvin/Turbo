@@ -1,4 +1,10 @@
 # Simple basic 3D renderer using GLFW and modern OpenGL
+
+<p align="center">
+    <img height=512 src="screenshots/helmet.png" />
+</p>
+
+
 1. Can load and render GLTF models with color textures
 2. Super cool input manager!
 
