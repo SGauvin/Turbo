@@ -1,13 +1,12 @@
 #include "Turbo/Core/Renderer/OpenGL/OpenGLVertexArray.h"
-#include "Turbo/Core/Log.h"
-
 #include <glad/glad.h>
+#include "Turbo/Core/Log.h"
 
 namespace
 {
     GLenum getOpenGLType(Turbo::DataType dataType)
     {
-        static constexpr GLenum dataTypes[] = {
+        static constexpr std::array dataTypes = std::to_array<GLenum>({
             GL_FLOAT, // Float
             GL_FLOAT, // Float2
             GL_FLOAT, // Float3
@@ -17,10 +16,10 @@ namespace
             GL_INT, // Int3
             GL_INT, // Int4
             GL_BOOL, // Bool
-        };
+        });
         return dataTypes[static_cast<std::uint8_t>(dataType)];
     }
-}
+} // namespace
 
 namespace Turbo
 {
@@ -81,4 +80,4 @@ namespace Turbo
     {
         return m_indexBuffer.get();
     }
-}
+} // namespace Turbo

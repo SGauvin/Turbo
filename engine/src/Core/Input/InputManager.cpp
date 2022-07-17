@@ -43,9 +43,15 @@ namespace Turbo
         }
     }
 
-    bool InputManager::detectedKeyPressedEvent() const { return m_detectedKeyPressedEvent; }
+    bool InputManager::detectedKeyPressedEvent() const
+    {
+        return m_detectedKeyPressedEvent;
+    }
 
-    bool InputManager::detectedKeyReleasedEvent() const { return m_detectedKeyReleasedEvent; }
+    bool InputManager::detectedKeyReleasedEvent() const
+    {
+        return m_detectedKeyReleasedEvent;
+    }
 
     bool InputManager::isKeyDown(Keyboard::Key key) const
     {
@@ -74,13 +80,16 @@ namespace Turbo
         return m_keyboardReleasedKeys[static_cast<uint16_t>(key)];
     }
 
-    const glm::dvec2& InputManager::getMousePosition() const { return m_mousePosition; }
+    const glm::dvec2& InputManager::getMousePosition() const
+    {
+        return m_mousePosition;
+    }
 
     void InputManager::onPollEvents()
     {
         if (m_currentInputContextList != nullptr)
         {
-            for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+            for (auto i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
             {
                 if ((*m_currentInputContextList)[i]->isEnabled)
                 {
@@ -123,7 +132,7 @@ namespace Turbo
 
         if (m_currentInputContextList != nullptr)
         {
-            for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+            for (auto i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
             {
                 if ((*m_currentInputContextList)[i]->isEnabled)
                 {
@@ -139,7 +148,7 @@ namespace Turbo
 
     void InputManager::onTextEnterEvent(std::uint32_t character)
     {
-        for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+        for (auto i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
         {
             if ((*m_currentInputContextList)[i]->isEnabled)
             {
@@ -157,7 +166,7 @@ namespace Turbo
         m_mousePosition = event.mousePosition;
         m_mouseMovedEvent = true;
 
-        for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+        for (auto i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
         {
             if ((*m_currentInputContextList)[i]->isEnabled)
             {
@@ -172,7 +181,7 @@ namespace Turbo
 
     void InputManager::onMouseScrollEvent(const Mouse::ScrollEvent& event)
     {
-        for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+        for (auto i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
         {
             if ((*m_currentInputContextList)[i]->isEnabled)
             {
@@ -189,7 +198,7 @@ namespace Turbo
     {
         if (m_currentInputContextList != nullptr)
         {
-            for (std::int32_t i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
+            for (auto i = static_cast<std::int32_t>(m_currentInputContextList->size() - 1); i >= 0; --i)
             {
                 if ((*m_currentInputContextList)[i]->isEnabled)
                 {

@@ -1,9 +1,9 @@
 #include "Turbo/Core/Layers/ImGuiLayer.h"
 #include "Turbo/Core/Log.h"
-#include "imgui/backends/imgui_impl_opengl3.h"
 #include "Turbo/Core/Window/OpenGLWindow.h"
-#include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_glfw.h"
+#include "imgui/backends/imgui_impl_opengl3.h"
+#include "imgui/imgui.h"
 
 namespace Turbo
 {
@@ -23,9 +23,11 @@ namespace Turbo
         ImGui_ImplOpenGL3_Init("#version 430");
     }
 
-    ImGuiLayer::~ImGuiLayer() {}
+    ImGuiLayer::~ImGuiLayer() = default;
 
-    void ImGuiLayer::onAttach() {}
+    void ImGuiLayer::onAttach()
+    {
+    }
 
     void ImGuiLayer::onDetach()
     {
@@ -34,13 +36,16 @@ namespace Turbo
         ImGui::DestroyContext();
     }
 
-    void ImGuiLayer::handleInput() {}
-
-    void ImGuiLayer::update() {}
-
-    void ImGuiLayer::draw(float lag)
+    void ImGuiLayer::handleInput()
     {
-        
+    }
+
+    void ImGuiLayer::update()
+    {
+    }
+
+    void ImGuiLayer::draw(float /*lag*/)
+    {
     }
 
 } // namespace Turbo

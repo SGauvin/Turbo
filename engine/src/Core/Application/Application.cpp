@@ -128,7 +128,7 @@ namespace Turbo
                         m_applicationModeHandler.beginViewport();
 
                         // Calculate lag for draw interpolation
-                        float lag = static_cast<float>(m_updateLag / m_timePerUpdate);
+                        auto lag = static_cast<float>(m_updateLag / m_timePerUpdate);
                         m_states.back()->draw(lag);
                         for (const auto& layer : m_states.back()->m_layers)
                         {

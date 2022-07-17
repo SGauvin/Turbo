@@ -1,10 +1,11 @@
 #include "Turbo/Core/Renderer/BufferLayout.h"
+#include <array>
 
 namespace
 {
     std::uint8_t getDataTypeSize(Turbo::DataType type)
     {
-        static constexpr std::uint8_t dataTypeSizes[] = {
+        static constexpr std::array dataTypeSizes = std::to_array<std::uint8_t>({
             4 * 1, // Float
             4 * 2, // Float2
             4 * 3, // Float3
@@ -14,13 +15,13 @@ namespace
             4 * 3, // Int3
             4 * 3, // Int4
             1, // Bool
-        };
+        });
         return dataTypeSizes[static_cast<std::uint8_t>(type)];
     }
 
     std::uint8_t getComponentCount(Turbo::DataType type)
     {
-        static constexpr std::uint8_t componentCount[] = {
+        static constexpr std::array componentCount = std::to_array<std::uint8_t>({
             1, // Float
             2, // Float2
             3, // Float3
@@ -30,7 +31,7 @@ namespace
             3, // Int3
             4, // Int4
             1, // Bool
-        };
+        });
         return componentCount[static_cast<std::uint8_t>(type)];
     }
 
@@ -39,22 +40,37 @@ namespace Turbo
 {
     BufferElement::BufferElement(DataType type, const std::string& name, bool isNormalized)
         : m_type(type)
-        , m_name(name)
+        , m_name(std::move(name))
         , m_size(getDataTypeSize(type))
         , m_componentCount(::getComponentCount(type))
         , m_isNormalized(isNormalized)
     {
     }
 
-    DataType BufferElement::getDataType() const { return m_type; }
+    DataType BufferElement::getDataType() const
+    {
+        return m_type;
+    }
 
-    std::uint8_t BufferElement::getSize() const { return m_size; }
+    std::uint8_t BufferElement::getSize() const
+    {
+        return m_size;
+    }
 
-    const std::uint32_t& BufferElement::getOffset() const { return m_offset; }
+    const std::uint32_t& BufferElement::getOffset() const
+    {
+        return m_offset;
+    }
 
-    std::uint8_t BufferElement::getComponentCount() const { return m_componentCount; }
+    std::uint8_t BufferElement::getComponentCount() const
+    {
+        return m_componentCount;
+    }
 
-    bool BufferElement::isNormalized() const { return m_isNormalized; }
+    bool BufferElement::isNormalized() const
+    {
+        return m_isNormalized;
+    }
 
     BufferLayout::BufferLayout(std::initializer_list<BufferElement> elements)
         : m_elements(elements)
@@ -69,9 +85,18 @@ namespace Turbo
         m_stride = currentOffset;
     }
 
-    const BufferElement& BufferLayout::operator[](std::size_t i) const { return m_elements[i]; }
+    const BufferElement& BufferLayout::operator[](std::size_t i) const
+    {
+        return m_elements[i];
+    }
 
-    std::size_t BufferLayout::size() const { return m_elements.size(); }
+    std::size_t BufferLayout::size() const
+    {
+        return m_elements.size();
+    }
 
-    std::uint32_t BufferLayout::getStride() const { return m_stride; }
+    std::uint32_t BufferLayout::getStride() const
+    {
+        return m_stride;
+    }
 } // namespace Turbo

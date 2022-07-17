@@ -1,6 +1,6 @@
 #include "Turbo/Core/Renderer/OpenGL/OpenGLFrameBuffer.h"
-#include "Turbo/Core/Log.h"
 #include <glad/glad.h>
+#include "Turbo/Core/Log.h"
 
 namespace Turbo
 {
@@ -23,7 +23,7 @@ namespace Turbo
             case FrameBufferSettings::TextureFilter::LinearMipmapLinear:
                 return GL_LINEAR_MIPMAP_LINEAR;
             }
-            
+
             TURBO_ASSERT(true, "Texture filter not supported");
             return 0;
         }
@@ -85,7 +85,7 @@ namespace Turbo
         glGenTextures(1, &m_depth);
         glBindTexture(GL_TEXTURE_2D, m_depth);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_size.x, m_size.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, m_size.x, m_size.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_depth, 0);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -95,11 +95,11 @@ namespace Turbo
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
-    
+
     void FrameBufferTemplate<RenderingApi::OpenGL>::release() const
     {
         glDeleteTextures(1, &m_depth);
         glDeleteTextures(1, &m_texture);
         glDeleteFramebuffers(1, &m_frameBuffer);
     }
-}
+} // namespace Turbo

@@ -21,7 +21,7 @@ public:
         m_window.setIsRawMouseEnabled(false);
     }
 
-    virtual void onAttach()
+    void onAttach() override
     {
         std::ifstream file("../assets/to_load.txt");
         if (file)
@@ -34,9 +34,9 @@ public:
         }
     }
 
-    virtual void onDetach() {}
+    void onDetach() override {}
 
-    virtual void handleInput()
+    void handleInput() override
     {
         for (auto& entity : m_entities)
         {
@@ -59,9 +59,9 @@ public:
         }
     }
 
-    virtual void update() { m_camera.update(); }
+    void update() override { m_camera.update(); }
 
-    virtual void draw(float lag = 1.0)
+    void draw(float lag = 1.0) override
     {
         Turbo::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.f});
         Turbo::RenderCommand::clear();

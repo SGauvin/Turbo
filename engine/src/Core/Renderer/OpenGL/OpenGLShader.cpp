@@ -1,19 +1,19 @@
 #include "Turbo/Core/Renderer/OpenGL/OpenGLShader.h"
-
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <fstream>
 #include <sstream>
 #include <vector>
-
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "Turbo/Core/Log.h"
 
 namespace Turbo
 {
-    Shader<RenderingApi::OpenGL>::~Shader() { glDeleteProgram(m_programId); }
+    Shader<RenderingApi::OpenGL>::~Shader()
+    {
+        glDeleteProgram(m_programId);
+    }
 
-    
     bool Shader<RenderingApi::OpenGL>::loadFromFile(const std::string& vertexShaderFile, const std::string& fragmentShaderFile)
     {
         auto loadFile = [](const std::string& filepath, std::string& out) -> void
@@ -29,7 +29,7 @@ namespace Turbo
 
         std::string vertexCode;
         loadFile(vertexShaderFile, vertexCode);
-        
+
         std::string fragmentCode;
         loadFile(fragmentShaderFile, fragmentCode);
 
@@ -43,8 +43,8 @@ namespace Turbo
 
         // Send the vertex shader source code to GL
         // Note that std::string's .c_str is NULL character terminated.
-        const GLchar* source = (const GLchar*)vertexShaderSource.c_str();
-        glShaderSource(vertexShader, 1, &source, 0);
+        const auto* source = (const GLchar*)vertexShaderSource.c_str();
+        glShaderSource(vertexShader, 1, &source, nullptr);
 
         // Compile the vertex shader
         glCompileShader(vertexShader);
@@ -75,7 +75,7 @@ namespace Turbo
         // Send the fragment shader source code to GL
         // Note that std::string's .c_str is NULL character terminated.
         source = (const GLchar*)fragmentShaderSource.c_str();
-        glShaderSource(fragmentShader, 1, &source, 0);
+        glShaderSource(fragmentShader, 1, &source, nullptr);
 
         // Compile the fragment shader
         glCompileShader(fragmentShader);
@@ -143,7 +143,10 @@ namespace Turbo
         return true;
     }
 
-    void Shader<RenderingApi::OpenGL>::bind() const { glUseProgram(m_programId); }
+    void Shader<RenderingApi::OpenGL>::bind() const
+    {
+        glUseProgram(m_programId);
+    }
 
     void Shader<RenderingApi::OpenGL>::setInt(const std::string& name, std::int32_t value)
     {
