@@ -10,8 +10,15 @@ include_directories(include)
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
 
-set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY CXX_STANDARD 20)
-set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
+set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}")
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
+
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
 
 # ENGINE
 add_subdirectory(engine)

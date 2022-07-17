@@ -8,6 +8,13 @@ set_property(TARGET turbo PROPERTY CXX_STANDARD_REQUIRED ON)
 
 target_include_directories(turbo PUBLIC include)
 
+target_compile_options(turbo PRIVATE -Wall -Wextra -Wpedantic)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
+set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}")
+set_target_properties(turbo PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
+
 if (WIN32 AND NOT MSVC)
     # IMM32
     SET(CMAKE_FIND_LIBRARY_PREFIXES "")
@@ -29,6 +36,7 @@ endif()
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+target_compile_definitions(turbo PRIVATE GLFW_INCLUDE_NONE)
 add_subdirectory(libs/glfw)
 
 # GLAD

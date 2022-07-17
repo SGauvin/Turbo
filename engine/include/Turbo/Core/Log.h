@@ -1,29 +1,29 @@
 #pragma once
 
-#include <assert.h>
+#include <cassert>
 #include <fmt/color.h>
 #include <fmt/core.h>
 
 #if defined(_WIN32)
-    #include <Windows.h>
-    namespace Turbo
+#include <Windows.h>
+namespace Turbo
+{
+    inline void initLogs()
     {
-        static void initLogs()
-        {
-            HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-            DWORD dwMode = 0;
-            GetConsoleMode(hOut, &dwMode);
-            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-            SetConsoleMode(hOut, dwMode);
-        }
+        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        DWORD dwMode = 0;
+        GetConsoleMode(hOut, &dwMode);
+        dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        SetConsoleMode(hOut, dwMode);
     }
+} // namespace Turbo
 #else
-    namespace Turbo
+namespace Turbo
+{
+    inline void initLogs()
     {
-        static void initLogs()
-        {
-        }
     }
+} // namespace Turbo
 #endif
 
 // Client logs
@@ -81,5 +81,5 @@
     } \
     assert(condition)
 #else
-    #define TURBO_ASSERT(condition, ...) (void)(0)
+#define TURBO_ASSERT(condition, ...) (void)(0)
 #endif

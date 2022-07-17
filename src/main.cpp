@@ -1,14 +1,13 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <Turbo/Core/Application/Application.h>
 #include <Turbo/Core/Log.h>
-#include <Turbo/Core/Scene/Scene.h>
+#include <Turbo/Core/Renderer/Abstraction/RenderCommand.h>
 #include <Turbo/Core/Scene/Components/MeshComponent.h>
 #include <Turbo/Core/Scene/Components/TransformComponent.h>
-#include <Turbo/Core/States/State.h>
 #include <Turbo/Core/Scene/Entity.h>
-#include <Turbo/Core/Renderer/Abstraction/RenderCommand.h>
-
+#include <Turbo/Core/Scene/Scene.h>
+#include <Turbo/Core/States/State.h>
 #include "Camera.h"
 
 class TriangleLayer : public Turbo::Layer
@@ -60,10 +59,7 @@ public:
         }
     }
 
-    virtual void update()
-    {
-        m_camera.update();
-    }
+    virtual void update() { m_camera.update(); }
 
     virtual void draw(float lag = 1.0)
     {
@@ -91,13 +87,14 @@ public:
 private:
     void handleInput() override {}
     void update() override {}
-    void draw(float lag = 1.0) override {}
+    void draw(float /*lag*/) override {}
 
     void onAttach() override
     {
         static auto* inputContext = m_inputManager.createInputContext();
         inputContext->bindKeyToAction(
-            [this]() {
+            [this]()
+            {
                 m_window.close();
                 return true;
             },
@@ -105,7 +102,8 @@ private:
             Turbo::Keyboard::Action::Press);
 
         inputContext->bindKeyToAction(
-            [this]() {
+            [this]()
+            {
                 m_window.setAttributes({m_window.getTitle(),
                                         m_window.getSize(),
                                         m_window.getMode() == Turbo::WindowMode::Bordered ? Turbo::WindowMode::FullScreen : Turbo::WindowMode::Bordered});

@@ -1,5 +1,5 @@
-#include <glad/glad.h>
 #include "Turbo/Core/Window/OpenGLWindow.h"
+#include <glad/glad.h>
 #include "Turbo/Core/Log.h"
 
 namespace
@@ -24,7 +24,10 @@ namespace Turbo
         setIsRawMouseEnabled(m_isRawMouseEnabled);
     }
 
-    Window<RenderingApi::OpenGL>::~Window() { destroy(); }
+    Window<RenderingApi::OpenGL>::~Window()
+    {
+        destroy();
+    }
 
     void Window<RenderingApi::OpenGL>::setAttributes(const WindowAttributes& windowAttributes)
     {
@@ -68,9 +71,15 @@ namespace Turbo
         TURBO_ENGINE_INFO("Window terminated");
     }
 
-    void Window<RenderingApi::OpenGL>::close() { m_shouldClose = true; }
+    void Window<RenderingApi::OpenGL>::close()
+    {
+        m_shouldClose = true;
+    }
 
-    void Window<RenderingApi::OpenGL>::swapBuffers() { m_context->swapBuffers(); }
+    void Window<RenderingApi::OpenGL>::swapBuffers()
+    {
+        m_context->swapBuffers();
+    }
 
     void Window<RenderingApi::OpenGL>::processEvents()
     {
@@ -78,17 +87,35 @@ namespace Turbo
         glfwPollEvents();
     }
 
-    glm::uvec2 Window<RenderingApi::OpenGL>::getSize() const { return m_size; }
+    glm::uvec2 Window<RenderingApi::OpenGL>::getSize() const
+    {
+        return m_size;
+    }
 
-    WindowMode Window<RenderingApi::OpenGL>::getMode() const { return m_mode; }
+    WindowMode Window<RenderingApi::OpenGL>::getMode() const
+    {
+        return m_mode;
+    }
 
-    const std::string& Window<RenderingApi::OpenGL>::getTitle() const { return m_windowTitle; }
+    const std::string& Window<RenderingApi::OpenGL>::getTitle() const
+    {
+        return m_windowTitle;
+    }
 
-    bool Window<RenderingApi::OpenGL>::isOpen() const { return !glfwWindowShouldClose(m_window) && !m_shouldClose; }
+    bool Window<RenderingApi::OpenGL>::isOpen() const
+    {
+        return !glfwWindowShouldClose(m_window) && !m_shouldClose;
+    }
 
-    bool Window<RenderingApi::OpenGL>::isRawMouseAvailable() const { return glfwRawMouseMotionSupported(); }
+    bool Window<RenderingApi::OpenGL>::isRawMouseAvailable() const
+    {
+        return glfwRawMouseMotionSupported();
+    }
 
-    GLFWwindow* Window<RenderingApi::OpenGL>::getHandle() const { return m_window; }
+    GLFWwindow* Window<RenderingApi::OpenGL>::getHandle() const
+    {
+        return m_window;
+    }
 
     void Window<RenderingApi::OpenGL>::setIsVSyncEnabled(bool isVsyncEnabled)
     {
@@ -140,7 +167,6 @@ namespace Turbo
         destroy();
         glfwInit();
 
-
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -185,35 +211,44 @@ namespace Turbo
         glfwSetWindowUserPointer(m_window, this);
 
         // Window resize
-        glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, std::int32_t width, std::int32_t height) {
-            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onWindowResize({width, height});
-        });
+        glfwSetWindowSizeCallback(m_window,
+                                  [](GLFWwindow* window, std::int32_t width, std::int32_t height) {
+                                      static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onWindowResize({width, height});
+                                  });
 
         // Keyboard
-        glfwSetKeyCallback(m_window, [](GLFWwindow* window, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods) {
-            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))
-                ->onKeyEvent(static_cast<Keyboard::Key>(key), scancode, static_cast<Keyboard::Action>(action), static_cast<std::uint8_t>(mods));
-        });
+        glfwSetKeyCallback(m_window,
+                           [](GLFWwindow* window, std::int32_t key, std::int32_t scancode, std::int32_t action, std::int32_t mods)
+                           {
+                               static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))
+                                   ->onKeyEvent(
+                                       static_cast<Keyboard::Key>(key), scancode, static_cast<Keyboard::Action>(action), static_cast<std::uint8_t>(mods));
+                           });
 
-        glfwSetCharCallback(m_window, [](GLFWwindow* window, std::uint32_t character) {
-            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character);
-        });
+        glfwSetCharCallback(m_window,
+                            [](GLFWwindow* window, std::uint32_t character)
+                            { static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onTextEnterEvent(character); });
 
         // Cursor position
-        glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
-            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onMouseMove({xpos, ypos});
-        });
+        glfwSetCursorPosCallback(m_window,
+                                 [](GLFWwindow* window, double xpos, double ypos) {
+                                     static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onMouseMove({xpos, ypos});
+                                 });
 
         // Mouse buttons
-        glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, std::int32_t button, std::int32_t action, std::int32_t mods) {
-            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))
-                ->onMouseButtonEvent(static_cast<Mouse::Button>(button), static_cast<Mouse::Action>(action), static_cast<std::uint8_t>(mods));
-        });
+        glfwSetMouseButtonCallback(m_window,
+                                   [](GLFWwindow* window, std::int32_t button, std::int32_t action, std::int32_t mods)
+                                   {
+                                       static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))
+                                           ->onMouseButtonEvent(
+                                               static_cast<Mouse::Button>(button), static_cast<Mouse::Action>(action), static_cast<std::uint8_t>(mods));
+                                   });
 
         // Mouse scroll
-        glfwSetScrollCallback(m_window, [](GLFWwindow* window, double offsetX, double offsetY) {
-            static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onMouseScrollEvent({offsetX, offsetY});
-        });
+        glfwSetScrollCallback(m_window,
+                              [](GLFWwindow* window, double offsetX, double offsetY) {
+                                  static_cast<Window<RenderingApi::OpenGL>*>(glfwGetWindowUserPointer(window))->onMouseScrollEvent({offsetX, offsetY});
+                              });
     }
 
     void Window<RenderingApi::OpenGL>::onWindowResize(glm::uvec2 windowSize)
@@ -227,9 +262,15 @@ namespace Turbo
         m_inputManager.onKeyboardEvent({key, action, mods});
     }
 
-    void Window<RenderingApi::OpenGL>::onTextEnterEvent(std::uint32_t character) { m_inputManager.onTextEnterEvent(character); }
+    void Window<RenderingApi::OpenGL>::onTextEnterEvent(std::uint32_t character)
+    {
+        m_inputManager.onTextEnterEvent(character);
+    }
 
-    void Window<RenderingApi::OpenGL>::onMouseScrollEvent(const glm::dvec2& delta) { m_inputManager.onMouseScrollEvent({delta}); }
+    void Window<RenderingApi::OpenGL>::onMouseScrollEvent(const glm::dvec2& delta)
+    {
+        m_inputManager.onMouseScrollEvent({delta});
+    }
 
     void Window<RenderingApi::OpenGL>::onMouseMove(const glm::dvec2& mousePosition)
     {
