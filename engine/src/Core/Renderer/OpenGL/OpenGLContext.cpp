@@ -26,6 +26,9 @@ namespace Turbo
         }
     }
 
-    void OpenGLContext::swapBuffers() { glfwSwapBuffers(m_windowHandle); }
+    void OpenGLContext::swapBuffers()
+    {
+        glfwSwapBuffers(m_windowHandle);
+    }
 
 } // namespace Turbo

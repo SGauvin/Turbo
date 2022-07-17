@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glm/glm.hpp>
-
 #include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo

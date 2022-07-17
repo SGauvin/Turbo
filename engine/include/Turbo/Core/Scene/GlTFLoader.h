@@ -3,7 +3,6 @@
 #include <span>
 #include <string>
 #include <tiny_gltf.h>
-
 #include "Turbo/Core/Log.h"
 #include "Turbo/Core/Renderer/Abstraction/Texture.h"
 
@@ -27,7 +26,7 @@ namespace Turbo
             std::string errors;
             std::string warnings;
 
-            bool hasLoaded; 
+            bool hasLoaded;
             if (extension == ".gltf")
             {
                 hasLoaded = loader.LoadASCIIFromFile(&outModel, &errors, &warnings, path);
@@ -107,7 +106,8 @@ namespace Turbo
             const tinygltf::Accessor& indicesAccessor = model.accessors[primitive.indices];
             const tinygltf::BufferView& indicesBufferView = model.bufferViews[indicesAccessor.bufferView];
             const tinygltf::Buffer& indicesBuffer = model.buffers[indicesBufferView.buffer];
-            const std::uint16_t* indices = reinterpret_cast<const std::uint16_t*>(&indicesBuffer.data[indicesBufferView.byteOffset + indicesAccessor.byteOffset]);
+            const std::uint16_t* indices =
+                reinterpret_cast<const std::uint16_t*>(&indicesBuffer.data[indicesBufferView.byteOffset + indicesAccessor.byteOffset]);
 
             if (indicesAccessor.count == 0)
             {
@@ -131,8 +131,8 @@ namespace Turbo
             return true;
         }
 
-        bool createVertexData(const std::span<const float>& positions, const std::span<const float>& normals,
-                              const std::span<const float>& texCoords, std::vector<float>& outVertexData)
+        bool createVertexData(const std::span<const float>& positions, const std::span<const float>& normals, const std::span<const float>& texCoords,
+                              std::vector<float>& outVertexData)
         {
             outVertexData.clear();
             outVertexData.reserve(positions.size() * 8);
@@ -168,7 +168,7 @@ namespace Turbo
                 TURBO_ENGINE_ERROR("Not the same count???");
                 return false;
             }
-            
+
             std::vector<float> data;
             GlTFLoader::createVertexData(positions, normals, texCoords, data);
 
@@ -176,11 +176,11 @@ namespace Turbo
             GlTFLoader::getVertexIndices(model, primitive, indices);
 
             std::shared_ptr<Turbo::VertexBuffer> vertexBuffer = std::make_shared<Turbo::VertexBuffer>(std::span<float>(data));
-            
+
             Turbo::BufferLayout layout = {
-                { Turbo::DataType::Float3, "a_position" },
-                { Turbo::DataType::Float3, "a_color" },
-                { Turbo::DataType::Float2, "a_textCoord" },
+                {Turbo::DataType::Float3, "a_position"},
+                {Turbo::DataType::Float3, "a_color"},
+                {Turbo::DataType::Float2, "a_textCoord"},
             };
             vertexBuffer->setLayout(layout);
 

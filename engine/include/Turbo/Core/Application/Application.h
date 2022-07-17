@@ -4,12 +4,12 @@
 #include <numeric>
 #include <vector>
 #include "Turbo/Core/Application/ApplicationModeHandler.h"
+#include "Turbo/Core/Application/CompileTimeSettings.h"
 #include "Turbo/Core/Renderer/Abstraction/FrameBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
+#include "Turbo/Core/Renderer/Abstraction/Shader.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexArray.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
-#include "Turbo/Core/Renderer/Abstraction/Shader.h"
-#include "Turbo/Core/Application/CompileTimeSettings.h"
 #include "Turbo/Core/Window/Window.h"
 
 namespace Turbo
@@ -26,7 +26,7 @@ namespace Turbo
             static_assert(std::is_base_of<State, T>::value);
             std::uint8_t* alloc = new std::uint8_t[sizeof(T)];
             m_inputManager.onStateChange(reinterpret_cast<State*>(alloc));
-            T* state = new(alloc) T(args...);
+            T* state = new (alloc) T(args...);
             m_states.push_back(state);
             onStatePushed();
             return state;

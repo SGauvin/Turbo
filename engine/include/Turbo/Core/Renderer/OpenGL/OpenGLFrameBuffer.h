@@ -27,4 +27,4 @@ namespace Turbo
 
         FrameBufferSettings m_settings;
     };
-}
+} // namespace Turbo

@@ -10,9 +10,15 @@ namespace Turbo
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
     }
 
-    VertexBufferTemplate<RenderingApi::OpenGL>::~VertexBufferTemplate() { glDeleteBuffers(1, &m_rendererId); }
+    VertexBufferTemplate<RenderingApi::OpenGL>::~VertexBufferTemplate()
+    {
+        glDeleteBuffers(1, &m_rendererId);
+    }
 
-    void VertexBufferTemplate<RenderingApi::OpenGL>::bind() const { glBindBuffer(GL_ARRAY_BUFFER, m_rendererId); }
+    void VertexBufferTemplate<RenderingApi::OpenGL>::bind() const
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, m_rendererId);
+    }
 
     void VertexBufferTemplate<RenderingApi::OpenGL>::setLayout(const BufferLayout& layout)
     {

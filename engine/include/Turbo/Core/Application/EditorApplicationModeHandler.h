@@ -25,4 +25,4 @@ namespace Turbo
         FrameBuffer m_frameBuffer;
         glm::uvec2 m_oldViewportSize = {0, 0};
     };
-}
+} // namespace Turbo

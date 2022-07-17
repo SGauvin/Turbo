@@ -1,8 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/transform.hpp>
 
 namespace Turbo
 {
@@ -11,19 +11,13 @@ namespace Turbo
     public:
         TransformComponent() = default;
 
-        glm::vec3 translation = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 rotation = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 scale = { 1.0f, 1.0f, 1.0f };
+        glm::vec3 translation = {0.0f, 0.0f, 0.0f};
+        glm::vec3 rotation = {0.0f, 0.0f, 0.0f};
+        glm::vec3 scale = {1.0f, 1.0f, 1.0f};
 
-        void setQuat(const glm::quat& quat)
-        {
-            rotation = glm::eulerAngles(quat);
-        }
+        void setQuat(const glm::quat& quat) { rotation = glm::eulerAngles(quat); }
 
-        glm::quat getQuat() const
-        {
-            return glm::quat(rotation);
-        }
+        glm::quat getQuat() const { return glm::quat(rotation); }
 
         glm::mat4 getTransform() const
         {

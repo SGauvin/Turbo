@@ -2,7 +2,6 @@
 
 #include <string>
 #include <tiny_gltf.h>
-
 #include "Turbo/Core/Renderer/Abstraction/Texture.h"
 #include "Turbo/Core/Renderer/RenderingApi.h"
 

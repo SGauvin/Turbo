@@ -1,10 +1,9 @@
 #pragma once
 
 #include <memory>
-
 #include "Turbo/Core/Renderer/Abstraction/VertexArray.h"
-#include "Turbo/Core/Renderer/OpenGL/OpenGLVertexBuffer.h"
 #include "Turbo/Core/Renderer/OpenGL/OpenGLIndexBuffer.h"
+#include "Turbo/Core/Renderer/OpenGL/OpenGLVertexBuffer.h"
 #include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo

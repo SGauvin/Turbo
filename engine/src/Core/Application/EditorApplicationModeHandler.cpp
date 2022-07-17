@@ -1,10 +1,7 @@
 #include "Turbo/Core/Application/EditorApplicationModeHandler.h"
-
-
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <imgui/imgui.h>
-
 #include "Turbo/Core/Application/Application.h"
 #include "Turbo/Core/Renderer/Abstraction/RenderCommand.h"
 
@@ -48,7 +45,7 @@ namespace Turbo
         ImGuiIO& io = ImGui::GetIO();
         const glm::uvec2 windowSize = m_application.getWindow().getSize();
         io.DisplaySize = {static_cast<float>(windowSize.x), static_cast<float>(windowSize.y)};
-    	
+
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
             GLFWwindow* backup_current_context = glfwGetCurrentContext();
@@ -70,7 +67,7 @@ namespace Turbo
         }
 
         m_frameBuffer.bind();
-        
+
         RenderCommand::setViewport({0, 0}, {static_cast<std::int32_t>(currentViewportSize.x), static_cast<std::int32_t>(currentViewportSize.y)});
     }
 
@@ -78,12 +75,10 @@ namespace Turbo
     {
         m_frameBuffer.unbind();
 
-        ImGui::Image(reinterpret_cast<void*>(m_frameBuffer.getTexture()),
-                     ImVec2(m_frameBuffer.getSize().x, m_frameBuffer.getSize().y),
-                     ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::Image(
+            reinterpret_cast<void*>(m_frameBuffer.getTexture()), ImVec2(m_frameBuffer.getSize().x, m_frameBuffer.getSize().y), ImVec2(0, 1), ImVec2(1, 0));
         ImGui::End();
         ImGui::PopStyleVar();
-
     }
 
     glm::ivec2 ApplicationModeHandlerImpl<ApplicationMode::Editor>::getViewportSize() const

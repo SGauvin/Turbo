@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Turbo/Core/Renderer/RenderingApi.h"
+#include "Turbo/Core/Application/CompileTimeSettings.h"
 #include "Turbo/Core/Renderer/Abstraction/IndexBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/VertexBuffer.h"
-#include "Turbo/Core/Application/CompileTimeSettings.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo
 {

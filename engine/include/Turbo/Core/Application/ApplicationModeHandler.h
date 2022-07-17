@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glm/glm.hpp>
-
 #include "Turbo/Core/Application/CompileTimeSettings.h"
 #include "Turbo/Core/Log.h"
 
@@ -12,10 +11,7 @@ namespace Turbo
     template<ApplicationMode Mode>
     class ApplicationModeHandlerImpl
     {
-        ApplicationModeHandlerImpl(Application&)
-        {
-            TURBO_ASSERT(true, "Not implemented");
-        }
+        ApplicationModeHandlerImpl(Application&) { TURBO_ASSERT(true, "Not implemented"); }
 
         void begin();
         void end();
@@ -27,6 +23,6 @@ namespace Turbo
     };
 
     using ApplicationModeHandler = ApplicationModeHandlerImpl<applicationMode>;
-};
+}; // namespace Turbo
 
 #include "Turbo/Core/Application/EditorApplicationModeHandler.h"

@@ -1,8 +1,8 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include "Turbo/Core/Application/CompileTimeSettings.h"
 #include "Turbo/Core/Renderer/RenderingApi.h"
-#include <glm/glm.hpp>
 
 namespace Turbo
 {
@@ -35,6 +35,6 @@ namespace Turbo
     };
 
     using FrameBuffer = FrameBufferTemplate<renderingApi>;
-}
+} // namespace Turbo
 
 #include "Turbo/Core/Renderer/OpenGL/OpenGLFrameBuffer.h"

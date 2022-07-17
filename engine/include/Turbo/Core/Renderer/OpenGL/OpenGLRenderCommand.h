@@ -2,11 +2,10 @@
 
 #include <cstdint>
 #include <glm/glm.hpp>
-
-#include "Turbo/Core/Renderer/RenderingApi.h"
-#include "Turbo/Core/Renderer/Abstraction/VertexArray.h"
 #include "Turbo/Core/Renderer/Abstraction/FrameBuffer.h"
 #include "Turbo/Core/Renderer/Abstraction/RenderCommand.h"
+#include "Turbo/Core/Renderer/Abstraction/VertexArray.h"
+#include "Turbo/Core/Renderer/RenderingApi.h"
 
 namespace Turbo
 {
@@ -25,6 +24,6 @@ namespace Turbo
         void clearImpl<RenderingApi::OpenGL>();
 
         template<>
-        void drawImpl<RenderingApi::OpenGL>(VertexArray const * vertexArray);
-    } // namspace RenderCommand
+        void drawImpl<RenderingApi::OpenGL>(VertexArray const* vertexArray);
+    } // namespace RenderCommand
 } // namespace Turbo

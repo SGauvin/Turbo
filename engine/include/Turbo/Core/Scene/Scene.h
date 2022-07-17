@@ -1,8 +1,8 @@
 #pragma once
 
 #include <entt/entt.hpp>
-#include "Turbo/Core/Renderer/Abstraction/Shader.h"
 #include "Turbo/Core/Application/CompileTimeSettings.h"
+#include "Turbo/Core/Renderer/Abstraction/Shader.h"
 #include "Turbo/Core/Renderer/Abstraction/Texture.h"
 
 namespace Turbo
@@ -13,7 +13,7 @@ namespace Turbo
     {
     public:
         Scene();
-        
+
         void update();
         void draw(const glm::mat4& viewMatrix, const glm::vec3& cameraPosition, float aspectRatio, float lag = 1.0f);
 
@@ -29,4 +29,4 @@ namespace Turbo
 
         friend class Entity;
     };
-} // Turbo
+} // namespace Turbo

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cmath>
-#include <glm/gtx/transform.hpp>
 #include <limits>
 #include <Turbo/Core/Input/InputManager.h>
+#include <glm/gtx/transform.hpp>
 
 class Camera
 {
@@ -11,59 +11,69 @@ public:
     Camera(Turbo::InputManager& inputManager)
         : m_inputContext(inputManager.createInputContext())
     {
-        m_inputContext->bindKeyToState([this](bool keyState)
-        {
-            m_isForwardKeyDown = keyState;
-            return true;
-        }, Turbo::Keyboard::Key::W);
+        m_inputContext->bindKeyToState(
+            [this](bool keyState)
+            {
+                m_isForwardKeyDown = keyState;
+                return true;
+            },
+            Turbo::Keyboard::Key::W);
 
-        m_inputContext->bindKeyToState([this](bool keyState)
-        {
-            m_isBackwardKeyDown = keyState;
-            return true;
-        }, Turbo::Keyboard::Key::S);
+        m_inputContext->bindKeyToState(
+            [this](bool keyState)
+            {
+                m_isBackwardKeyDown = keyState;
+                return true;
+            },
+            Turbo::Keyboard::Key::S);
 
-        m_inputContext->bindKeyToState([this](bool keyState)
-        {
-            m_isLeftKeyDown = keyState;
-            return true;
-        }, Turbo::Keyboard::Key::A);
+        m_inputContext->bindKeyToState(
+            [this](bool keyState)
+            {
+                m_isLeftKeyDown = keyState;
+                return true;
+            },
+            Turbo::Keyboard::Key::A);
 
-        m_inputContext->bindKeyToState([this](bool keyState)
-        {
-            m_isRightKeyDown = keyState;
-            return true;
-        }, Turbo::Keyboard::Key::D);
+        m_inputContext->bindKeyToState(
+            [this](bool keyState)
+            {
+                m_isRightKeyDown = keyState;
+                return true;
+            },
+            Turbo::Keyboard::Key::D);
 
-        m_inputContext->bindKeyToState([this](bool keyState)
-        {
-            m_isUpKeyDown = keyState;
-            return true;
-        }, Turbo::Keyboard::Key::LShift);
+        m_inputContext->bindKeyToState(
+            [this](bool keyState)
+            {
+                m_isUpKeyDown = keyState;
+                return true;
+            },
+            Turbo::Keyboard::Key::LShift);
 
-        m_inputContext->bindKeyToState([this](bool keyState)
-        {
-            m_isDownKeyDown = keyState;
-            return true;
-        }, Turbo::Keyboard::Key::LControl);
+        m_inputContext->bindKeyToState(
+            [this](bool keyState)
+            {
+                m_isDownKeyDown = keyState;
+                return true;
+            },
+            Turbo::Keyboard::Key::LControl);
 
-        m_inputContext->bindMouseMoveEvents([this](const Turbo::Mouse::MoveEvent& moveEvent)
-        {
-            return false;
-            static constexpr float sens = 1.f / 1000.f;
-            addPitch(-moveEvent.movement.y * sens);
-            addYaw(moveEvent.movement.x * sens);
-            return true;
-        });
+        m_inputContext->bindMouseMoveEvents(
+            [this](const Turbo::Mouse::MoveEvent& moveEvent)
+            {
+                return false;
+                static constexpr float sens = 1.f / 1000.f;
+                addPitch(-moveEvent.movement.y * sens);
+                addYaw(moveEvent.movement.x * sens);
+                return true;
+            });
     }
 
     void update()
     {
-        glm::vec3 cameraFront = glm::vec3(
-            glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch),
-            glm::sin(m_cameraPitch),
-            glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
-        );
+        glm::vec3 cameraFront =
+            glm::vec3(glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch), glm::sin(m_cameraPitch), glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch));
 
         static const float sensitivity = 0.05f;
 
@@ -95,23 +105,14 @@ public:
 
     glm::mat4 getLookAt() const
     {
-        glm::vec3 cameraFront = glm::vec3(
-            glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch),
-            glm::sin(m_cameraPitch),
-            glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch)
-        );
+        glm::vec3 cameraFront =
+            glm::vec3(glm::cos(m_cameraYaw) * glm::cos(m_cameraPitch), glm::sin(m_cameraPitch), glm::sin(m_cameraYaw) * glm::cos(m_cameraPitch));
         return glm::lookAt(m_cameraPosition, m_cameraPosition + cameraFront, m_cameraUp);
     }
 
-    const glm::vec3 getPosition() const
-    {
-        return m_cameraPosition;
-    }
+    const glm::vec3 getPosition() const { return m_cameraPosition; }
 
-    void addYaw(float yawToAdd)
-    {
-        m_cameraYaw += yawToAdd;
-    }
+    void addYaw(float yawToAdd) { m_cameraYaw += yawToAdd; }
 
     void addPitch(float pitchToAdd)
     {
@@ -119,6 +120,7 @@ public:
         static constexpr float maxAngle = M_PI / 2.f - 5 * std::numeric_limits<float>::epsilon();
         m_cameraPitch = std::max(-maxAngle, std::min(maxAngle, m_cameraPitch));
     }
+
 private:
     Turbo::InputContext* m_inputContext;
     bool m_isForwardKeyDown = false;
