@@ -48,7 +48,7 @@ namespace Turbo::RenderCommand
     template<>
     void setViewportImpl<RenderingApi::OpenGL>(const glm::uvec2& position, const glm::uvec2& size)
     {
-        glViewport(position.x, position.y, size.x, size.y);
+        glViewport(static_cast<GLint>(position.x), static_cast<GLint>(position.y), static_cast<GLint>(size.x), static_cast<GLint>(size.y));
     }
 
     template<>
@@ -67,6 +67,6 @@ namespace Turbo::RenderCommand
     void drawImpl<RenderingApi::OpenGL>(VertexArray const* vertexArray)
     {
         vertexArray->bind();
-        glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(vertexArray->getIndexBuffer()->getCount()), GL_UNSIGNED_INT, nullptr);
     }
 } // namespace Turbo::RenderCommand

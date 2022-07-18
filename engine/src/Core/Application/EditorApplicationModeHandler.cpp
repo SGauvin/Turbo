@@ -60,7 +60,8 @@ namespace Turbo
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
         ImGui::Begin("Viewport");
         ImVec2 currentViewportSize = ImGui::GetContentRegionAvail();
-        if (m_oldViewportSize.x != currentViewportSize.x || m_oldViewportSize.y != currentViewportSize.y)
+        if (m_oldViewportSize.x != static_cast<std::uint32_t>(currentViewportSize.x) ||
+            m_oldViewportSize.y != static_cast<std::uint32_t>(currentViewportSize.y))
         {
             m_frameBuffer.resize(glm::ivec2(currentViewportSize.x, currentViewportSize.y));
             m_oldViewportSize = {currentViewportSize.x, currentViewportSize.y};
@@ -75,8 +76,10 @@ namespace Turbo
     {
         m_frameBuffer.unbind();
 
-        ImGui::Image(
-            reinterpret_cast<void*>(m_frameBuffer.getTexture()), ImVec2(m_frameBuffer.getSize().x, m_frameBuffer.getSize().y), ImVec2(0, 1), ImVec2(1, 0));
+        ImGui::Image(reinterpret_cast<void*>(m_frameBuffer.getTexture()),
+                     ImVec2(static_cast<float>(m_frameBuffer.getSize().x), static_cast<float>(m_frameBuffer.getSize().y)),
+                     ImVec2(0, 1),
+                     ImVec2(1, 0));
         ImGui::End();
         ImGui::PopStyleVar();
     }

@@ -1,5 +1,6 @@
 #include "Turbo/Core/Input/InputManager.h"
 #include <algorithm>
+#include <type_traits>
 
 namespace Turbo
 {
@@ -59,6 +60,8 @@ namespace Turbo
         {
             return false;
         }
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
         return m_keyboardHeldKeys[static_cast<uint16_t>(key)];
     }
 
@@ -68,6 +71,8 @@ namespace Turbo
         {
             return false;
         }
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
         return m_keyboardPressedKeys[static_cast<uint16_t>(key)];
     }
 
@@ -77,6 +82,8 @@ namespace Turbo
         {
             return false;
         }
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
         return m_keyboardReleasedKeys[static_cast<uint16_t>(key)];
     }
 
@@ -106,8 +113,11 @@ namespace Turbo
 
     void InputManager::onKeyboardEvent(const Keyboard::KeyEvent& event)
     {
-        if (static_cast<std::int16_t>(event.key) < 0 || event.key > Keyboard::Key::LastKey)
+        using EnumType = std::underlying_type_t<decltype(event.key)>;
+        if (static_cast<EnumType>(event.key) < 0 || event.key > Keyboard::Key::LastKey)
         {
+            TURBO_ENGINE_WARNING(
+                "Key {} is not valid. Should be between 0 and {}.", static_cast<EnumType>(event.key), static_cast<EnumType>(Keyboard::Key::LastKey));
             return;
         }
 
@@ -120,14 +130,18 @@ namespace Turbo
         if (event.action == Keyboard::Action::Press)
         {
             m_detectedKeyPressedEvent = true;
-            m_keyboardPressedKeys[static_cast<std::uint16_t>(event.key)] = true;
-            m_keyboardHeldKeys[static_cast<std::uint16_t>(event.key)] = true;
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+            m_keyboardPressedKeys[static_cast<EnumType>(event.key)] = true;
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+            m_keyboardHeldKeys[static_cast<EnumType>(event.key)] = true;
         }
         else if (event.action == Keyboard::Action::Release)
         {
             m_detectedKeyReleasedEvent = true;
-            m_keyboardReleasedKeys[static_cast<std::uint16_t>(event.key)] = true;
-            m_keyboardHeldKeys[static_cast<std::uint16_t>(event.key)] = false;
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+            m_keyboardReleasedKeys[static_cast<EnumType>(event.key)] = true;
+            // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+            m_keyboardHeldKeys[static_cast<EnumType>(event.key)] = false;
         }
 
         if (m_currentInputContextList != nullptr)

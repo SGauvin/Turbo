@@ -25,11 +25,11 @@ namespace Turbo
         friend class BufferLayout;
         BufferElement(DataType type, const std::string& name, bool isNormalized = false);
 
-        DataType getDataType() const;
-        std::uint8_t getSize() const;
-        const std::uint32_t& getOffset() const;
-        std::uint8_t getComponentCount() const;
-        bool isNormalized() const;
+        [[nodiscard]] DataType getDataType() const;
+        [[nodiscard]] std::uint8_t getSize() const;
+        [[nodiscard]] const std::uint32_t& getOffset() const;
+        [[nodiscard]] std::uint8_t getComponentCount() const;
+        [[nodiscard]] bool isNormalized() const;
 
     private:
         DataType m_type;
@@ -43,11 +43,11 @@ namespace Turbo
     class BufferLayout
     {
     public:
-        BufferLayout() = default;
+        BufferLayout();
         BufferLayout(std::initializer_list<BufferElement> elements);
         const BufferElement& operator[](std::size_t i) const;
-        std::size_t size() const;
-        std::uint32_t getStride() const;
+        [[nodiscard]] std::size_t size() const;
+        [[nodiscard]] std::uint32_t getStride() const;
 
     private:
         std::vector<BufferElement> m_elements;

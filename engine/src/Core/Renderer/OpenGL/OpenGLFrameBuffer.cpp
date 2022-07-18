@@ -6,7 +6,7 @@ namespace Turbo
 {
     namespace
     {
-        constexpr GLuint getOpenGLFilter(FrameBufferSettings::TextureFilter textureFilter)
+        constexpr GLint getOpenGLFilter(FrameBufferSettings::TextureFilter textureFilter)
         {
             switch (textureFilter)
             {

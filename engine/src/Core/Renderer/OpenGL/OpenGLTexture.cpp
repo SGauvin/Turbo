@@ -5,6 +5,7 @@
 
 namespace Turbo
 {
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init) -- m_texture is being assigned with glCreateBuffers
     TextureTemplate<RenderingApi::OpenGL>::TextureTemplate(TextureType textureType)
         : m_textureType(textureType)
     {
@@ -31,6 +32,7 @@ namespace Turbo
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+        // NOLINTNEXTLINE
         std::int32_t width, height, channelCount;
         std::uint8_t* data = stbi_load(file.c_str(), &width, &height, &channelCount, 0);
 

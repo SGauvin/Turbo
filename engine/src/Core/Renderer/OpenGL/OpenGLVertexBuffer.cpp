@@ -3,11 +3,12 @@
 
 namespace Turbo
 {
+    // NOLINTNEXTLINE
     VertexBufferTemplate<RenderingApi::OpenGL>::VertexBufferTemplate(std::span<float> vertices)
     {
         glCreateBuffers(1, &m_rendererId);
         glBindBuffer(GL_ARRAY_BUFFER, m_rendererId);
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(vertices.size() * sizeof(float)), vertices.data(), GL_STATIC_DRAW);
     }
 
     VertexBufferTemplate<RenderingApi::OpenGL>::~VertexBufferTemplate()

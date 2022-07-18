@@ -1,5 +1,6 @@
 #include "Turbo/Core/Renderer/BufferLayout.h"
 #include <array>
+#include "Turbo/Core/Log.h"
 
 namespace
 {
@@ -16,6 +17,10 @@ namespace
             4 * 3, // Int4
             1, // Bool
         });
+        using EnumType = std::underlying_type_t<decltype(type)>;
+        TURBO_ASSERT(static_cast<EnumType>(type) < dataTypeSizes.size(), "Invalid DataType");
+
+        // NOLINTNEXTLINE
         return dataTypeSizes[static_cast<std::uint8_t>(type)];
     }
 
@@ -32,6 +37,10 @@ namespace
             4, // Int4
             1, // Bool
         });
+        using EnumType = std::underlying_type_t<decltype(type)>;
+        TURBO_ASSERT(static_cast<EnumType>(type) < componentCount.size(), "Invalid DataType");
+
+        // NOLINTNEXTLINE
         return componentCount[static_cast<std::uint8_t>(type)];
     }
 
@@ -42,6 +51,7 @@ namespace Turbo
         : m_type(type)
         , m_name(std::move(name))
         , m_size(getDataTypeSize(type))
+        , m_offset(0)
         , m_componentCount(::getComponentCount(type))
         , m_isNormalized(isNormalized)
     {
@@ -70,6 +80,12 @@ namespace Turbo
     bool BufferElement::isNormalized() const
     {
         return m_isNormalized;
+    }
+
+    BufferLayout::BufferLayout()
+        : m_elements{}
+        , m_stride(0)
+    {
     }
 
     BufferLayout::BufferLayout(std::initializer_list<BufferElement> elements)

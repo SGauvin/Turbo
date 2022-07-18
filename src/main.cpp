@@ -91,8 +91,8 @@ private:
 
     void onAttach() override
     {
-        static auto* inputContext = m_inputManager.createInputContext();
-        inputContext->bindKeyToAction(
+        m_inputContext = m_inputManager.createInputContext();
+        m_inputContext->bindKeyToAction(
             [this]()
             {
                 m_window.close();
@@ -101,7 +101,7 @@ private:
             Turbo::Keyboard::Key::Escape,
             Turbo::Keyboard::Action::Press);
 
-        inputContext->bindKeyToAction(
+        m_inputContext->bindKeyToAction(
             [this]()
             {
                 m_window.setAttributes({m_window.getTitle(),
@@ -114,6 +114,7 @@ private:
 
         pushLayer(new TriangleLayer(m_application));
     }
+    Turbo::InputContext* m_inputContext = nullptr;
 };
 
 int main()

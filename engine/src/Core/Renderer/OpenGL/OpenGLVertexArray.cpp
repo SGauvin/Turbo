@@ -17,12 +17,19 @@ namespace
             GL_INT, // Int4
             GL_BOOL, // Bool
         });
+
+        using EnumValue = std::underlying_type_t<decltype(dataType)>;
+
+        // NOLINTNEXTLINE
+        TURBO_ASSERT(static_cast<EnumValue>(dataType) < dataTypes.size(), "Wrong dataType");
+        // NOLINTNEXTLINE
         return dataTypes[static_cast<std::uint8_t>(dataType)];
     }
 } // namespace
 
 namespace Turbo
 {
+    // NOLINTNEXTLINE
     VertexArrayTemplate<RenderingApi::OpenGL>::VertexArrayTemplate()
     {
         glGenVertexArrays(1, &m_vertexArray);
@@ -61,7 +68,7 @@ namespace Turbo
                                   layout[i].getComponentCount(),
                                   ::getOpenGLType(layout[i].getDataType()),
                                   layout[i].isNormalized(),
-                                  layout.getStride(),
+                                  static_cast<GLsizei>(layout.getStride()),
                                   reinterpret_cast<void*>(layout[i].getOffset()));
         }
 

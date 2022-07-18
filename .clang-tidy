@@ -1,5 +1,5 @@
 ---
-Checks: 'modernize-*,-modernize-use-trailing-return-type'
+Checks: 'clang-diagnostic-*,clang-analyzer-*,modernize-*,cppcoreguidelines-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-type-union-access,-modernize-use-trailing-return-type,-cppcoreguidelines-owning-memory,-cppcoreguidelines-pro-type-reinterpret-cast'
 WarningsAsErrors: true
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false

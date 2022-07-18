@@ -19,6 +19,7 @@ namespace Turbo
 {
     Window<RenderingApi::OpenGL>::Window(const WindowAttributes& windowAttributes, InputManager& inputManager)
         : m_inputManager(inputManager)
+        , m_mode(WindowMode::Bordered)
     {
         create(windowAttributes);
         setIsRawMouseEnabled(m_isRawMouseEnabled);
@@ -50,11 +51,17 @@ namespace Turbo
         switch (m_mode)
         {
         case WindowMode::Bordered:
-            glfwSetWindowMonitor(m_window, nullptr, m_windowPosition.x, m_windowPosition.y, m_size.x, m_size.y, GLFW_DONT_CARE);
+            glfwSetWindowMonitor(m_window,
+                                 nullptr,
+                                 m_windowPosition.x,
+                                 m_windowPosition.y,
+                                 static_cast<std::int32_t>(m_size.x),
+                                 static_cast<std::int32_t>(m_size.y),
+                                 GLFW_DONT_CARE);
             break;
         case WindowMode::FullScreen:
             glfwGetWindowPos(m_window, &m_windowPosition.x, &m_windowPosition.y);
-            glfwSetWindowMonitor(m_window, monitor, 0, 0, m_size.x, m_size.y, GLFW_DONT_CARE);
+            glfwSetWindowMonitor(m_window, monitor, 0, 0, static_cast<std::int32_t>(m_size.x), static_cast<std::int32_t>(m_size.y), GLFW_DONT_CARE);
             break;
         }
     }
@@ -179,11 +186,19 @@ namespace Turbo
         switch (m_mode)
         {
         case WindowMode::Bordered:
-            m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), nullptr, nullptr);
+            m_window = glfwCreateWindow(static_cast<std::int32_t>(windowAttributes.size.x),
+                                        static_cast<std::int32_t>(windowAttributes.size.y),
+                                        windowAttributes.title.c_str(),
+                                        nullptr,
+                                        nullptr);
             glfwGetWindowPos(m_window, &m_windowPosition.x, &m_windowPosition.y);
             break;
         case WindowMode::FullScreen:
-            m_window = glfwCreateWindow(windowAttributes.size.x, windowAttributes.size.y, windowAttributes.title.c_str(), monitor, nullptr);
+            m_window = glfwCreateWindow(static_cast<std::int32_t>(windowAttributes.size.x),
+                                        static_cast<std::int32_t>(windowAttributes.size.y),
+                                        windowAttributes.title.c_str(),
+                                        monitor,
+                                        nullptr);
             break;
         }
 
@@ -254,7 +269,7 @@ namespace Turbo
     void Window<RenderingApi::OpenGL>::onWindowResize(glm::uvec2 windowSize)
     {
         m_size = windowSize;
-        glViewport(0, 0, m_size.x, m_size.y);
+        glViewport(0, 0, static_cast<GLsizei>(m_size.x), static_cast<GLsizei>(m_size.y));
     }
 
     void Window<RenderingApi::OpenGL>::onKeyEvent(Keyboard::Key key, std::int32_t /*scancode*/, Keyboard::Action action, std::uint8_t mods)

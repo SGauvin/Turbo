@@ -1,4 +1,6 @@
 #include "Turbo/Core/Input/InputContext.h"
+#include <type_traits>
+#include "Turbo/Core/Input/Keyboard.h"
 
 namespace Turbo
 {
@@ -32,10 +34,15 @@ namespace Turbo
 
     InputHandle InputContext::bindKeyToAction(const Callable<bool>& callback, Keyboard::Key key, Keyboard::Action action, std::uint8_t modifiers)
     {
-        if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
+        using EnumType = std::underlying_type_t<decltype(key)>;
+
+        if (static_cast<EnumType>(key) < 0 || key > Keyboard::Key::LastKey)
         {
+            TURBO_ENGINE_WARNING("Key {} is not valid. Should be between 0 and {}.", static_cast<EnumType>(key), static_cast<EnumType>(Keyboard::Key::LastKey));
             return {};
         }
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
         auto& vector = m_keyboardActionCallbacks[static_cast<std::uint16_t>(key)];
         vector.emplace_back(std::pair(m_currentId, KeyboardActionEvent(callback, action, modifiers)));
         return {vector, this, m_currentId++};
@@ -43,10 +50,15 @@ namespace Turbo
 
     InputHandle InputContext::bindKeyToState(const Callable<bool, bool>& callback, Keyboard::Key key, std::uint8_t modifiers)
     {
-        if (static_cast<std::int16_t>(key) < 0 || key > Keyboard::Key::LastKey)
+        using EnumType = std::underlying_type_t<decltype(key)>;
+
+        if (static_cast<EnumType>(key) < 0 || key > Keyboard::Key::LastKey)
         {
+            TURBO_ENGINE_WARNING("Key {} is not valid. Should be between 0 and {}.", static_cast<EnumType>(key), static_cast<EnumType>(Keyboard::Key::LastKey));
             return {};
         }
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
         auto& vector = m_keyboardStateCallbacks[static_cast<std::uint16_t>(key)];
         vector.emplace_back(std::pair(m_currentId, KeyboardStateEvent(callback, modifiers)));
         return {vector, this, m_currentId++};
@@ -120,7 +132,18 @@ namespace Turbo
             }
         }
 
+        {
+            using EnumType = std::underlying_type_t<decltype(event.key)>;
+            if (static_cast<EnumType>(event.key) < 0 || event.key > Keyboard::Key::LastKey)
+            {
+                TURBO_ENGINE_WARNING(
+                    "Key {} is not valid. Should be between 0 and {}.", static_cast<EnumType>(event.key), static_cast<EnumType>(Keyboard::Key::LastKey));
+                return isEventHandled;
+            }
+        }
+
         // Actions
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index) -- Bounds checking already done
         for (const auto& actionEvent : m_keyboardActionCallbacks[static_cast<std::uint16_t>(event.key)])
         {
             if (event.action == Keyboard::Action::Press && (actionEvent.second.modifiers & event.modifiers) == actionEvent.second.modifiers)
@@ -142,6 +165,7 @@ namespace Turbo
         }
 
         // States
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index) -- Bounds checking already done
         for (const auto& stateEvent : m_keyboardStateCallbacks[static_cast<std::uint16_t>(event.key)])
         {
             if (event.action == Keyboard::Action::Press)
@@ -166,6 +190,7 @@ namespace Turbo
         }
 
         // Unidirectional Ranges
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index) -- Bounds checking already done
         for (const auto& rangeEvent : m_keyboardUnidirectionalRangeCallbacks[static_cast<std::uint16_t>(event.key)])
         {
             if (event.action == Keyboard::Action::Press)

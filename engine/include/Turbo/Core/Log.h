@@ -28,21 +28,27 @@ namespace Turbo
 
 // Client logs
 #if defined TURBO_ENABLE_CLIENT_LOG
+// NOLINTNEXTLINE
 #define TURBO_INFO(...) \
     ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::green), "Client info: "); \
     ::fmt::print(fg(fmt::color::light_green), __VA_ARGS__); \
     ::fmt::print("\n")
+
+// NOLINTNEXTLINE
 #define TURBO_WARNING(...) \
     ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::yellow), "Client warning: "); \
     ::fmt::print(fg(static_cast<fmt::color>(0XFFFF73)), __VA_ARGS__); \
     ::fmt::print("\n")
+
+// NOLINTNEXTLINE
 #define TURBO_ERROR(...) \
     ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::red), "Client error: "); \
     ::fmt::print(fg(fmt::color::indian_red), __VA_ARGS__); \
     ::fmt::print("\n")
+
 #else
 #define TURBO_INFO(...) ((void)(__VA_ARGS__))
 #define TURBO_WARNING(...) ((void)(__VA_ARGS__))
@@ -52,16 +58,19 @@ namespace Turbo
 // Engine logs
 #if defined TURBO_ENABLE_ENGINE_LOG
 
+// NOLINTNEXTLINE
 #define TURBO_ENGINE_INFO(...) \
     ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::green), "Turbo info: "); \
     ::fmt::print(fg(fmt::color::light_green), __VA_ARGS__); \
     ::fmt::print("\n")
+// NOLINTNEXTLINE
 #define TURBO_ENGINE_WARNING(...) \
     ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::yellow), "Turbo warning: "); \
     ::fmt::print(fg(static_cast<fmt::color>(0XFFFF73)), __VA_ARGS__); \
     ::fmt::print("\n")
+// NOLINTNEXTLINE
 #define TURBO_ENGINE_ERROR(...) \
     ::fmt::print(fg(fmt::color::light_slate_gray), "{}:{}: ", __FILE__, __LINE__); \
     ::fmt::print(fg(fmt::color::red), "Turbo error: "); \
@@ -74,12 +83,16 @@ namespace Turbo
 #endif // TURBO_ENGINE_LOG
 
 #if defined(TURBO_ENABLE_ASSERT) and !defined(NDEBUG)
+// NOLINTNEXTLINE
 #define TURBO_ASSERT(condition, ...) \
-    if (!(condition)) [[unlikely]] \
+    do \
     { \
-        TURBO_ENGINE_ERROR(__VA_ARGS__); \
-    } \
-    assert(condition)
+        if (!(condition)) [[unlikely]] \
+        { \
+            TURBO_ENGINE_ERROR(__VA_ARGS__); \
+        } \
+        assert(condition); /*NOLINT*/ \
+    } while (false)
 #else
 #define TURBO_ASSERT(condition, ...) (void)(0)
 #endif

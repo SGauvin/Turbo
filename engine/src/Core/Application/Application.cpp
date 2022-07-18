@@ -119,7 +119,7 @@ namespace Turbo
 
                 if (m_drawLag >= m_timePerDraw)
                 {
-                    if (m_applicationModeHandler.getViewportSize().x > 0.f)
+                    if (m_applicationModeHandler.getViewportSize().x > 0)
                     {
                         RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.f});
                         RenderCommand::clear();
@@ -156,7 +156,7 @@ namespace Turbo
 
     float Application::getViewportAspectRatio() const
     {
-        return static_cast<float>(m_applicationModeHandler.getViewportSize().x) / m_applicationModeHandler.getViewportSize().y;
+        return static_cast<float>(m_applicationModeHandler.getViewportSize().x) / static_cast<float>(m_applicationModeHandler.getViewportSize().y);
     }
 
     void Application::onStatePushed()

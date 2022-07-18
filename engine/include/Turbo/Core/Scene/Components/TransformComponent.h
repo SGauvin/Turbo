@@ -17,9 +17,9 @@ namespace Turbo
 
         void setQuat(const glm::quat& quat) { rotation = glm::eulerAngles(quat); }
 
-        glm::quat getQuat() const { return glm::quat(rotation); }
+        [[nodiscard]] glm::quat getQuat() const { return {rotation}; }
 
-        glm::mat4 getTransform() const
+        [[nodiscard]] glm::mat4 getTransform() const
         {
             return glm::translate(glm::mat4(1.f), translation) * glm::toMat4(glm::quat(rotation)) * glm::scale(glm::mat4(1.0f), scale);
         }

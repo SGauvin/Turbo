@@ -19,7 +19,7 @@ namespace Turbo
     {
         glfwMakeContextCurrent(m_windowHandle);
 
-        std::int32_t gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        std::int32_t gladStatus = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
         if (gladStatus == 0)
         {
             TURBO_ENGINE_ERROR("Error loading OpenGL functions with glad");
